@@ -1,6 +1,6 @@
 # Minlabs
 
-공개 도메인 `https://minlabs.app/`을 위한 두 프로젝트 소개 페이지. 빌드 도구나 JavaScript 없이 HTML·CSS·로컬 앱 아이콘만 사용한다.
+공개 도메인 `https://minlabs.app/`을 위한 두 프로젝트 소개 페이지. 빌드 도구나 실행 JavaScript 없이 HTML·CSS·로컬 앱 아이콘과 JSON-LD 메타데이터만 사용한다.
 
 - ToePick: 토익 LC·RC, 해설·단어 복습. `https://toepick.minlabs.app/` 연결.
 - Immyme: 기분·취향에 맞는 장소 추천. `https://immyme.com/` 연결.
@@ -35,3 +35,13 @@
 모노그램 획을 7.5→15로 두 배 늘리고 두 글자가 붙거나 가장자리가 잘리지 않도록 간격·캔버스를 보정했다. 헤더와 파비콘에 함께 적용했다. 메인 제목 아래 소개 문장, 프로젝트 제목 오른쪽 설명, 푸터 슬로건을 제거하고 빈 컨테이너와 관련 스타일도 정리했다.
 
 검증: Chromium 360·1440px에서 삭제 문구와 빈 소개 컨테이너 없음, 로고 로딩, 카드 두 개, 가로 넘침 없음을 확인하고 로고·모바일 스크린샷을 시각 검토했다.
+
+## 검색 접근성과 소개 보강 (2026-10-21)
+
+- 사이트 제목·설명에 Minlabs와 ToePick·IMMYME의 역할을 명시했다. 기존 메인 슬로건·프로젝트 카드 디자인은 유지한다.
+- 서비스 소개, 이용 경로, 설치 여부·문의처 FAQ를 HTML 본문에 추가하고 IMMYME 표기를 통일했다.
+- 화면 내용과 일치하는 Organization·WebSite·SoftwareApplication JSON-LD를 추가했다.
+- `dist/robots.txt`와 `dist/sitemap.xml`을 제공한다. 사이트맵은 이 도메인의 홈만 포함한다.
+- 정적 `404.html`과 `static.not_found_handling: 404-page`로 없는 주소가 홈의 HTTP 200이 되지 않게 한다.
+
+검증: 360·1440px에서 가로 넘침과 이미지 로딩 실패 없음, FAQ 열기 동작을 확인했다. 사이트맵 XML·JSON-LD 파싱과 robots·정적 404 산출물을 확인했다.
