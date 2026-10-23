@@ -1,5 +1,6 @@
 (function (global) {
-  const STORAGE_KEY = 'minlabs_cms_posts_v1';
+  const STORAGE_KEY = 'minlabs_cms_posts_v2';
+  const AUTH_SESSION_KEY = 'minlabs_admin_session_v1';
 
   const ICON_SVGS = {
     toepick: {
@@ -12,19 +13,19 @@
     },
     ai: {
       label: 'AI Lab',
-      svg: '<svg viewBox="0 0 48 48" width="42" height="42" fill="none"><path d="M24 4L28.5 18.5L43 23L28.5 27.5L24 42L19.5 27.5L5 23L19.5 18.5L24 4Z" fill="#7c5cff"/><circle cx="37" cy="11" r="3" fill="#34d399"/></svg>'
+      svg: '<svg viewBox="0 0 48 48" width="40" height="40" fill="none"><path d="M24 5L28.5 18.5L42 23L28.5 27.5L24 41L19.5 27.5L6 23L19.5 18.5L24 5Z" fill="#6435ee" stroke="#19181e" stroke-width="2.5"/><circle cx="37" cy="11" r="4" fill="#ff49a5" stroke="#19181e" stroke-width="2"/></svg>'
     },
     code: {
       label: 'DevLog',
-      svg: '<svg viewBox="0 0 48 48" width="42" height="42" fill="none"><path d="M16 14L6 24L16 34M32 14L42 24L32 34M27 10L21 38" stroke="#0f172a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      svg: '<svg viewBox="0 0 48 48" width="40" height="40" fill="none"><path d="M16 14L6 24L16 34M32 14L42 24L32 34M27 10L21 38" stroke="#19181e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     },
     star: {
       label: 'Review',
-      svg: '<svg viewBox="0 0 48 48" width="42" height="42" fill="none"><path d="M24 6L29.4 17.2L41.8 19L32.8 27.7L34.9 40L24 34.2L13.1 40L15.2 27.7L6.2 19L18.6 17.2L24 6Z" fill="#f59e0b" stroke="#0f172a" stroke-width="2.5"/></svg>'
+      svg: '<svg viewBox="0 0 48 48" width="40" height="40" fill="none"><path d="M24 6L29.4 17.2L41.8 19L32.8 27.7L34.9 40L24 34.2L13.1 40L15.2 27.7L6.2 19L18.6 17.2L24 6Z" fill="#d5ff45" stroke="#19181e" stroke-width="2.8" stroke-linejoin="round"/></svg>'
     },
     map: {
       label: 'Walk',
-      svg: '<svg viewBox="0 0 48 48" width="42" height="42" fill="none"><path d="M24 42C24 42 38 30.4 38 19C38 11.3 31.7 5 24 5C16.3 5 10 11.3 10 19C10 30.4 24 42 24 42Z" fill="#ec4899" stroke="#0f172a" stroke-width="2.5"/><circle cx="24" cy="19" r="5" fill="#fff"/></svg>'
+      svg: '<svg viewBox="0 0 48 48" width="40" height="40" fill="none"><path d="M24 42C24 42 38 30.4 38 19C38 11.3 31.7 5 24 5C16.3 5 10 11.3 10 19C10 30.4 24 42 24 42Z" fill="#ff49a5" stroke="#19181e" stroke-width="2.8"/><circle cx="24" cy="19" r="5.5" fill="#fff" stroke="#19181e" stroke-width="2.2"/></svg>'
     }
   };
 
@@ -41,7 +42,7 @@
       bannerHighlight: '해설·단어 복습 연결로',
       bannerLine2: '완주율 3.2배 높이다',
       iconType: 'toepick',
-      themeColor: 'blue',
+      themeColor: 'mint',
       title: 'ToePick 학습 루프 재설계: 문제 풀이에서 단어 복습까지 끊기지 않는 구조',
       summary: '핵심 요약 토익 LC·RC 문제를 푼 직후 오답 해설과 핵심 어휘 복습을 한 화면 흐름으로 이어 붙였습니다. 자투리 5분 안에 한 세트를 끝내는 마이크로 학습 구조를 소개합니다.',
       tags: ['ToePick', '토익LC·RC', '프로덕트디자인'],
@@ -85,7 +86,7 @@ Minlabs에서 [ToePick](https://toepick.minlabs.app/)을 만들며 가장 먼저
       bannerHighlight: '기분 3초 선택으로',
       bannerLine2: '갈 곳을 골라준다면?',
       iconType: 'immyme',
-      themeColor: 'indigo',
+      themeColor: 'purple',
       title: 'IMMYME 개발기: 평점 순 정렬 대신 ‘오늘의 기분과 걷기 취향’을 묻는 이유',
       summary: '핵심 요약 유명한 맛집 랭킹이 아니라 지금 내 기분과 걸음걸이 속도에 어울리는 주변 장소를 추천하기 위해 모바일 웹 인터페이스를 선택한 과정을 정리했습니다.',
       tags: ['IMMYME', '장소추천', '모바일웹'],
@@ -117,7 +118,7 @@ Minlabs에서 [ToePick](https://toepick.minlabs.app/)을 만들며 가장 먼저
       bannerHighlight: 'AI 에이전트가 인용하는',
       bannerLine2: '웹사이트 구조 만들기',
       iconType: 'ai',
-      themeColor: 'teal',
+      themeColor: 'lime',
       title: '2026년 개인 프로젝트 실험실의 SEO와 GEO(생성형 엔진 최적화) 실전 적용기',
       summary: '핵심 요약 전통적인 메타 태그·오픈그래프 최적화에 더해 ChatGPT, Perplexity, Gemini가 사이트 정보를 정확히 읽어가도록 llms.txt와 JSON-LD 그래프를 구축했습니다.',
       tags: ['GEO', 'SEO', 'llms.txt'],
@@ -145,7 +146,7 @@ Minlabs에서 [ToePick](https://toepick.minlabs.app/)을 만들며 가장 먼저
       bannerHighlight: '로딩 0.2초 만에 뜨는',
       bannerLine2: '랜딩 페이지의 비밀',
       iconType: 'code',
-      themeColor: 'slate',
+      themeColor: 'cream',
       title: '무거운 프레임워크 없이 네이티브 웹 표준만으로 쾌적한 프로덕트 허브 구축하기',
       summary: '핵심 요약 불필요한 외부 폰트와 대형 번들을 덜어내고 시맨틱 HTML, 네이티브 아코디언, 최적화된 WebP 자산만으로 첫 화면 렌더링 속도를 극대화했습니다.',
       tags: ['웹성능', '시맨틱HTML', 'CoreWebVitals'],
@@ -173,7 +174,7 @@ Minlabs에서 [ToePick](https://toepick.minlabs.app/)을 만들며 가장 먼저
       bannerHighlight: '48시간 안에 동작하는',
       bannerLine2: '프로토타입부터 만든다',
       iconType: 'ai',
-      themeColor: 'purple',
+      themeColor: 'pink',
       title: '작은 아이디어를 일상에 가까이: Minlabs가 아이디어를 실제 앱으로 검증하는 법',
       summary: '핵심 요약 머릿속에 떠오른 작은 불편함을 일주일 안에 실제 동작하는 웹·모바일 서비스로 출시하고 사용자 반응을 통해 개선하는 실험실 워크플로우를 공유합니다.',
       tags: ['Minlabs', '메이커로그', '사이드프로젝트'],
@@ -197,7 +198,7 @@ Minlabs는 **"궁금하거나 흥미있는 아이디어가 떠오르면 바로 �
       bannerHighlight: '마지막 글자가 잘리는',
       bannerLine2: 'Safari IME 버그 해결기',
       iconType: 'code',
-      themeColor: 'blue',
+      themeColor: 'mint',
       title: '한국어 태그·검색 입력창에서 Enter 이벤트가 두 번 발생하거나 글자가 잘리는 현상 해결',
       summary: '핵심 요약 한국어·일본어 IME 조합 중 Enter 키 처리 시 발생하는 isComposing 및 keyCode 229 이슈를 방어하여 매끄러운 에디터 태그 입력을 구현했습니다.',
       tags: ['프론트엔드', '한글IME', '에디터구현'],
@@ -233,7 +234,7 @@ input.addEventListener('keydown', (event) => {
       bannerHighlight: '4주 만에 680→865점',
       bannerLine2: '달성한 직장인 루틴',
       iconType: 'toepick',
-      themeColor: 'blue',
+      themeColor: 'mint',
       title: '“무거운 문제집 대신 출퇴근길에 ToePick만 풀었어요” — 4주 만에 토익 865점 달성 후기',
       summary: '핵심 요약 퇴근 후 책상에 앉기 힘들었던 직장인이 아침·저녁 지하철에서 ToePick으로 Part 2·3·4 듣기와 Part 5 문법, 단어 복습 루틴을 완주한 실제 후기입니다.',
       tags: ['ToePick후기', '직장인토익', '토익850달성'],
@@ -294,7 +295,7 @@ input.addEventListener('keydown', (event) => {
       bannerHighlight: 'Part 5 풀이 시간이',
       bannerLine2: '절반으로 줄었어요',
       iconType: 'star',
-      themeColor: 'teal',
+      themeColor: 'lime',
       title: '토익 Part 5에서 늘 시간을 뺏기던 대학생이 ToePick 해설로 풀이 속도를 높인 방법',
       summary: '핵심 요약 문장 전체를 처음부터 끝까지 다 해석하느라 Part 7 시간이 모자랐던 학습자가 ToePick의 핵심 포인트 해설을 통해 빈칸 전후 단서 파악법을 익힌 후기입니다.',
       tags: ['ToePick', '토익Part5', 'RC시간단축'],
@@ -316,7 +317,7 @@ input.addEventListener('keydown', (event) => {
       bannerHighlight: '현지인처럼 걷기 좋은',
       bannerLine2: '장소를 추천받다',
       iconType: 'map',
-      themeColor: 'indigo',
+      themeColor: 'pink',
       title: '무계획 당일치기 여행에서 IMMYME로 관광지 대신 걷기 좋은 동네 스팟 찾기',
       summary: '핵심 요약 유명한 관광 명소 대신 그날의 날씨와 걸음걸이 기분에 맞춰 한적한 산책 코스와 휴식 공간을 찾아낸 여행자의 후기입니다.',
       tags: ['IMMYME', '당일치기', '산책코스'],
@@ -338,7 +339,7 @@ input.addEventListener('keydown', (event) => {
       bannerHighlight: '풀었던 문장 그대로',
       bannerLine2: '복습하니 안 잊혀요',
       iconType: 'toepick',
-      themeColor: 'slate',
+      themeColor: 'cream',
       title: '단어장만 따로 외울 때보다 기억이 3배 오래 가는 ToePick 문맥 기반 단어 복습 후기',
       summary: '핵심 요약 표제어와 뜻만 외우면 시험장에서 헷갈렸던 단어들을, 내가 직접 풀었던 LC·RC 문제의 문맥과 함께 복습하며 암기 효율을 높인 후기입니다.',
       tags: ['토익단어', 'ToePick후기', '어휘복습'],
@@ -360,7 +361,7 @@ input.addEventListener('keydown', (event) => {
       bannerHighlight: '서로의 오늘 기분으로',
       bannerLine2: '새로운 동네 발견하기',
       iconType: 'immyme',
-      themeColor: 'blue',
+      themeColor: 'purple',
       title: '매주 만나는 동네에서 새로운 산책 코스를 찾고 싶을 때 IMMYME를 쓰는 법',
       summary: '핵심 요약 늘 비슷한 코스로만 걷던 일상에서 벗어나, 직접 지역을 선택하고 기분 키워드를 바꿔가며 색다른 장소를 발견한 사용자 후기입니다.',
       tags: ['IMMYME', '주변가볼만한곳', '취향발견'],
@@ -372,6 +373,21 @@ input.addEventListener('keydown', (event) => {
 현재 위치뿐만 아니라 가고 싶은 지역을 직접 선택할 수 있어서, 만나기 전에 미리 그날 기분에 맞는 장소를 둘러보는 재미가 쏠쏠합니다.`
     }
   ];
+
+  function isAdminAuthenticated() {
+    try {
+      const raw = sessionStorage.getItem(AUTH_SESSION_KEY);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      if (!data || !data.expiresAt || Date.now() > data.expiresAt) {
+        sessionStorage.removeItem(AUTH_SESSION_KEY);
+        return false;
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   function loadAllPosts() {
     try {
@@ -468,6 +484,17 @@ input.addEventListener('keydown', (event) => {
     };
   }
 
+  function normalizeTheme(theme) {
+    const map = {
+      blue: 'mint',
+      teal: 'mint',
+      indigo: 'purple',
+      slate: 'cream'
+    };
+    const t = map[theme] || theme || 'mint';
+    return ['mint', 'purple', 'lime', 'pink', 'cream'].includes(t) ? t : 'mint';
+  }
+
   function getIconBoxHTML(post) {
     const key = post.iconType || (post.category && post.category.toLowerCase().includes('immy') ? 'immyme' : post.category && post.category.toLowerCase().includes('toe') ? 'toepick' : post.type === 'review' ? 'star' : 'ai');
     const item = ICON_SVGS[key] || ICON_SVGS.ai;
@@ -485,28 +512,29 @@ input.addEventListener('keydown', (event) => {
     const line2 = escapeHtml(post.bannerLine2 || auto.bannerLine2);
     const subLabel = escapeHtml(post.subLabel || (post.type === 'review' ? '사용자 스토리 · 실사용 후기' : 'Minlabs 아티클'));
     const catPill = escapeHtml(post.category || (post.type === 'review' ? '후기' : '블로그'));
-    const theme = escapeHtml(post.themeColor || 'blue');
+    const theme = normalizeTheme(post.themeColor);
 
     const bgStyle = post.thumbnailImage
-      ? `style="background-image: linear-gradient(90deg, rgba(8,12,24,0.88) 0%, rgba(8,12,24,0.58) 60%, rgba(8,12,24,0.72) 100%), url('${escapeHtml(post.thumbnailImage)}'); background-size: cover; background-position: center;"`
+      ? `style="background-image: linear-gradient(90deg, rgba(25,24,30,0.82) 0%, rgba(25,24,30,0.45) 100%), url('${escapeHtml(post.thumbnailImage)}'); background-size: cover; background-position: center; color: #fff;"`
       : '';
 
     return `
       <div class="av-thumb av-theme-${theme} ${isHero ? 'av-thumb-hero' : ''}" ${bgStyle}>
-        <div class="av-thumb-glow" aria-hidden="true"></div>
+        <div class="av-thumb-orbit" aria-hidden="true"></div>
+        <span class="av-thumb-spark" aria-hidden="true">✳</span>
         <div class="av-thumb-top">
           ${isHero
             ? `<span class="av-sub-kicker">${subLabel}</span>`
             : `<span class="av-cat-pill">${catPill}</span>`
           }
-          <span class="av-brand-mark"><span class="av-diamonds">◆</span> MINLABS</span>
+          <span class="av-brand-mark">minlabs<span class="av-brand-dot">.</span></span>
         </div>
         <div class="av-thumb-main">
           <div class="av-thumb-copy">
             ${!isHero ? `<span class="av-sub-kicker">${subLabel}</span>` : ''}
             <div class="av-thumb-headline">
               <span>${line1}</span>
-              <span class="av-hl">${hl}</span>
+              <span class="av-hl"><span>${hl}</span></span>
               ${line2 ? `<span>${line2}</span>` : ''}
             </div>
           </div>
@@ -661,7 +689,7 @@ input.addEventListener('keydown', (event) => {
       bannerLine2: (input.bannerLine2 !== undefined ? input.bannerLine2 : autoBanner.bannerLine2).trim(),
       iconType: input.iconType || (input.type === 'review' ? 'star' : 'ai'),
       iconLabel: (input.iconLabel || '').trim(),
-      themeColor: input.themeColor || 'blue',
+      themeColor: normalizeTheme(input.themeColor),
       thumbnailImage: input.thumbnailImage || '',
       title: (input.title || '제목 없는 글').trim(),
       summary: summaryText,
@@ -709,6 +737,14 @@ input.addEventListener('keydown', (event) => {
     return target;
   }
 
+  // Hidden owner shortcut: Cmd+Shift+A / Ctrl+Shift+A navigates to /admin.html
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+      e.preventDefault();
+      window.location.href = '/admin.html';
+    }
+  });
+
   global.MinlabsStore = {
     loadAllPosts,
     saveAllPosts,
@@ -722,6 +758,8 @@ input.addEventListener('keydown', (event) => {
     renderMarkdown,
     escapeHtml,
     calcReadMinutes,
-    autoBannerFromTitle
+    autoBannerFromTitle,
+    isAdminAuthenticated,
+    AUTH_SESSION_KEY
   };
 })(window);

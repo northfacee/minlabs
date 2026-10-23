@@ -2,6 +2,27 @@
   const Store = window.MinlabsStore;
   if (!Store) return;
 
+  // Security Constants (Salted SHA-256 — plaintext password is never stored in code)
+  const PW_SALT = 'minlabs-cms-salt-2026::';
+  const DEFAULT_PW_HASH = '1e8f8de04d53a48af90640dc394028ff4a9521e13cc9ba161a7820434978dfae';
+  const CUSTOM_HASH_KEY = 'minlabs_admin_pw_hash_v1';
+  const LOCKOUT_KEY = 'minlabs_admin_lockout_v1';
+  const SESSION_DURATION_MS = 30 * 60 * 1000; // 30 minutes
+
+  // Auth Gate Elements
+  const workspaceEl = document.getElementById('admin-protected-workspace');
+  const loginForm = document.getElementById('admin-login-form');
+  const pwInput = document.getElementById('current-password');
+  const btnTogglePw = document.getElementById('btn-toggle-pw');
+  const authErrorEl = document.getElementById('auth-error-msg');
+  const btnLoginSubmit = document.getElementById('btn-login-submit');
+  const btnLockAdmin = document.getElementById('btn-lock-admin');
+  const btnOpenPwDialog = document.getElementById('btn-open-pw-dialog');
+  const pwDialog = document.getElementById('pw-change-dialog');
+  const pwChangeForm = document.getElementById('pw-change-form');
+  const newPwInput = document.getElementById('new-password');
+  const btnClosePwDialog = document.getElementById('btn-close-pw-dialog');
+
   let currentFilter = 'all';
   let searchQuery = '';
   let editingId = null;
@@ -52,6 +73,144 @@
     }, 2600);
   }
 
+  // ==================== CRYPTO & SECURITY LOGIC ====================
+  async function sha256Hex(text) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(PW_SALT + text);
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function getTargetHash() {
+    return localStorage.getItem(CUSTOM_HASH_KEY) || DEFAULT_PW_HASH;
+  }
+
+  function getLockoutState() {
+    try {
+      const raw = localStorage.getItem(LOCKOUT_KEY);
+      if (!raw) return { fails: 0, lockedUntil: 0 };
+      return JSON.parse(raw);
+    } catch (e) {
+      return { fails: 0, lockedUntil: 0 };
+    }
+  }
+
+  function setLockoutState(state) {
+    try {
+      localStorage.setItem(LOCKOUT_KEY, JSON.stringify(state));
+    } catch (e) {}
+  }
+
+  function checkLockoutTimer() {
+    const state = getLockoutState();
+    const remainingMs = state.lockedUntil - Date.now();
+    if (remainingMs > 0) {
+      const sec = Math.ceil(remainingMs / 1000);
+      authErrorEl.textContent = `비밀번호 5회 오류로 잠겼습니다. ${sec}초 후 다시 시도하세요.`;
+      btnLoginSubmit.disabled = true;
+      pwInput.disabled = true;
+      setTimeout(checkLockoutTimer, 1000);
+      return true;
+    }
+    if (btnLoginSubmit.disabled) {
+      btnLoginSubmit.disabled = false;
+      pwInput.disabled = false;
+      authErrorEl.textContent = '';
+      setLockoutState({ fails: 0, lockedUntil: 0 });
+    }
+    return false;
+  }
+
+  function unlockWorkspace() {
+    sessionStorage.setItem(
+      Store.AUTH_SESSION_KEY,
+      JSON.stringify({ unlocked: true, expiresAt: Date.now() + SESSION_DURATION_MS })
+    );
+    document.body.classList.add('is-unlocked');
+    if (workspaceEl) workspaceEl.removeAttribute('inert');
+    document.title = '어드민 · 글 관리 및 에디터 | Minlabs';
+    initWorkspaceAfterAuth();
+  }
+
+  function lockWorkspace() {
+    sessionStorage.removeItem(Store.AUTH_SESSION_KEY);
+    document.body.classList.remove('is-unlocked', 'mode-editor');
+    if (workspaceEl) workspaceEl.setAttribute('inert', '');
+    document.title = '관리자 인증 | Minlabs';
+    if (pwInput) {
+      pwInput.value = '';
+      pwInput.focus();
+    }
+  }
+
+  if (btnTogglePw && pwInput) {
+    btnTogglePw.addEventListener('click', () => {
+      const isPw = pwInput.type === 'password';
+      pwInput.type = isPw ? 'text' : 'password';
+      btnTogglePw.textContent = isPw ? '숨김' : '표시';
+    });
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (checkLockoutTimer()) return;
+
+      const entered = pwInput.value;
+      const enteredHash = await sha256Hex(entered);
+      if (enteredHash === getTargetHash()) {
+        setLockoutState({ fails: 0, lockedUntil: 0 });
+        authErrorEl.textContent = '';
+        unlockWorkspace();
+      } else {
+        const state = getLockoutState();
+        const fails = (state.fails || 0) + 1;
+        if (fails >= 5) {
+          setLockoutState({ fails, lockedUntil: Date.now() + 60 * 1000 });
+          checkLockoutTimer();
+        } else {
+          setLockoutState({ fails, lockedUntil: 0 });
+          authErrorEl.textContent = `비밀번호가 일치하지 않습니다. (${fails}/5회 실패)`;
+          pwInput.select();
+        }
+      }
+    });
+  }
+
+  if (btnLockAdmin) {
+    btnLockAdmin.addEventListener('click', () => {
+      lockWorkspace();
+      showToast('관리자 페이지가 잠겼습니다.');
+    });
+  }
+
+  if (btnOpenPwDialog && pwDialog) {
+    btnOpenPwDialog.addEventListener('click', () => {
+      newPwInput.value = '';
+      pwDialog.showModal();
+    });
+  }
+
+  if (btnClosePwDialog && pwDialog) {
+    btnClosePwDialog.addEventListener('click', () => {
+      pwDialog.close();
+    });
+  }
+
+  if (pwChangeForm && pwDialog) {
+    pwChangeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const val = newPwInput.value;
+      if (!val || val.length < 6) return;
+      const newHash = await sha256Hex(val);
+      localStorage.setItem(CUSTOM_HASH_KEY, newHash);
+      pwDialog.close();
+      showToast('관리자 비밀번호가 안전하게 변경되었습니다.');
+    });
+  }
+
+  // ==================== CMS WORKSPACE LOGIC ====================
   function updateCounts() {
     const all = Store.loadAllPosts();
     const publishedBlogs = all.filter(p => p.type === 'blog' && p.status !== 'draft');
@@ -88,8 +247,8 @@
     if (list.length === 0) {
       listContainer.innerHTML = `
         <div class="journal-empty">
-          <p style="font-size:16px;font-weight:700;color:#fff;margin:0 0 8px;">등록된 글이 없습니다.</p>
-          <p style="margin:0 0 18px;font-size:14px;">우측 상단의 '+ 새 글 작성' 버튼을 눌러 블로그나 후기 글을 작성해보세요.</p>
+          <p style="font-size:16px;font-weight:800;color:var(--ink);margin:0 0 8px;">등록된 글이 없습니다.</p>
+          <p style="margin:0;font-size:14px;">우측 상단의 '+ 새 글 작성' 버튼을 눌러 블로그나 후기 글을 작성해보세요.</p>
         </div>
       `;
       return;
@@ -118,7 +277,7 @@
                 ${typeBadge}
                 ${draftBadge}
                 ${featuredBadge}
-                <span style="font-size:12px;color:#94a3b8;font-weight:600;">${Store.escapeHtml(post.category)}</span>
+                <span style="font-size:12px;color:var(--purple);font-weight:750;">${Store.escapeHtml(post.category)}</span>
               </div>
               <h3 class="admin-row-title">${Store.escapeHtml(post.title)}</h3>
               <p class="admin-row-summary">${Store.escapeHtml(post.summary)}</p>
@@ -175,7 +334,7 @@
 
   function renderTagChips() {
     edTagsList.innerHTML = currentTags
-      .map((tag, idx) => `<span class="velog-tag-pill" data-idx="${idx}" title="클릭하여 태그 삭제">${Store.escapeHtml(tag)} <span aria-hidden="true">×</span></span>`)
+      .map((tag, idx) => `<span class="velog-tag-pill" data-idx="${idx}" title="클릭하여 태그 삭제">#${Store.escapeHtml(tag)} <span aria-hidden="true">×</span></span>`)
       .join('');
 
     edTagsList.querySelectorAll('.velog-tag-pill').forEach(chip => {
@@ -238,10 +397,15 @@
         <div class="journal-card-thumb-frame">
           ${Store.renderThumbnailHTML(previewPost, false)}
         </div>
-        <h3 class="journal-card-title">${Store.escapeHtml(previewPost.title)}</h3>
-        <p class="journal-card-summary">${Store.escapeHtml(previewPost.summary)}</p>
-        <div class="journal-card-tags">${tagsHtml}</div>
-        <div class="journal-card-meta">${Store.escapeHtml(previewPost.date)} &nbsp;·&nbsp; ${previewPost.readMin} MIN</div>
+        <div class="journal-card-body">
+          <h3 class="journal-card-title">${Store.escapeHtml(previewPost.title)}</h3>
+          <p class="journal-card-summary">${Store.escapeHtml(previewPost.summary)}</p>
+          <div class="journal-card-tags">${tagsHtml}</div>
+          <div class="journal-card-meta">
+            <span>${Store.escapeHtml(previewPost.date)} &nbsp;·&nbsp; ${previewPost.readMin} MIN</span>
+            <span class="card-arrow-circle" aria-hidden="true">↗</span>
+          </div>
+        </div>
       </div>
     `;
 
@@ -262,7 +426,7 @@
       edBannerLine1.value = existing.bannerLine1 || '';
       edBannerHl.value = existing.bannerHighlight || '';
       edBannerLine2.value = existing.bannerLine2 || '';
-      edThemeColor.value = existing.themeColor || 'blue';
+      edThemeColor.value = ['mint', 'purple', 'lime', 'pink', 'cream'].includes(existing.themeColor) ? existing.themeColor : 'mint';
       edSummary.value = existing.summary || '';
       edTitle.value = existing.title || '';
       currentTags = Array.isArray(existing.tags) ? existing.tags.slice() : [];
@@ -276,7 +440,7 @@
       edBannerLine1.value = '';
       edBannerHl.value = '';
       edBannerLine2.value = '';
-      edThemeColor.value = 'blue';
+      edThemeColor.value = editorType === 'review' ? 'purple' : 'mint';
       edSummary.value = '';
       edTitle.value = '';
       currentTags = [];
@@ -298,7 +462,6 @@
     renderAdminList();
   }
 
-  // Filter Tabs
   filterTabs.forEach(tab => {
     tab.addEventListener('click', () => {
       currentFilter = tab.getAttribute('data-filter') || 'all';
@@ -340,7 +503,6 @@
     });
   }
 
-  // Editor Type Switch (Blog vs Review)
   typeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       setEditorType(btn.getAttribute('data-editor-type'));
@@ -376,15 +538,12 @@
     });
   }
 
-  // Toolbar Markdown Actions
   function insertMarkdown(type) {
     const start = edBody.selectionStart;
     const end = edBody.selectionEnd;
     const val = edBody.value;
     const selected = val.slice(start, end);
-
     let replacement = '';
-    let cursorOffset = 0;
 
     switch (type) {
       case 'h1':
@@ -412,7 +571,7 @@
         replacement = `\n> ${selected || '인용구 내용을 입력하세요.'}\n`;
         break;
       case 'link': {
-        const url = window.prompt(' 연결할 URL을 입력하세요:', 'https://');
+        const url = window.prompt('연결할 URL을 입력하세요:', 'https://');
         if (!url) return;
         replacement = `[${selected || '링크 텍스트'}](${url})`;
         break;
@@ -429,7 +588,7 @@
 
     edBody.value = val.slice(0, start) + replacement + val.slice(end);
     edBody.focus();
-    cursorOffset = start + replacement.length;
+    const cursorOffset = start + replacement.length;
     edBody.setSelectionRange(cursorOffset, cursorOffset);
     updateLivePreview();
   }
@@ -457,7 +616,6 @@
     });
   }
 
-  // Live Preview Listeners
   [
     edTitle, edCategory, edFeatured, edSublabel,
     edIconType, edBannerLine1, edBannerHl, edBannerLine2,
@@ -504,12 +662,19 @@
     });
   }
 
-  // Check URL query params for direct editor launch (?edit=id or ?type=blog|review)
-  const params = new URLSearchParams(window.location.search);
-  renderAdminList();
-  if (params.get('edit')) {
-    openEditor(params.get('edit'));
-  } else if (params.get('type')) {
-    openEditor(null, params.get('type'));
+  function initWorkspaceAfterAuth() {
+    const params = new URLSearchParams(window.location.search);
+    renderAdminList();
+    if (params.get('edit')) {
+      openEditor(params.get('edit'));
+    } else if (params.get('type')) {
+      openEditor(null, params.get('type'));
+    }
+  }
+
+  // Initial Boot: Check if session is already unlocked
+  checkLockoutTimer();
+  if (Store.isAdminAuthenticated()) {
+    unlockWorkspace();
   }
 })();

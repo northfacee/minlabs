@@ -11,6 +11,14 @@
   ],
   "headers": [
     {
+      "source": "/admin(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+      ]
+    },
+    {
       "source": "/llms(.*).txt",
       "headers": [
         { "key": "Content-Type", "value": "text/plain; charset=utf-8" },

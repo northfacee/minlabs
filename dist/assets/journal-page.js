@@ -4,6 +4,23 @@
 
   const pageType = document.body.getAttribute('data-page-type');
 
+  // Secret 5-click on footer copyright to enter Admin
+  const footerCopy = document.querySelector('.journal-footer > span, footer > p');
+  if (footerCopy) {
+    let clickCount = 0;
+    let timer = null;
+    footerCopy.addEventListener('click', () => {
+      clickCount++;
+      clearTimeout(timer);
+      if (clickCount >= 5) {
+        clickCount = 0;
+        window.location.href = '/admin.html';
+      } else {
+        timer = setTimeout(() => { clickCount = 0; }, 1600);
+      }
+    });
+  }
+
   if (pageType === 'detail') {
     initDetailPage();
   } else if (pageType === 'blog' || pageType === 'review') {
@@ -70,16 +87,14 @@
         if (gridEl) {
           gridEl.innerHTML = `
             <div class="journal-empty" style="grid-column: 1 / -1;">
-              <p style="font-size: 16px; font-weight: 700; color: #f8fafc; margin: 0 0 8px;">조건에 맞는 글이 없습니다.</p>
-              <p style="margin: 0 0 18px; font-size: 14px;">다른 검색어나 태그를 선택하거나 어드민 페이지에서 새 글을 작성해보세요.</p>
-              <a href="/admin.html?type=${type}" class="journal-write-btn">+ 새 글 작성하기</a>
+              <p style="font-size: 16px; font-weight: 800; color: #19181e; margin: 0 0 8px;">조건에 맞는 글이 없어요.</p>
+              <p style="margin: 0; font-size: 14px;">다른 검색어나 태그를 선택해보세요.</p>
             </div>
           `;
         }
         return;
       }
 
-      // Pick featured post (or first post) for the Hero Card
       let heroPost = posts.find(p => p.featured) || posts[0];
       const gridPosts = posts.filter(p => p.id !== heroPost.id);
 
@@ -112,10 +127,15 @@
                 <div class="journal-card-thumb-frame">
                   ${Store.renderThumbnailHTML(post, false)}
                 </div>
-                <h3 class="journal-card-title">${Store.escapeHtml(post.title)}</h3>
-                <p class="journal-card-summary">${Store.escapeHtml(post.summary)}</p>
-                <div class="journal-card-tags">${tagsHtml}</div>
-                <div class="journal-card-meta">${Store.escapeHtml(post.date)} &nbsp;·&nbsp; ${post.readMin || 5} MIN</div>
+                <div class="journal-card-body">
+                  <h3 class="journal-card-title">${Store.escapeHtml(post.title)}</h3>
+                  <p class="journal-card-summary">${Store.escapeHtml(post.summary)}</p>
+                  <div class="journal-card-tags">${tagsHtml}</div>
+                  <div class="journal-card-meta">
+                    <span>${Store.escapeHtml(post.date)} &nbsp;·&nbsp; ${post.readMin || 5} MIN</span>
+                    <span class="card-arrow-circle" aria-hidden="true">↗</span>
+                  </div>
+                </div>
               </a>
             `;
           })
@@ -131,7 +151,7 @@
     }
 
     document.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      if ((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         if (searchInputEl) searchInputEl.focus();
       }
@@ -164,9 +184,9 @@
     if (!post) {
       container.innerHTML = `
         <div class="journal-empty">
-          <p style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 10px;">글을 찾을 수 없습니다.</p>
+          <p style="font-size: 18px; font-weight: 800; color: #19181e; margin: 0 0 10px;">이 글을 찾을 수 없어요.</p>
           <p style="margin: 0 0 20px;">삭제되었거나 잘못된 주소입니다.</p>
-          <a href="/blog.html" class="journal-write-btn">블로그 목록으로 이동</a>
+          <a href="/blog.html" class="post-back-link">블로그 목록으로 이동 →</a>
         </div>
       `;
       return;
@@ -185,26 +205,32 @@
       .map(t => `<span class="journal-tag-chip">#${Store.escapeHtml(t)}</span>`)
       .join('');
 
+    const adminEditBtn = Store.isAdminAuthenticated()
+      ? `<a class="post-back-link" href="/admin.html?edit=${encodeURIComponent(post.id)}" style="background:#d5ff45;">글 수정 ↗</a>`
+      : '';
+
     container.innerHTML = `
       <div class="post-back-row">
         <a class="post-back-link" href="${backHref}">${backLabel}</a>
-        <a class="journal-write-btn" href="/admin.html?edit=${encodeURIComponent(post.id)}">어드민에서 수정</a>
+        ${adminEditBtn}
       </div>
-      <div class="hero-badges">
-        ${post.featured ? '<span class="editors-pick-pill">EDITOR\'S PICK</span>' : ''}
-        <span class="hero-cat-text">${Store.escapeHtml(post.category)}</span>
+      <div class="post-detail-card">
+        <div class="hero-badges">
+          ${post.featured ? '<span class="editors-pick-pill">EDITOR\'S PICK</span>' : ''}
+          <span class="hero-cat-text">${Store.escapeHtml(post.category)}</span>
+        </div>
+        <h1 class="post-detail-title">${Store.escapeHtml(post.title)}</h1>
+        <div class="post-detail-meta">
+          <span>${Store.escapeHtml(post.date)} &nbsp;·&nbsp; ${post.readMin || 5} MIN READ</span>
+          <div class="journal-card-tags" style="margin-top:0;">${tagsHtml}</div>
+        </div>
+        <div class="post-detail-thumb">
+          ${Store.renderThumbnailHTML(post, true)}
+        </div>
+        <article class="post-content">
+          ${Store.renderMarkdown(post.content)}
+        </article>
       </div>
-      <h1 class="post-detail-title">${Store.escapeHtml(post.title)}</h1>
-      <div class="post-detail-meta">
-        <span>${Store.escapeHtml(post.date)} &nbsp;·&nbsp; ${post.readMin || 5} MIN READ</span>
-        <div class="journal-card-tags" style="margin-top:0;">${tagsHtml}</div>
-      </div>
-      <div class="post-detail-thumb">
-        ${Store.renderThumbnailHTML(post, true)}
-      </div>
-      <article class="post-content">
-        ${Store.renderMarkdown(post.content)}
-      </article>
     `;
   }
 })();
