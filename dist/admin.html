@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121212">
+  <meta name="robots" content="noindex, nofollow">
+  <title>어드민 · 글 관리 및 에디터 | Minlabs</title>
+  <link rel="icon" href="/assets/favicon.svg?v=8" type="image/svg+xml">
+  <link rel="stylesheet" href="/journal.css?v=8">
+  <style>
+    body.admin-body {
+      margin: 0;
+      background: #0b0e14;
+      color: #ececec;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+      min-height: 100dvh;
+    }
+
+    /* ==================== VIEW 1: ADMIN POST LIST ==================== */
+    .admin-list-view {
+      width: min(1160px, calc(100% - 48px));
+      margin: 0 auto;
+      padding-bottom: 80px;
+    }
+
+    .admin-topbar {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e2636;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .admin-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .admin-badge {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #63e6be;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.6px;
+    }
+
+    .admin-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .admin-nav-btn {
+      padding: 9px 15px;
+      border-radius: 8px;
+      border: 1px solid #263042;
+      background: #131824;
+      color: #cbd5e1;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .admin-nav-btn:hover {
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+
+    .admin-primary-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background: #63e6be;
+      color: #121212;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .admin-primary-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .admin-list-header {
+      margin-top: 36px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .admin-list-header h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 850;
+      letter-spacing: -0.8px;
+    }
+
+    .admin-list-header p {
+      margin: 8px 0 0;
+      color: #8b95a5;
+      font-size: 14.5px;
+    }
+
+    .admin-filter-row {
+      margin-top: 26px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #1a2232;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .admin-tab {
+      background: #121722;
+      border: 1px solid #232c3d;
+      color: #94a3b8;
+      font-size: 13.5px;
+      font-weight: 650;
+      padding: 8px 16px;
+      border-radius: 99px;
+      cursor: pointer;
+    }
+
+    .admin-tab.active {
+      background: #1d6bf3;
+      border-color: #1d6bf3;
+      color: #ffffff;
+    }
+
+    .admin-post-table {
+      margin-top: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .admin-post-row {
+      display: grid;
+      grid-template-columns: 220px 1fr auto;
+      gap: 22px;
+      align-items: center;
+      padding: 16px 20px;
+      background: #101520;
+      border: 1px solid #1e2638;
+      border-radius: 14px;
+      transition: border-color 0.16s ease;
+    }
+
+    .admin-post-row:hover {
+      border-color: #334260;
+    }
+
+    .admin-row-thumb {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      zoom: 0.58;
+      pointer-events: none;
+    }
+
+    .admin-row-info {
+      min-width: 0;
+    }
+
+    .admin-row-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .badge-type-blog {
+      background: rgba(29, 107, 243, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 5px;
+    }
+
+    .badge-type-review {
+      background: rgba(168, 85, 247, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #c084fc;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 5px;
+    }
+
+    .badge-draft {
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 5px;
+    }
+
+    .badge-featured {
+      background: rgba(52, 211, 153, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      color: #34d399;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 5px;
+    }
+
+    .admin-row-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 750;
+      color: #f8fafc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-row-summary {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: #8b95a5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-row-meta {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #64748b;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+    }
+
+    .admin-row-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .row-btn {
+      background: #171e2e;
+      border: 1px solid #28334a;
+      color: #cbd5e1;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .row-btn:hover {
+      background: #222c42;
+      color: #ffffff;
+    }
+
+    .row-btn-danger:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #fca5a5;
+    }
+
+    /* ==================== VIEW 2: VELOG-STYLE WRITER (IMAGE 4) ==================== */
+    .velog-editor-view {
+      display: none;
+      min-height: 100dvh;
+      background: #121212;
+      color: #ececec;
+      position: relative;
+      padding-bottom: 76px;
+    }
+
+    body.mode-editor .admin-list-view {
+      display: none;
+    }
+
+    body.mode-editor .velog-editor-view {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .velog-left-pane {
+      padding: 38px 48px 96px;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100dvh - 68px);
+      border-right: 1px solid #222426;
+      background: #121212;
+    }
+
+    /* Board & Card Metadata Bar inside Editor */
+    .velog-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 10px 14px;
+      background: #1a1b1e;
+      border: 1px solid #2b2d31;
+      border-radius: 10px;
+      margin-bottom: 26px;
+    }
+
+    .velog-type-switch {
+      display: inline-flex;
+      background: #121212;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid #2c2e33;
+    }
+
+    .velog-type-btn {
+      background: transparent;
+      border: none;
+      color: #868e96;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .velog-type-btn.active {
+      background: #63e6be;
+      color: #121212;
+    }
+
+    .velog-meta-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .velog-mini-input {
+      background: #121212;
+      border: 1px solid #2c2e33;
+      color: #ececec;
+      font-size: 12.5px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      width: 130px;
+    }
+
+    .velog-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      color: #adb5bd;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .velog-card-tune-toggle {
+      background: #25262b;
+      border: 1px solid #373a40;
+      color: #63e6be;
+      font-size: 12px;
+      font-weight: 650;
+      padding: 6px 11px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .velog-card-drawer {
+      display: none;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: #18191c;
+      border: 1px solid #2c2e33;
+      border-radius: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .velog-card-drawer.open {
+      display: grid;
+    }
+
+    .drawer-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .drawer-field label {
+      font-size: 11.5px;
+      color: #868e96;
+      font-weight: 600;
+    }
+
+    .drawer-field input,
+    .drawer-field select {
+      background: #121212;
+      border: 1px solid #2c2e33;
+      color: #f1f3f5;
+      font-size: 13px;
+      padding: 8px 10px;
+      border-radius: 6px;
+    }
+
+    /* Title Input matching Image 4 */
+    .velog-title-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ececec;
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.3;
+      padding: 0;
+      font-family: inherit;
+    }
+
+    .velog-title-input::placeholder {
+      color: #5c5f66;
+    }
+
+    /* Short thick bar under title matching Image 4 */
+    .velog-divider {
+      width: 64px;
+      height: 6px;
+      background: #495057;
+      margin: 22px 0 18px;
+      border-radius: 1px;
+    }
+
+    /* Tag Input Area matching Image 4 */
+    .velog-tags-wrap {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .velog-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e1e1e;
+      color: #63e6be;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 99px;
+      cursor: pointer;
+    }
+
+    .velog-tag-pill:hover {
+      background: #2a2a2a;
+    }
+
+    .velog-tag-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ced4da;
+      font-size: 16px;
+      min-width: 160px;
+      padding: 4px 0;
+      font-family: inherit;
+    }
+
+    .velog-tag-input::placeholder {
+      color: #6c757d;
+    }
+
+    /* Formatting Toolbar matching Image 4 (H1 H2 H3 H4 | B I S | ” 🔗 🖼️ <>) */
+    .velog-toolbar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 26px;
+      user-select: none;
+    }
+
+    .velog-tool-btn {
+      width: 40px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      color: #868e96;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.14s ease, color 0.14s ease;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .velog-tool-btn sub {
+      font-size: 10px;
+      margin-left: 1px;
+    }
+
+    .velog-tool-btn:hover {
+      background: #1e1e1e;
+      color: #ececec;
+    }
+
+    .velog-tool-sep {
+      width: 1px;
+      height: 20px;
+      background: #343a40;
+      margin: 0 8px;
+    }
+
+    /* Story Textarea matching Image 4 */
+    .velog-body-textarea {
+      flex: 1;
+      width: 100%;
+      min-height: 420px;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      color: #e9ecef;
+      font-size: 17px;
+      line-height: 1.8;
+      font-family: inherit;
+    }
+
+    .velog-body-textarea::placeholder {
+      color: #6c757d;
+      font-style: italic;
+    }
+
+    /* Right Live Preview Pane */
+    .velog-right-pane {
+      padding: 38px 44px 96px;
+      background: #0c0f16;
+      overflow-y: auto;
+      max-height: calc(100dvh - 68px);
+    }
+
+    .preview-section-label {
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      color: #64748b;
+      margin: 0 0 12px;
+      text-transform: uppercase;
+    }
+
+    .preview-card-box {
+      max-width: 380px;
+      margin-bottom: 36px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid #1c2436;
+    }
+
+    /* Fixed Bottom Bar matching Image 4 */
+    .velog-bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 68px;
+      background: #26292c;
+      border-top: 1px solid #343a40;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+    }
+
+    .velog-exit-btn {
+      background: transparent;
+      border: none;
+      color: #ececec;
+      font-size: 16px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: 6px;
+    }
+
+    .velog-exit-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .velog-bottom-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .velog-draft-btn {
+      background: transparent;
+      border: none;
+      color: #63e6be;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .velog-draft-btn:hover {
+      background: rgba(99, 230, 190, 0.08);
+    }
+
+    .velog-publish-btn {
+      background: #63e6be;
+      border: none;
+      color: #121212;
+      font-size: 15.5px;
+      font-weight: 800;
+      padding: 10px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .velog-publish-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    /* Toast Notification */
+    .admin-toast {
+      position: fixed;
+      bottom: 84px;
+      right: 28px;
+      background: #10b981;
+      color: #06281e;
+      font-weight: 750;
+      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+      z-index: 100;
+    }
+
+    .admin-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1024px) {
+      body.mode-editor .velog-editor-view {
+        grid-template-columns: 1fr;
+      }
+      .velog-right-pane {
+        max-height: none;
+        border-top: 1px solid #222426;
+      }
+      .admin-post-row {
+        grid-template-columns: 1fr;
+      }
+      .admin-row-thumb {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .velog-left-pane {
+        padding: 24px 20px 96px;
+      }
+      .velog-card-drawer {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="admin-body">
+  <!-- ==================== VIEW 1: POST MANAGEMENT LIST ==================== -->
+  <div class="admin-list-view">
+    <header class="admin-topbar">
+      <div class="admin-brand-group">
+        <a class="journal-brand" href="/">
+          <img class="journal-brand-symbol" src="/assets/minlabs-symbol.svg?v=8" alt="" width="52" height="34">
+          <span>minlabs<span class="journal-brand-period">.</span></span>
+        </a>
+        <span class="admin-badge">CMS ADMIN</span>
+      </div>
+      <div class="admin-top-actions">
+        <a class="admin-nav-btn" href="/">홈</a>
+        <a class="admin-nav-btn" href="/blog.html">블로그 보기 ↗</a>
+        <a class="admin-nav-btn" href="/reviews.html">후기 보기 ↗</a>
+        <button type="button" id="btn-new-post" class="admin-primary-btn">+ 새 글 작성</button>
+      </div>
+    </header>
+
+    <section class="admin-list-header">
+      <div>
+        <h1>글 목록 관리</h1>
+        <p>여기서 작성·수정한 글은 선택에 따라 <strong>블로그</strong> 또는 <strong>후기</strong> 페이지에 즉시 반영됩니다.</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button type="button" id="btn-export-json" class="row-btn">JSON 백업</button>
+        <button type="button" id="btn-reset-defaults" class="row-btn">기본 샘플 복원</button>
+      </div>
+    </section>
+
+    <section class="admin-filter-row">
+      <div class="admin-tabs" id="admin-filter-tabs">
+        <button type="button" class="admin-tab active" data-filter="all">전체 (<span id="cnt-all">0</span>)</button>
+        <button type="button" class="admin-tab" data-filter="blog">블로그 (<span id="cnt-blog">0</span>)</button>
+        <button type="button" class="admin-tab" data-filter="review">후기 (<span id="cnt-review">0</span>)</button>
+        <button type="button" class="admin-tab" data-filter="draft">임시저장 (<span id="cnt-draft">0</span>)</button>
+      </div>
+      <div class="journal-search-wrap" style="width: 260px;">
+        <span class="journal-search-icon" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        </span>
+        <label for="admin-search-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">관리 글 검색</label>
+        <input id="admin-search-input" class="journal-search-input" type="search" placeholder="제목·태그 검색">
+      </div>
+    </section>
+
+    <div id="admin-post-list" class="admin-post-table"></div>
+  </div>
+
+  <!-- ==================== VIEW 2: VELOG-STYLE EDITOR (IMAGE 4) ==================== -->
+  <div class="velog-editor-view" id="velog-editor-view">
+    <div class="velog-left-pane">
+      <!-- Top Selector for Blog vs Review + Card Settings -->
+      <div class="velog-meta-bar">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <span style="font-size:12px; color:#868e96; font-weight:700;">노출 위치</span>
+          <div class="velog-type-switch" role="group" aria-label="게시판 구분">
+            <button type="button" class="velog-type-btn active" data-editor-type="blog">블로그</button>
+            <button type="button" class="velog-type-btn" data-editor-type="review">후기</button>
+          </div>
+          <label for="ed-category" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">카테고리</label>
+          <input id="ed-category" class="velog-mini-input" type="text" placeholder="카테고리 (예: ToePick)">
+        </div>
+        <div class="velog-meta-controls">
+          <label class="velog-check-label">
+            <input type="checkbox" id="ed-featured">
+            <span>EDITOR'S PICK (상단 대표글)</span>
+          </label>
+          <button type="button" id="btn-toggle-card-drawer" class="velog-card-tune-toggle">썸네일 배너 설정 ▾</button>
+        </div>
+      </div>
+
+      <!-- Optional Card Banner Customization Drawer -->
+      <div id="velog-card-drawer" class="velog-card-drawer">
+        <div class="drawer-field">
+          <label for="ed-sublabel">썸네일 상단 부제</label>
+          <input id="ed-sublabel" type="text" placeholder="예: 제품 설계 · 학습 루프">
+        </div>
+        <div class="drawer-field">
+          <label for="ed-icon-type">우측 아이콘 배지</label>
+          <select id="ed-icon-type">
+            <option value="toepick">ToePick 로고</option>
+            <option value="immyme">IMMYME 로고</option>
+            <option value="ai">AI · 실험실</option>
+            <option value="code">개발 · 코드</option>
+            <option value="star">별점 · 후기</option>
+            <option value="map">산책 · 지도</option>
+          </select>
+        </div>
+        <div class="drawer-field">
+          <label for="ed-banner-line1">썸네일 문구 1줄 (흰색)</label>
+          <input id="ed-banner-line1" type="text" placeholder="비워두면 제목에서 자동 생성">
+        </div>
+        <div class="drawer-field">
+          <label for="ed-banner-hl">썸네일 강조 문구 2줄 (초록색)</label>
+          <input id="ed-banner-hl" type="text" placeholder="비워두면 제목에서 자동 생성">
+        </div>
+        <div class="drawer-field">
+          <label for="ed-banner-line2">썸네일 문구 3줄 (흰색)</label>
+          <input id="ed-banner-line2" type="text" placeholder="비워두면 제목에서 자동 생성">
+        </div>
+        <div class="drawer-field">
+          <label for="ed-theme-color">썸네일 배경 테마</label>
+          <select id="ed-theme-color">
+            <option value="blue">딥 블루 (Blue)</option>
+            <option value="indigo">인디고 (Indigo)</option>
+            <option value="teal">에메랄드 틸 (Teal)</option>
+            <option value="purple">네온 퍼플 (Purple)</option>
+            <option value="slate">다크 슬레이트 (Slate)</option>
+          </select>
+        </div>
+        <div class="drawer-field" style="grid-column: 1 / -1;">
+          <label for="ed-summary">카드 요약 설명 (비워두면 본문 앞부분으로 자동 생성)</label>
+          <input id="ed-summary" type="text" placeholder="핵심 요약 문구를 입력하세요">
+        </div>
+      </div>
+
+      <!-- Title Input matching Image 4 -->
+      <label for="ed-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">제목</label>
+      <input id="ed-title" class="velog-title-input" type="text" placeholder="제목을 입력하세요" autocomplete="off">
+
+      <div class="velog-divider" aria-hidden="true"></div>
+
+      <!-- Tags Input matching Image 4 -->
+      <div class="velog-tags-wrap" id="ed-tags-wrap">
+        <div id="ed-tags-list" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+        <label for="ed-tag-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">태그 입력</label>
+        <input id="ed-tag-input" class="velog-tag-input" type="text" placeholder="태그를 입력하세요" autocomplete="off">
+      </div>
+
+      <!-- Formatting Toolbar matching Image 4 -->
+      <div class="velog-toolbar" role="toolbar" aria-label="글 서식 도구 모음">
+        <button type="button" class="velog-tool-btn" data-md="h1" title="제목 1">H<sub>1</sub></button>
+        <button type="button" class="velog-tool-btn" data-md="h2" title="제목 2">H<sub>2</sub></button>
+        <button type="button" class="velog-tool-btn" data-md="h3" title="제목 3">H<sub>3</sub></button>
+        <button type="button" class="velog-tool-btn" data-md="h4" title="제목 4">H<sub>4</sub></button>
+        <span class="velog-tool-sep" aria-hidden="true"></span>
+        <button type="button" class="velog-tool-btn" data-md="bold" title="굵게" style="font-family:sans-serif;font-weight:800;">B</button>
+        <button type="button" class="velog-tool-btn" data-md="italic" title="기울임" style="font-style:italic;">I</button>
+        <button type="button" class="velog-tool-btn" data-md="strike" title="취소선" style="font-family:sans-serif;text-decoration:line-through;">S</button>
+        <span class="velog-tool-sep" aria-hidden="true"></span>
+        <button type="button" class="velog-tool-btn" data-md="quote" title="인용구" aria-label="인용구">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
+        </button>
+        <button type="button" class="velog-tool-btn" data-md="link" title="링크 삽입" aria-label="링크 삽입">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+        <button type="button" class="velog-tool-btn" data-md="image" title="이미지 삽입" aria-label="이미지 삽입">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </button>
+        <button type="button" class="velog-tool-btn" data-md="code" title="코드블록" aria-label="코드블록">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </button>
+        <input type="file" id="ed-image-file" accept="image/*" style="display:none;">
+      </div>
+
+      <!-- Body Story Input matching Image 4 -->
+      <label for="ed-body" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">본문</label>
+      <textarea id="ed-body" class="velog-body-textarea" placeholder="당신의 이야기를 적어보세요..."></textarea>
+    </div>
+
+    <!-- Live Preview Pane (Card + Body) -->
+    <div class="velog-right-pane">
+      <p class="preview-section-label">CARD PREVIEW (블로그·후기 목록 노출 미리보기)</p>
+      <div class="preview-card-box" id="ed-card-preview"></div>
+
+      <p class="preview-section-label">ARTICLE PREVIEW (본문 미리보기)</p>
+      <h2 id="ed-preview-title" style="font-size:30px; font-weight:850; margin:10px 0 20px; color:#ffffff; letter-spacing:-0.8px;"></h2>
+      <div id="ed-body-preview" class="post-content"></div>
+    </div>
+
+    <!-- Fixed Bottom Bar matching Image 4 -->
+    <div class="velog-bottom-bar">
+      <button type="button" id="btn-editor-exit" class="velog-exit-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        <span>나가기</span>
+      </button>
+      <div class="velog-bottom-right">
+        <button type="button" id="btn-save-draft" class="velog-draft-btn">임시저장</button>
+        <button type="button" id="btn-publish-post" class="velog-publish-btn">출간하기</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="admin-toast" class="admin-toast" role="status" aria-live="polite"></div>
+
+  <script src="/assets/posts-store.js?v=8"></script>
+  <script src="/assets/admin-page.js?v=8"></script>
+</body>
+</html>

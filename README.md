@@ -49,3 +49,18 @@
 ## 중복 소개 제거와 정체성 문구 수정 (2026-10-21)
 
 상단 제품 카드와 겹치는 ABOUT MINLABS 영역·추가 제품 카드 두 개를 제거했다. “Minlabs는 어떤 곳인가요?” 답변을 사용자가 지정한 “궁금하거나 흥미있는 아이디어가 떠오르면 바로 실행해보는 개인 프로젝트 실험실입니다.”로 교체했다. 제목·메타 설명·구조화 데이터도 개인 프로젝트 실험실이라는 설명에 맞췄다. 기존 프로젝트 카드와 나머지 FAQ·검색 접근성 설정은 유지한다.
+
+## SEO 및 GEO(생성형 AI 검색) 최적화 (2026-10-23)
+
+- **GEO(Generative Engine Optimization)**: `dist/llms.txt` 및 `dist/llms-full.txt`를 추가하고 `<link rel="alternate" type="text/plain">`으로 연결했다. `dist/robots.txt`에 주요 검색엔진(`Googlebot`, `Yeti`, `Bingbot`) 및 생성형 AI 크롤러(`OAI-SearchBot`, `ChatGPT-User`, `GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`) 수집 허용을 명시했다.
+- **구조화 데이터(JSON-LD) 고도화**: `Organization`(로고·연락처·대체명·관련 도메인), `WebSite`, `CollectionPage`, `ItemList`, `SoftwareApplication`·`MobileApplication`(ToePick), `WebApplication`(IMMYME), `FAQPage`를 `@graph`로 연결하고 FAQ에 ToePick 안내 문항을 보강했다.
+- **소셜·검색 메타 및 아이콘**: 브랜드 디자인을 반영한 1200×630 오픈그래프 이미지(`dist/assets/og-image.png`), 애플 터치 아이콘(`dist/assets/apple-touch-icon.png`), 웹 앱 매니페스트(`dist/site.webmanifest`), Twitter Card·Open Graph·`robots` 메타 태그, `sitemap.xml`의 `lastmod`를 추가했다.
+- **성능(Core Web Vitals) 및 마크업 최적화**: 앱 아이콘 WebP(`toepick.webp` 12KB, `immyme.webp` 9KB)와 `<picture>` 폴백, 주요 이미지 `fetchpriority="high"`, FAQ `<details name="faq">` 아코디언 그룹화 및 `vercel.json` 캐시·콘텐츠 헤더를 적용했다.
+
+## 블로그·후기 페이지 및 어드민 에디터 추가 (2026-10-23)
+
+- **상단 메뉴 개편**: 홈(`dist/index.html`) 및 전 페이지 우측 상단 내비게이션을 `블로그`, `후기`, `문의하기`로 구성했다.
+- **블로그(`dist/blog.html`) & 후기(`dist/reviews.html`)**: 다크 에디토리얼 레이아웃으로 상단 검색(`⌘K`), 카테고리·태그 필터, `최신순/인기순` 정렬, 상단 `EDITOR'S PICK` 히어로 카드, 3열 아티클 그리드 및 상세 보기(`dist/post.html`)를 지원한다.
+- **어드민 목록 및 Velog 스타일 글쓰기 에디터(`dist/admin.html`)**:
+  - 글 목록 관리 화면에서 전체·블로그·후기·임시저장 필터링, 대표글(`EDITOR'S PICK`) 지정, 블로그↔후기 게시판 전환, 수정·삭제·JSON 백업을 지원한다.
+  - 글쓰기 화면은 다크 에디터(`제목을 입력하세요`, 구분선, 한글 IME 안전 태그 입력, `H1~H4 · B · I · S · 인용구 · 링크 · 이미지 · 코드블록` 툴바, 실시간 카드·본문 미리보기, 하단 `← 나가기`, `임시저장`, `출간하기`)를 제공하며 출간 즉시 선택한 블로그 또는 후기 목록에 반영된다.

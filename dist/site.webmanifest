@@ -1,0 +1,24 @@
+{
+  "name": "Minlabs | 아이디어를 실행하는 개인 프로젝트 실험실",
+  "short_name": "Minlabs",
+  "description": "궁금하거나 흥미있는 아이디어를 바로 실행해보는 개인 프로젝트 실험실 Minlabs. 토익 학습 앱 ToePick과 장소 추천 서비스 IMMYME를 만나보세요.",
+  "lang": "ko-KR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#faf9f6",
+  "theme_color": "#faf9f6",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg?v=8",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/apple-touch-icon.png?v=8",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
