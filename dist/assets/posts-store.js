@@ -1,5 +1,5 @@
 (function (global) {
-  const STORAGE_KEY = 'minlabs_cms_posts_v2';
+  const STORAGE_KEY = 'minlabs_cms_posts_v3';
   const AUTH_SESSION_KEY = 'minlabs_admin_session_v1';
 
   const ICON_SVGS = {
@@ -10,6 +10,10 @@
     immyme: {
       label: 'IMMYME',
       img: '/assets/immyme.webp'
+    },
+    shashak: {
+      label: '샤샥',
+      img: '/assets/shashak.webp'
     },
     ai: {
       label: 'AI Lab',
@@ -31,6 +35,43 @@
 
   const DEFAULT_POSTS = [
     // ==================== BLOG POSTS ====================
+    {
+      id: 'blog-shashak-squirrel-routine',
+      type: 'blog',
+      status: 'published',
+      featured: false,
+      category: '샤샥',
+      subLabel: '루틴 설계 · 오프라인 퍼스트',
+      bannerLine1: '딱딱한 체크리스트 대신,',
+      bannerHighlight: '다람쥐와 도토리 보상으로',
+      bannerLine2: '지속하는 하루 루틴',
+      iconType: 'shashak',
+      themeColor: 'cream',
+      title: '샤샥(shashak) 제작기: 죄책감 없는 루틴과 도토리 보상으로 매일 열고 싶은 투두 앱 만들기',
+      summary: '핵심 요약 오늘·매일·주기·달력의 네 가지 흐름으로 할 일과 반복 루틴을 나누고, 로그인 없이도 오프라인에서 즉시 기록하며 도토리 보상을 모으는 샤샥의 설계 배경을 소개합니다.',
+      tags: ['샤샥', '투두앱', '루틴관리'],
+      date: '2026.10.24',
+      readMin: 7,
+      views: 1290,
+      content: `## 밀린 할 일 목록이 스트레스가 되지 않으려면?
+
+많은 투두 앱이 처음 며칠은 의욕적으로 채워지지만, 하루이틀 바빠서 체크를 놓치면 **밀린 할 일 경고**가 쌓여 결국 앱을 열지 않게 됩니다.
+
+Minlabs에서 [샤샥(shashak)](https://shashak.app/)을 만들며 집중한 질문은 단순했습니다.
+
+> "오늘 할 일과 반복 루틴을 도토리처럼 차곡차곡 모으는 따뜻한 경험으로 바꿀 수 없을까?"
+
+### 1. 오늘 · 매일 · 주기 · 달력의 명확한 역할 분리
+
+* **오늘**: 오늘 집중할 할 일과 다람쥐 파트너, 보유 도토리 현황을 한눈에 확인
+* **매일**: 기상, 물 마시기, 스트레칭처럼 매일 이어가는 기본 습관
+* **주기**: 요일별 운동이나 주 3회 독서처럼 나만의 리듬으로 반복되는 루틴
+* **달력**: 날짜별 실행 기록과 흐름을 차분하게 돌아보는 아카이브
+
+### 2. 로그인 없이 바로 시작하는 로컬 우선 아키텍처
+
+앱을 처음 켜자마자 회원가입 화면으로 가로막지 않습니다. 기기 내부 SQLite 저장소에 즉시 기록되고, 나중에 계정을 연결하면 게스트 시절에 모은 할 일과 도토리 보상이 안전하게 병합됩니다.`
+    },
     {
       id: 'blog-toepick-retention-loop',
       type: 'blog',
@@ -223,6 +264,34 @@ input.addEventListener('keydown', (event) => {
     },
 
     // ==================== REVIEW POSTS ====================
+    {
+      id: 'review-shashak-daily-acorn',
+      type: 'review',
+      status: 'published',
+      featured: false,
+      category: '샤샥 후기',
+      subLabel: '루틴 정착기 · 갓생 습관',
+      bannerLine1: '작심삼일이던 아침 루틴,',
+      bannerHighlight: '도토리 모으는 재미로',
+      bannerLine2: '3주째 이어가고 있어요',
+      iconType: 'shashak',
+      themeColor: 'cream',
+      title: '“체크할 때마다 도토리가 쌓이니 작은 할 일도 미루지 않게 돼요” — 샤샥 3주 사용 후기',
+      summary: '핵심 요약 복잡한 플래너 대신 샤샥의 오늘·매일·주기 탭으로 생활 습관을 정리하고, 다람쥐 캐릭터와 도토리 보상 덕분에 아침·저녁 루틴을 꾸준히 유지한 후기입니다.',
+      tags: ['샤샥후기', '루틴앱', '할일관리'],
+      date: '2026.10.24',
+      readMin: 5,
+      views: 1340,
+      content: `## 복잡한 노션 템플릿 대신 가볍게 체크하는 샤샥에 정착했어요
+
+매달 초마다 거창한 계획표를 만들었다가 일주일 만에 포기하곤 했습니다. **샤샥(shashak)**은 앱을 켜자마자 로그인 없이 바로 할 일을 적을 수 있고, 오늘 해야 할 일과 매일·주기 루틴이 깔끔하게 나뉘어 있어서 머리가 복잡하지 않았습니다.
+
+### 가장 좋았던 3가지 포인트
+
+1. **도토리 보상 피드백**: 물 마시기나 비타민 챙겨 먹기 같은 사소한 습관도 완료할 때마다 도토리가 차곡차곡 쌓여서 기분 좋은 성취감을 줍니다.
+2. **매일 / 주기 분리**: 매일 하는 일과 화·목·토 운동처럼 주기가 있는 일을 따로 관리하니 오늘 할 일 목록이 훨씬 정돈됩니다.
+3. **따뜻한 다람쥐 감성**: 다그치는 알림 대신 가을 다람쥐와 함께 내 속도로 루틴을 채워가는 느낌이라 매일 저녁 자연스럽게 앱을 열게 됩니다.`
+    },
     {
       id: 'review-toepick-commute-850',
       type: 'review',
@@ -496,7 +565,8 @@ input.addEventListener('keydown', (event) => {
   }
 
   function getIconBoxHTML(post) {
-    const key = post.iconType || (post.category && post.category.toLowerCase().includes('immy') ? 'immyme' : post.category && post.category.toLowerCase().includes('toe') ? 'toepick' : post.type === 'review' ? 'star' : 'ai');
+    const catLower = (post.category || '').toLowerCase();
+    const key = post.iconType || (catLower.includes('immy') ? 'immyme' : catLower.includes('toe') ? 'toepick' : (catLower.includes('shashak') || catLower.includes('샤샥')) ? 'shashak' : post.type === 'review' ? 'star' : 'ai');
     const item = ICON_SVGS[key] || ICON_SVGS.ai;
     const customLabel = escapeHtml(post.iconLabel || item.label || post.category || 'Minlabs');
     if (item.img) {

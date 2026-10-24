@@ -1,7 +1,7 @@
 {
   "name": "Minlabs | 아이디어를 실행하는 개인 프로젝트 실험실",
   "short_name": "Minlabs",
-  "description": "궁금하거나 흥미있는 아이디어를 바로 실행해보는 개인 프로젝트 실험실 Minlabs. 토익 학습 앱 ToePick과 장소 추천 서비스 IMMYME를 만나보세요.",
+  "description": "궁금하거나 흥미있는 아이디어를 바로 실행해보는 개인 프로젝트 실험실 Minlabs. 토익 학습 앱 ToePick, 장소 추천 서비스 IMMYME, 다람쥐 할 일·루틴 앱 샤샥(shashak)을 만나보세요.",
   "lang": "ko-KR",
   "start_url": "/",
   "scope": "/",
