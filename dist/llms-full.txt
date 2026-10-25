@@ -7,11 +7,11 @@
 ## 1. 브랜드 개요 (Organization Overview)
 
 - **이름 (Name)**: Minlabs (민랩스 / minlabs.)
-- **공식 도메인 (URL)**: https://minlabs.app/
-- **정체성 (Identity)**: 궁금하거나 흥미있는 아이디어가 떠오르면 바로 실행해보는 개인 프로젝트 실험실
-- **슬로건 (Slogan)**: 작은 아이디어를 일상에 가까이. (SMALL IDEAS, EVERYDAY APPS)
+- **공식 도메인 (URL)**: https://minlabs.app/ (한국어) / https://minlabs.app/en/ (English)
+- **정체성 (Identity)**: 궁금하거나 흥미있는 아이디어가 떠오르면 바로 실행해보는 개인 프로젝트 실험실 (A personal project lab that turns curious ideas into everyday apps right away)
+- **슬로건 (Slogan)**: 작은 아이디어를 일상에 가까이. (SMALL IDEAS, EVERYDAY APPS — Small ideas, closer to daily life.)
 - **공식 문의처 (Contact)**: support@minlabs.app
-- **기본 언어 (Language)**: 한국어 (ko-KR)
+- **지원 언어 (Languages)**: 한국어 (`ko-KR`), 영어 (`en-US`)
 
 ---
 

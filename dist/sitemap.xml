@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://minlabs.app/</loc>
-    <lastmod>2026-10-23</lastmod>
+    <lastmod>2026-10-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://minlabs.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://minlabs.app/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://minlabs.app/"/>
+  </url>
+  <url>
+    <loc>https://minlabs.app/en/</loc>
+    <lastmod>2026-10-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://minlabs.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://minlabs.app/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://minlabs.app/"/>
   </url>
   <url>
     <loc>https://minlabs.app/blog.html</loc>
-    <lastmod>2026-10-23</lastmod>
+    <lastmod>2026-10-25</lastmod>
   </url>
   <url>
     <loc>https://minlabs.app/reviews.html</loc>
-    <lastmod>2026-10-23</lastmod>
+    <lastmod>2026-10-25</lastmod>
   </url>
 </urlset>

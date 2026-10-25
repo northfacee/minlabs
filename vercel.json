@@ -4,6 +4,8 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/en", "destination": "/en/index.html" },
+    { "source": "/en/", "destination": "/en/index.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/reviews", "destination": "/reviews.html" },
     { "source": "/post", "destination": "/post.html" },

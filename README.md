@@ -65,3 +65,9 @@
   - 공개 페이지(홈·블로그·후기·상세)에서 모든 어드민 노출 링크를 제거하고 `robots.txt` 및 `vercel.json`(`X-Robots-Tag`, `X-Frame-Options`)으로 검색·프레임 접근을 차단했다.
   - Web Crypto API 기반 Salted SHA-256 비밀번호 해시 검증, 5회 실패 시 60초 잠금(브루트포스 방어), 30분 세션 만료, 비밀번호 변경 모달(`<dialog>`) 및 즉시 잠금 버튼을 적용했다.
   - 인증 해제 후 글 목록 관리 및 Velog 스타일 글쓰기 에디터를 이용할 수 있으며 출간 즉시 선택한 블로그 또는 후기 목록에 반영된다.
+
+## 영문(EN) 랜딩 페이지 및 다국어 SEO·GEO 추가 (2026-10-25)
+
+- **정적 영문 랜딩(`dist/en/index.html`)**: 런타임 JS 없이 순수 HTML·CSS 철학을 유지하며 `/en/` 경로에 영문 소개·프로젝트 카드 3종(shashak, ToePick, IMMYME)·영문 FAQ 5문항·영문 JSON-LD(`@graph`)를 제공한다.
+- **언어 전환 스위처 및 영문 타이포그래피(`dist/styles.css`)**: 한국어 홈(`/`)과 영문 홈(`/en/`) 상단 헤더에 `KO / EN` 캡슐 스위처와 푸터 언어 전환 링크를 배치하고, `:lang(en)` 선택자로 영문 헤드라인 자간·크기를 보정해 360·768·1440px 전 구간에서 가로 넘침이 없도록 구성했다.
+- **다국어 SEO·GEO 연동**: 양방향 `hreflang="ko|en|x-default"` 태그, `dist/sitemap.xml`의 `xhtml:link` 다국어 매핑, `vercel.json`의 `/en` 리라이트, 한·영 병기 `dist/404.html`, 그리고 `dist/llms.txt`·`dist/llms-full.txt`의 영문 안내를 반영했다.
