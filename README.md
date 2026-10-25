@@ -69,5 +69,5 @@
 ## 영문(EN) 랜딩 페이지 및 다국어 SEO·GEO 추가 (2026-10-25)
 
 - **정적 영문 랜딩(`dist/en/index.html`)**: 런타임 JS 없이 순수 HTML·CSS 철학을 유지하며 `/en/` 경로에 영문 소개·프로젝트 카드 3종(shashak, ToePick, IMMYME)·영문 FAQ 5문항·영문 JSON-LD(`@graph`)를 제공한다.
-- **언어 전환 스위처 및 영문 타이포그래피(`dist/styles.css`)**: 한국어 홈(`/`)과 영문 홈(`/en/`) 상단 헤더에 `KO / EN` 캡슐 스위처와 푸터 언어 전환 링크를 배치하고, `:lang(en)` 선택자로 영문 헤드라인 자간·크기를 보정해 360·768·1440px 전 구간에서 가로 넘침이 없도록 구성했다.
+- **언어 전환 스위처 및 자동 감지(`dist/styles.css`, `dist/index.html`)**: 한국어 홈(`/`)과 영문 홈(`/en/`) 상단 헤더에 `KO / EN` 캡슐 스위처와 푸터 언어 전환 링크를 배치했다. 방문자의 브라우저 기본 언어(`navigator.languages`/`navigator.language`)가 한국어(`ko`)가 아닌 경우 자동으로 `/en/`으로 이동하며, 사용자가 `KO` 버튼을 직접 눌러 전환한 경우 `localStorage`에 선택을 기억해 강제 리다이렉트하지 않는다. `:lang(en)` 선택자로 영문 헤드라인 자간·크기를 보정해 360·768·1440px 전 구간에서 가로 넘침이 없도록 구성했다.
 - **다국어 SEO·GEO 연동**: 양방향 `hreflang="ko|en|x-default"` 태그, `dist/sitemap.xml`의 `xhtml:link` 다국어 매핑, `vercel.json`의 `/en` 리라이트, 한·영 병기 `dist/404.html`, 그리고 `dist/llms.txt`·`dist/llms-full.txt`의 영문 안내를 반영했다.

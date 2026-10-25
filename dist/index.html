@@ -36,6 +36,26 @@
   <link rel="alternate" type="text/plain" href="https://minlabs.app/llms.txt" title="LLM Context">
   <link rel="alternate" type="text/plain" href="https://minlabs.app/llms-full.txt" title="LLM Full Context">
   <link rel="stylesheet" href="/styles.css?v=11">
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('lang') === 'ko') {
+          localStorage.setItem('minlabs_lang', 'ko');
+          params.delete('lang');
+          var q = params.toString();
+          history.replaceState(null, '', window.location.pathname + (q ? '?' + q : '') + window.location.hash);
+          return;
+        }
+        if (localStorage.getItem('minlabs_lang') === 'ko') return;
+        if (/bot|crawl|spider|slurp|lighthouse|inspect/i.test(navigator.userAgent || '')) return;
+        var primary = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
+        if (primary && !primary.startsWith('ko')) {
+          window.location.replace('/en/' + window.location.search + window.location.hash);
+        }
+      } catch (e) {}
+    })();
+  </script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -269,7 +289,7 @@
         <a class="nav-link" href="mailto:support@minlabs.app">문의하기</a>
         <div class="lang-switch" role="group" aria-label="언어 선택">
           <a class="lang-option active" href="/" lang="ko" aria-current="page">KO</a>
-          <a class="lang-option" href="/en/" lang="en">EN</a>
+          <a class="lang-option" href="/en/?lang=en" lang="en">EN</a>
         </div>
       </nav>
     </header>
@@ -344,7 +364,7 @@
         </details>
       </section>
     </main>
-    <footer><p>© 2026 Minlabs.</p><div class="footer-links"><a href="/blog.html">블로그</a><a href="/reviews.html">후기</a><a href="/en/" lang="en">English</a><a href="mailto:support@minlabs.app">support@minlabs.app <span aria-hidden="true">↗</span></a></div></footer>
+    <footer><p>© 2026 Minlabs.</p><div class="footer-links"><a href="/blog.html">블로그</a><a href="/reviews.html">후기</a><a href="/en/?lang=en" lang="en">English</a><a href="mailto:support@minlabs.app">support@minlabs.app <span aria-hidden="true">↗</span></a></div></footer>
   </div>
 </body>
 </html>
