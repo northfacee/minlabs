@@ -35,20 +35,8 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="alternate" type="text/plain" href="https://minlabs.app/llms.txt" title="LLM Context">
   <link rel="alternate" type="text/plain" href="https://minlabs.app/llms-full.txt" title="LLM Full Context">
+  <link rel="prefetch" href="/">
   <link rel="stylesheet" href="/styles.css?v=11">
-  <script>
-    (function () {
-      try {
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('lang') === 'en') {
-          localStorage.setItem('minlabs_lang', 'en');
-          params.delete('lang');
-          var q = params.toString();
-          history.replaceState(null, '', window.location.pathname + (q ? '?' + q : '') + window.location.hash);
-        }
-      } catch (e) {}
-    })();
-  </script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -280,8 +268,8 @@
         <a class="nav-link" href="/reviews.html">Reviews</a>
         <a class="nav-link" href="mailto:support@minlabs.app">Contact</a>
         <div class="lang-switch" role="group" aria-label="Language selector">
-          <a class="lang-option" href="/?lang=ko" lang="ko">KO</a>
-          <a class="lang-option active" href="/en/" lang="en" aria-current="page">EN</a>
+          <a class="lang-option" href="/" lang="ko" data-lang-switch="ko">KO</a>
+          <a class="lang-option active" href="/en/" lang="en" data-lang-switch="en" aria-current="page">EN</a>
         </div>
       </nav>
     </header>
@@ -356,7 +344,8 @@
         </details>
       </section>
     </main>
-    <footer><p>© 2026 Minlabs.</p><div class="footer-links"><a href="/blog.html">Blog</a><a href="/reviews.html">Reviews</a><a href="/?lang=ko" lang="ko">한국어</a><a href="mailto:support@minlabs.app">support@minlabs.app <span aria-hidden="true">↗</span></a></div></footer>
+    <footer><p>© 2026 Minlabs.</p><div class="footer-links"><a href="/blog.html">Blog</a><a href="/reviews.html">Reviews</a><a href="/" lang="ko" data-lang-switch="ko">한국어</a><a href="mailto:support@minlabs.app">support@minlabs.app <span aria-hidden="true">↗</span></a></div></footer>
   </div>
+  <script src="/assets/lang-switch.js?v=1" defer></script>
 </body>
 </html>
