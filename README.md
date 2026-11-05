@@ -71,3 +71,14 @@
 - **정적 영문 랜딩(`dist/en/index.html`)**: 런타임 JS 없이 순수 HTML·CSS 철학을 유지하며 `/en/` 경로에 영문 소개·프로젝트 카드 3종(shashak, ToePick, IMMYME)·영문 FAQ 5문항·영문 JSON-LD(`@graph`)를 제공한다.
 - **언어 전환 스위처 및 자동 감지(`dist/styles.css`, `dist/index.html`)**: 한국어 홈(`/`)과 영문 홈(`/en/`) 상단 헤더에 `KO / EN` 캡슐 스위처와 푸터 언어 전환 링크를 배치했다. 방문자의 브라우저 기본 언어(`navigator.languages`/`navigator.language`)가 한국어(`ko`)가 아닌 경우 자동으로 `/en/`으로 이동하며, 사용자가 `KO` 버튼을 직접 눌러 전환한 경우 `localStorage`에 선택을 기억해 강제 리다이렉트하지 않는다. `:lang(en)` 선택자로 영문 헤드라인 자간·크기를 보정해 360·768·1440px 전 구간에서 가로 넘침이 없도록 구성했다.
 - **다국어 SEO·GEO 연동**: 양방향 `hreflang="ko|en|x-default"` 태그, `dist/sitemap.xml`의 `xhtml:link` 다국어 매핑, `vercel.json`의 `/en` 리라이트, 한·영 병기 `dist/404.html`, 그리고 `dist/llms.txt`·`dist/llms-full.txt`의 영문 안내를 반영했다.
+
+## 한·영 첫 페이지 디자인·문구 정리 (2026-11-05)
+
+- 한국어 제목은 “궁금한 건 직접 만들어봅니다.”, 영문 제목은 “If I’m curious, I build it.”로 바꾸고 좁은 모바일에서도 한 줄로 표시한다.
+- 두 언어의 홈에서 같은 `dist/home.css`를 불러온다. 로고·제목·메뉴 크기와 상하 여백을 줄이고, 프로젝트 카드의 스티커·별·배경 선·영문 슬로건·태그·테두리·그림자를 제거했다.
+- 프로젝트별 옅은 색상 배경과 120px 앱 아이콘, 짧은 설명, 설치 플랫폼, “둘러보기 / Explore” 링크를 배치했다. 카드 배경 높이는 데스크톱 164px, 모바일 152px다.
+- 반복 소개 FAQ는 설치 여부·문의처 두 항목의 이용 안내로 정리하고 각 언어의 JSON-LD FAQ도 일치시켰다.
+- 기존 프로젝트 링크·KO/EN 전환·블로그·후기를 유지한다. 공유 스타일과 블로그·후기 페이지는 변경하지 않았다.
+- 검증: 360·1440px에서 가로 넘침·이미지 누락 없음과 제목 한 줄 표시를 확인했다. 영문 직접 진입, KO↔EN 전환, 프로젝트 링크 3개, 로컬 자산·레이블 ID·FAQ JSON-LD와 `git diff --check`도 확인했다. 프레임워크 빌드가 없는 정적 사이트다.
+- 운영 배포는 기존 Vercel `minlabs` 프로젝트와 GitHub `northfacee/minlabs`의 `main` 연결을 사용한다.
+- 로컬 확인: `python3 -m http.server 4180 --directory dist --bind 127.0.0.1`.

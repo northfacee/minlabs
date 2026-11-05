@@ -1,0 +1,63 @@
+/* Homepage-specific styling; other pages keep their existing design. */
+.home {
+  --home-muted: #615c6a;
+  --home-rule: #19181e25;
+}
+.home header { height: 72px; border-bottom: 0; }
+.home .brand { gap: 8px; font-size: 25px; letter-spacing: -1.3px; }
+.home .brand-symbol { width: 54px; height: 34px; }
+.home nav { gap: 24px; font-size: 14px; font-weight: 500; }
+.home-intro { padding: 28px 0; }
+.home-intro h1 { font-size: clamp(28px, 3vw, 40px); font-weight: 700; line-height: 1.35; letter-spacing: -1.5px; white-space: nowrap; }
+.home-intro > p { margin-top: 10px; font-size: 14px; color: var(--home-muted); line-height: 1.7; }
+.home .lang-switch { background: transparent; border: 0; box-shadow: none; padding: 0; gap: 12px; }
+.home .lang-option { padding: 6px 0; border: 0; border-radius: 0; }
+.home .lang-option.active { background: transparent; border: 0; color: var(--purple); }
+.home .projects-header { padding: 20px 0; }
+.home .projects-header h2 { font-size: 16px; font-weight: 650; }
+.home .projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.home .project-card { background: transparent; border: 0; border-radius: 0; box-shadow: none; transition: none; }
+.home .project-card:hover { transform: none; box-shadow: none; }
+.home .project-visual { height: 164px; border: 0; border-radius: 10px; display: grid; place-items: center; }
+.home .shashak-visual { background: color-mix(in srgb, var(--peach) 28%, #faf9f6); }
+.home .toe-visual { background: color-mix(in srgb, var(--mint) 28%, #faf9f6); }
+.home .immy-visual { background: color-mix(in srgb, var(--purple) 10%, #faf9f6); }
+.home .app-icon,
+.home .project-card:hover .app-icon { position: static; width: 120px; height: 120px; border: 0; border-radius: 28px; box-shadow: none; transform: none; transition: none; }
+.home .project-copy { padding: 20px 0 0; }
+.home .project-copy > h3 { font-size: 24px; font-weight: 750; line-height: 1.4; letter-spacing: -.7px; }
+.home .project-description { margin-top: 8px; font-size: 14px; color: var(--home-muted); line-height: 1.85; }
+.home .project-bottom { border: 0; margin-top: 16px; padding-top: 0; min-height: 36px; }
+.home-platform { color: var(--home-muted); font-size: 12px; }
+.home .project-cta { font-size: 13px; font-weight: 600; }
+.home .project-card:hover .project-cta { color: var(--purple); }
+.home-guide { display: grid; grid-template-columns: 160px 1fr; gap: 28px; margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--home-rule); }
+.home-guide > h2 { font-size: 18px; letter-spacing: -.5px; }
+.home-guide-items { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.home-guide h3 { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+.home-guide p { color: var(--home-muted); font-size: 12px; line-height: 1.85; }
+.home-guide a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+@media (max-width: 1080px) {
+  .home .projects-grid { gap: 20px; }
+  .home-guide { grid-template-columns: 120px 1fr; gap: 20px; }
+  .home-guide-items { gap: 20px; }
+  .home-guide br { display: none; }
+}
+@media (max-width: 700px) {
+  .home header { height: 64px; }
+  .home .brand { gap: 7px; font-size: 21px; }
+  .home .brand-symbol { width: 42px; height: 27px; }
+  .home nav { gap: 12px; font-size: 11px; }
+  .home .lang-switch { gap: 8px; }
+  .home-intro { padding: 20px 0 24px; }
+  .home-intro h1 { font-size: clamp(20px, 5.7vw, 38px); letter-spacing: -1px; }
+  .home-intro > p { margin-top: 10px; font-size: 13px; }
+  .home .projects-grid { grid-template-columns: 1fr; gap: 32px; }
+  .home .project-visual { height: 152px; }
+  .home .project-copy { padding-top: 16px; }
+  .home .project-copy > h3 { font-size: 23px; }
+  .home-guide { grid-template-columns: 1fr; gap: 22px; margin-top: 36px; padding-top: 24px; }
+  .home-guide-items { grid-template-columns: 1fr; gap: 24px; }
+  .home-guide h3 { font-size: 15px; }
+  .home-guide p { font-size: 13px; }
+}
