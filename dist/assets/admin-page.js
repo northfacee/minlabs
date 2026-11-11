@@ -2,14 +2,13 @@
   const Store = window.MinlabsStore;
   if (!Store) return;
 
-  // Security Constants (Salted SHA-256 — plaintext password is never stored in code)
+  // Security Constants (Salted SHA-256)
   const PW_SALT = 'minlabs-cms-salt-2026::';
   const DEFAULT_PW_HASH = '1e8f8de04d53a48af90640dc394028ff4a9521e13cc9ba161a7820434978dfae';
   const CUSTOM_HASH_KEY = 'minlabs_admin_pw_hash_v1';
   const LOCKOUT_KEY = 'minlabs_admin_lockout_v1';
-  const SESSION_DURATION_MS = 30 * 60 * 1000; // 30 minutes
+  const SESSION_DURATION_MS = 30 * 60 * 1000;
 
-  // Auth Gate Elements
   const workspaceEl = document.getElementById('admin-protected-workspace');
   const loginForm = document.getElementById('admin-login-form');
   const pwInput = document.getElementById('current-password');
@@ -29,7 +28,6 @@
   let editorType = 'blog';
   let currentTags = [];
 
-  // List View Elements
   const listContainer = document.getElementById('admin-post-list');
   const filterTabs = document.querySelectorAll('#admin-filter-tabs .admin-tab');
   const searchInput = document.getElementById('admin-search-input');
@@ -37,18 +35,12 @@
   const btnExportJson = document.getElementById('btn-export-json');
   const btnResetDefaults = document.getElementById('btn-reset-defaults');
 
-  // Editor View Elements
   const typeBtns = document.querySelectorAll('[data-editor-type]');
   const edCategory = document.getElementById('ed-category');
   const edFeatured = document.getElementById('ed-featured');
   const btnToggleDrawer = document.getElementById('btn-toggle-card-drawer');
   const cardDrawer = document.getElementById('velog-card-drawer');
-  const edSublabel = document.getElementById('ed-sublabel');
   const edIconType = document.getElementById('ed-icon-type');
-  const edBannerLine1 = document.getElementById('ed-banner-line1');
-  const edBannerHl = document.getElementById('ed-banner-hl');
-  const edBannerLine2 = document.getElementById('ed-banner-line2');
-  const edThemeColor = document.getElementById('ed-theme-color');
   const edSummary = document.getElementById('ed-summary');
   const edTitle = document.getElementById('ed-title');
   const edTagsList = document.getElementById('ed-tags-list');
@@ -70,10 +62,9 @@
     clearTimeout(showToast._timer);
     showToast._timer = setTimeout(() => {
       toastEl.classList.remove('show');
-    }, 2600);
+    }, 2400);
   }
 
-  // ==================== CRYPTO & SECURITY LOGIC ====================
   async function sha256Hex(text) {
     const encoder = new TextEncoder();
     const data = encoder.encode(PW_SALT + text);
@@ -129,7 +120,7 @@
     );
     document.body.classList.add('is-unlocked');
     if (workspaceEl) workspaceEl.removeAttribute('inert');
-    document.title = '어드민 · 글 관리 및 에디터 | Minlabs';
+    document.title = '글 관리 | Minlabs';
     initWorkspaceAfterAuth();
   }
 
@@ -206,11 +197,10 @@
       const newHash = await sha256Hex(val);
       localStorage.setItem(CUSTOM_HASH_KEY, newHash);
       pwDialog.close();
-      showToast('관리자 비밀번호가 안전하게 변경되었습니다.');
+      showToast('관리자 비밀번호가 변경되었습니다.');
     });
   }
 
-  // ==================== CMS WORKSPACE LOGIC ====================
   function updateCounts() {
     const all = Store.loadAllPosts();
     const publishedBlogs = all.filter(p => p.type === 'blog' && p.status !== 'draft');
@@ -247,8 +237,8 @@
     if (list.length === 0) {
       listContainer.innerHTML = `
         <div class="journal-empty">
-          <p style="font-size:16px;font-weight:800;color:var(--ink);margin:0 0 8px;">등록된 글이 없습니다.</p>
-          <p style="margin:0;font-size:14px;">우측 상단의 '+ 새 글 작성' 버튼을 눌러 블로그나 후기 글을 작성해보세요.</p>
+          <p style="font-size:15px;font-weight:650;color:var(--ink);margin-bottom:6px;">등록된 글이 없습니다.</p>
+          <p style="font-size:13.5px;">우측 상단의 '+ 새 글 작성' 버튼을 눌러 글을 추가해보세요.</p>
         </div>
       `;
       return;
@@ -257,35 +247,33 @@
     listContainer.innerHTML = list
       .map(post => {
         const typeBadge = post.type === 'review'
-          ? '<span class="badge-type-review">후기 (Reviews)</span>'
-          : '<span class="badge-type-blog">블로그 (Blog)</span>';
+          ? '<span class="badge-type-review">후기</span>'
+          : '<span class="badge-type-blog">블로그</span>';
         const draftBadge = post.status === 'draft'
           ? '<span class="badge-draft">임시저장</span>'
           : '';
         const featuredBadge = post.featured
-          ? '<span class="badge-featured">★ EDITOR\'S PICK</span>'
+          ? '<span class="badge-featured">상단 고정</span>'
           : '';
         const tagsText = (post.tags || []).map(t => `#${Store.escapeHtml(t)}`).join(' ');
 
         return `
           <div class="admin-post-row">
-            <div class="admin-row-thumb">
-              ${Store.renderThumbnailHTML(post, false)}
-            </div>
             <div class="admin-row-info">
               <div class="admin-row-badges">
+                ${Store.getMiniIconHTML(post)}
                 ${typeBadge}
                 ${draftBadge}
                 ${featuredBadge}
-                <span style="font-size:12px;color:var(--purple);font-weight:750;">${Store.escapeHtml(post.category)}</span>
+                <span style="font-weight:650;color:var(--ink);">${Store.escapeHtml(post.category)}</span>
               </div>
               <h3 class="admin-row-title">${Store.escapeHtml(post.title)}</h3>
-              <p class="admin-row-summary">${Store.escapeHtml(post.summary)}</p>
-              <div class="admin-row-meta">${Store.escapeHtml(post.date)} · ${post.readMin || 5} MIN · ${tagsText}</div>
+              <p class="admin-row-summary">${Store.escapeHtml(Store.cleanSummary(post.summary))}</p>
+              <div class="admin-row-meta">${Store.escapeHtml(post.date)} ${tagsText ? `· ${tagsText}` : ''}</div>
             </div>
             <div class="admin-row-actions">
               <button type="button" class="row-btn" data-action="edit" data-id="${Store.escapeHtml(post.id)}">수정</button>
-              <button type="button" class="row-btn" data-action="feature" data-id="${Store.escapeHtml(post.id)}" title="상단 대표글로 지정">대표글 ★</button>
+              <button type="button" class="row-btn" data-action="feature" data-id="${Store.escapeHtml(post.id)}">상단 고정</button>
               <button type="button" class="row-btn" data-action="switch-type" data-id="${Store.escapeHtml(post.id)}">${post.type === 'review' ? '→ 블로그로' : '→ 후기로'}</button>
               <a class="row-btn" href="/post.html?id=${encodeURIComponent(post.id)}" target="_blank">보기 ↗</a>
               <button type="button" class="row-btn row-btn-danger" data-action="delete" data-id="${Store.escapeHtml(post.id)}">삭제</button>
@@ -304,14 +292,14 @@
         } else if (action === 'feature') {
           Store.setFeaturedPost(id);
           renderAdminList();
-          showToast('상단 대표글(EDITOR\'S PICK)로 설정되었습니다.');
+          showToast('목록 상단에 고정되었습니다.');
         } else if (action === 'switch-type') {
           const target = Store.getPostById(id);
           if (target) {
             target.type = target.type === 'review' ? 'blog' : 'review';
             Store.savePost(target);
             renderAdminList();
-            showToast(`${target.type === 'review' ? '후기' : '블로그'} 게시판으로 이동되었습니다.`);
+            showToast(`${target.type === 'review' ? '후기' : '블로그'} 목록으로 이동했습니다.`);
           }
         } else if (action === 'delete') {
           if (window.confirm('이 글을 삭제하시겠습니까?')) {
@@ -349,7 +337,7 @@
 
   function buildDraftObject(statusOverride) {
     const titleVal = edTitle.value.trim() || '제목을 입력하세요';
-    const catVal = edCategory.value.trim() || (editorType === 'review' ? '서비스 후기' : 'Minlabs');
+    const catVal = edCategory.value.trim() || (editorType === 'review' ? '후기' : 'Minlabs');
     const existing = editingId ? Store.getPostById(editingId) : null;
 
     return {
@@ -358,59 +346,32 @@
       status: statusOverride || 'published',
       featured: edFeatured.checked,
       category: catVal,
-      subLabel: edSublabel.value.trim() || (editorType === 'review' ? '실사용 후기 · 스토리' : `${catVal} · 아티클`),
-      bannerLine1: edBannerLine1.value.trim(),
-      bannerHighlight: edBannerHl.value.trim(),
-      bannerLine2: edBannerLine2.value.trim(),
       iconType: edIconType.value,
-      themeColor: edThemeColor.value,
+      thumbnailImage: existing ? existing.thumbnailImage : '',
       summary: edSummary.value.trim(),
       title: titleVal,
       tags: currentTags.length ? currentTags.slice() : [catVal.replace(/\s+/g, '')],
       date: existing ? existing.date : undefined,
-      views: existing ? existing.views : 150,
       content: edBody.value
     };
   }
 
   function updateLivePreview() {
     const temp = buildDraftObject('published');
-    const auto = Store.autoBannerFromTitle(temp.title, temp.category);
     const previewPost = Object.assign({}, temp, {
-      bannerLine1: temp.bannerLine1 || auto.bannerLine1,
-      bannerHighlight: temp.bannerHighlight || auto.bannerHighlight,
-      bannerLine2: temp.bannerLine2 || auto.bannerLine2,
-      summary: temp.summary
-        ? (temp.summary.startsWith('핵심 요약') ? temp.summary : `핵심 요약 ${temp.summary}`)
-        : `핵심 요약 ${(temp.content || '본문을 입력하면 이곳에 요약이 자동으로 표시됩니다.').replace(/[#>*`]/g, '').slice(0, 95)}...`,
-      date: temp.date || '2026.10.23',
-      readMin: Store.calcReadMinutes(temp.content)
+      summary: Store.cleanSummary(temp.summary) ||
+        `${(temp.content || '본문을 입력하면 이곳에 요약이 표시됩니다.').replace(/[#>*`]/g, '').trim().slice(0, 110)}`,
+      date: temp.date || '2026.11.11'
     });
-
-    const tagsHtml = (previewPost.tags || [])
-      .slice(0, 3)
-      .map(t => `<span class="journal-tag-chip">#${Store.escapeHtml(t)}</span>`)
-      .join('');
 
     edCardPreview.innerHTML = `
       <div class="journal-card" style="pointer-events:none;">
-        <div class="journal-card-thumb-frame">
-          ${Store.renderThumbnailHTML(previewPost, false)}
-        </div>
-        <div class="journal-card-body">
-          <h3 class="journal-card-title">${Store.escapeHtml(previewPost.title)}</h3>
-          <p class="journal-card-summary">${Store.escapeHtml(previewPost.summary)}</p>
-          <div class="journal-card-tags">${tagsHtml}</div>
-          <div class="journal-card-meta">
-            <span>${Store.escapeHtml(previewPost.date)} &nbsp;·&nbsp; ${previewPost.readMin} MIN</span>
-            <span class="card-arrow-circle" aria-hidden="true">↗</span>
-          </div>
-        </div>
+        ${Store.renderCardBodyInnerHTML(previewPost)}
       </div>
     `;
 
     edPreviewTitle.textContent = previewPost.title;
-    edBodyPreview.innerHTML = Store.renderMarkdown(temp.content || '*당신의 이야기를 적어보세요...*');
+    edBodyPreview.innerHTML = Store.renderMarkdown(temp.content || '*내용을 작성하면 여기에 표시됩니다.*');
   }
 
   function openEditor(postId, defaultType) {
@@ -421,26 +382,16 @@
       setEditorType(existing.type);
       edCategory.value = existing.category || '';
       edFeatured.checked = Boolean(existing.featured);
-      edSublabel.value = existing.subLabel || '';
-      edIconType.value = existing.iconType || 'toepick';
-      edBannerLine1.value = existing.bannerLine1 || '';
-      edBannerHl.value = existing.bannerHighlight || '';
-      edBannerLine2.value = existing.bannerLine2 || '';
-      edThemeColor.value = ['mint', 'purple', 'lime', 'pink', 'cream'].includes(existing.themeColor) ? existing.themeColor : 'mint';
-      edSummary.value = existing.summary || '';
+      edIconType.value = existing.iconType || 'compilot';
+      edSummary.value = Store.cleanSummary(existing.summary || '');
       edTitle.value = existing.title || '';
       currentTags = Array.isArray(existing.tags) ? existing.tags.slice() : [];
       edBody.value = existing.content || '';
     } else {
       setEditorType(defaultType || (currentFilter === 'review' ? 'review' : 'blog'));
-      edCategory.value = editorType === 'review' ? 'ToePick 후기' : 'ToePick';
+      edCategory.value = 'Compilot';
       edFeatured.checked = false;
-      edSublabel.value = '';
-      edIconType.value = editorType === 'review' ? 'star' : 'toepick';
-      edBannerLine1.value = '';
-      edBannerHl.value = '';
-      edBannerLine2.value = '';
-      edThemeColor.value = editorType === 'review' ? 'purple' : 'mint';
+      edIconType.value = 'compilot';
       edSummary.value = '';
       edTitle.value = '';
       currentTags = [];
@@ -495,10 +446,10 @@
 
   if (btnResetDefaults) {
     btnResetDefaults.addEventListener('click', () => {
-      if (window.confirm('기본 샘플 글(블로그 6개, 후기 6개) 상태로 초기화하시겠습니까?')) {
+      if (window.confirm('기본 글 목록으로 초기화하시겠습니까?')) {
         Store.resetToDefaults();
         renderAdminList();
-        showToast('기본 샘플 데이터가 복원되었습니다.');
+        showToast('기본 글 목록으로 복원되었습니다.');
       }
     });
   }
@@ -515,7 +466,7 @@
     });
   }
 
-  // IME-safe Tag Input Handler (per modern-web-guidance: ime-safe-enter-submit)
+  // IME-safe Tag Input Handler
   if (edTagInput) {
     edTagInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ',') {
@@ -568,7 +519,7 @@
         replacement = `~~${selected || '취소선 텍스트'}~~`;
         break;
       case 'quote':
-        replacement = `\n> ${selected || '인용구 내용을 입력하세요.'}\n`;
+        replacement = `\n> ${selected || '인용구 내용'}\n`;
         break;
       case 'link': {
         const url = window.prompt('연결할 URL을 입력하세요:', 'https://');
@@ -580,7 +531,7 @@
         edImageFile.click();
         return;
       case 'code':
-        replacement = `\n\`\`\`\n${selected || '// 코드를 입력하세요'}\n\`\`\`\n`;
+        replacement = `\n\`\`\`\n${selected || '// 코드'}\n\`\`\`\n`;
         break;
       default:
         return;
@@ -616,11 +567,7 @@
     });
   }
 
-  [
-    edTitle, edCategory, edFeatured, edSublabel,
-    edIconType, edBannerLine1, edBannerHl, edBannerLine2,
-    edThemeColor, edSummary, edBody
-  ].forEach(el => {
+  [edTitle, edCategory, edFeatured, edIconType, edSummary, edBody].forEach(el => {
     if (!el) return;
     el.addEventListener('input', updateLivePreview);
     el.addEventListener('change', updateLivePreview);
@@ -655,10 +602,10 @@
       const saved = Store.savePost(buildDraftObject('published'));
       editingId = saved.id;
       const targetName = saved.type === 'review' ? '후기' : '블로그';
-      showToast(`${targetName} 페이지에 성공적으로 출간되었습니다!`);
+      showToast(`${targetName} 목록에 게시되었습니다.`);
       setTimeout(() => {
         closeEditor();
-      }, 650);
+      }, 550);
     });
   }
 
@@ -672,7 +619,6 @@
     }
   }
 
-  // Initial Boot: Check if session is already unlocked
   checkLockoutTimer();
   if (Store.isAdminAuthenticated()) {
     unlockWorkspace();

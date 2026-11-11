@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#faf9f6">
   <title>블로그 | Minlabs</title>
-  <meta name="description" content="아이디어를 실행하며 기록하는 Minlabs의 개발 노트, 아키텍처, 프로덕트 인사이트를 만나보세요.">
+  <meta name="description" content="Compilot, LEFT IN LIFE, 샤샥, ToePick, IMMYME를 만들고 다듬으며 남긴 Minlabs의 개발 기록입니다.">
   <meta name="robots" content="index, follow">
   <meta property="og:site_name" content="Minlabs">
   <meta property="og:title" content="블로그 | Minlabs">
-  <meta property="og:description" content="아이디어를 실행하며 기록하는 Minlabs의 개발 노트와 특별한 소식들을 만나보세요.">
+  <meta property="og:description" content="서비스를 만들고 다듬으며 남긴 Minlabs의 개발 기록입니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://minlabs.app/blog.html">
   <meta property="og:image" content="https://minlabs.app/assets/og-image.png">
@@ -17,14 +17,15 @@
   <link rel="icon" href="/assets/favicon.svg?v=10" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=10" sizes="180x180">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/journal.css?v=9">
+  <link rel="stylesheet" href="/styles.css?v=12">
+  <link rel="stylesheet" href="/journal.css?v=12">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Blog",
     "@id": "https://minlabs.app/blog.html#blog",
     "name": "Minlabs 블로그",
-    "description": "아이디어를 실행하며 기록하는 Minlabs의 개발 노트와 특별한 소식들을 만나보세요.",
+    "description": "서비스를 만들고 다듬으며 남긴 Minlabs의 개발 기록입니다.",
     "url": "https://minlabs.app/blog.html",
     "inLanguage": "ko-KR",
     "publisher": {
@@ -35,57 +36,47 @@
   }
   </script>
 </head>
-<body class="journal-body" data-page-type="blog">
-  <div class="journal-shell">
-    <header class="journal-header">
-      <a class="journal-brand" href="/" aria-label="Minlabs 홈">
-        <img class="journal-brand-symbol" src="/assets/minlabs-symbol.svg?v=10" alt="" width="67" height="42">
-        <span>minlabs<span class="journal-brand-period">.</span></span>
+<body data-page-type="blog">
+  <a class="skip" href="#main">본문으로 이동</a>
+  <div class="page-shell">
+    <header>
+      <a class="brand" href="/" aria-label="Minlabs 홈">
+        <img class="brand-symbol" src="/assets/minlabs-symbol.svg?v=10" alt="" width="50" height="32">
+        <span>minlabs<span class="brand-period">.</span></span>
       </a>
-      <nav class="journal-nav" aria-label="주 메뉴">
-        <a class="journal-nav-link active" href="/blog.html">블로그</a>
-        <a class="journal-nav-link" href="/reviews.html">후기</a>
-        <a class="journal-nav-link" href="mailto:support@minlabs.app">문의하기</a>
+      <nav aria-label="주 메뉴">
+        <a class="nav-link active" href="/blog.html" aria-current="page">블로그</a>
+        <a class="nav-link" href="/reviews.html">후기</a>
+        <div class="lang-switch" role="group" aria-label="언어 선택">
+          <a class="lang-option active" href="/blog.html" lang="ko" aria-current="true">KO</a>
+          <a class="lang-option" href="/en/" lang="en">EN</a>
+        </div>
       </nav>
     </header>
 
-    <main>
-      <section class="journal-hero-top" aria-labelledby="blog-page-title">
-        <p class="journal-eyebrow">MINLABS JOURNAL</p>
-        <div>
-          <h1 id="blog-page-title" class="journal-title">블로그</h1><span class="journal-title-asterisk" aria-hidden="true">✳</span>
-        </div>
-        <div class="journal-sub-row">
-          <p class="journal-subtitle">아이디어를 실행하며 기록하는 Minlabs의 개발 노트와 특별한 소식들을 만나보세요.</p>
-          <div class="journal-search-wrap">
-            <span class="journal-search-icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-            </span>
-            <label for="journal-search-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">글 검색</label>
-            <input id="journal-search-input" class="journal-search-input" type="search" placeholder="글 검색" autocomplete="off">
-            <kbd class="journal-kbd">⌘K</kbd>
-          </div>
-        </div>
+    <main id="main" tabindex="-1">
+      <section class="journal-intro" aria-labelledby="blog-page-title">
+        <h1 id="blog-page-title" class="journal-title">블로그</h1>
+        <p class="journal-subtitle">서비스를 만들고 다듬으며 남긴 개발 기록입니다.</p>
       </section>
 
-      <section class="journal-toolbar" aria-label="카테고리 필터 및 정렬">
+      <section class="journal-toolbar" aria-label="카테고리 필터 및 검색">
         <div id="journal-tags-bar" class="journal-tags-bar"></div>
-        <div class="journal-sort-right">
-          <span class="post-count-text"><strong id="post-count-num">0</strong> POSTS</span>
-          <div class="sort-switch" role="group" aria-label="정렬 기준">
-            <button type="button" class="sort-btn active" data-sort="latest">최신순</button>
-            <button type="button" class="sort-btn" data-sort="popular">인기순</button>
-          </div>
+        <div class="journal-search-wrap">
+          <span class="journal-search-icon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          </span>
+          <label for="journal-search-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">글 검색</label>
+          <input id="journal-search-input" class="journal-search-input" type="search" placeholder="검색" autocomplete="off">
         </div>
       </section>
 
-      <div id="journal-hero-container"></div>
       <div id="journal-grid" class="journal-grid"></div>
     </main>
 
-    <footer class="journal-footer">
-      <span>© 2026 Minlabs.</span>
-      <div class="journal-footer-links">
+    <footer>
+      <p>© 2026 Minlabs.</p>
+      <div class="footer-links">
         <a href="/">홈</a>
         <a href="/blog.html">블로그</a>
         <a href="/reviews.html">후기</a>
@@ -94,7 +85,7 @@
     </footer>
   </div>
 
-  <script src="/assets/posts-store.js?v=10"></script>
-  <script src="/assets/journal-page.js?v=10"></script>
+  <script src="/assets/posts-store.js?v=12"></script>
+  <script src="/assets/journal-page.js?v=12"></script>
 </body>
 </html>

@@ -9,18 +9,30 @@
   <link rel="icon" href="/assets/favicon.svg?v=10" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=10" sizes="180x180">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/styles.css?v=11">
+  <link rel="stylesheet" href="/styles.css?v=12">
 </head>
 <body>
-  <main class="page-shell not-found">
-    <a class="brand" href="/"><img class="brand-symbol" src="/assets/minlabs-symbol.svg?v=10" alt="" width="67" height="42"><span>minlabs<span class="brand-period">.</span></span></a>
-    <p class="section-label">404 · PAGE NOT FOUND</p>
-    <h1>이 페이지는 찾을 수 없어요.</h1>
-    <p>주소가 바뀌었거나 없는 페이지예요. Minlabs 홈에서 서비스를 찾아보세요.<br><span lang="en">The page you are looking for has moved or doesn't exist.</span></p>
-    <div class="not-found-actions">
-      <a class="home-link" href="/">Minlabs 홈으로 돌아가기 →</a>
-      <a class="home-link" href="/en/" lang="en">Go to English Home →</a>
-    </div>
-  </main>
+  <div class="page-shell">
+    <header>
+      <a class="brand" href="/" aria-label="Minlabs 홈"><img class="brand-symbol" src="/assets/minlabs-symbol.svg?v=10" alt="" width="50" height="32"><span>minlabs<span class="brand-period">.</span></span></a>
+      <nav aria-label="주 메뉴">
+        <a class="nav-link" href="/blog.html">블로그</a>
+        <a class="nav-link" href="/reviews.html">후기</a>
+        <div class="lang-switch" role="group" aria-label="언어 선택">
+          <a class="lang-option active" href="/" lang="ko">KO</a>
+          <a class="lang-option" href="/en/" lang="en">EN</a>
+        </div>
+      </nav>
+    </header>
+    <main class="not-found-wrap">
+      <p class="not-found-code">404</p>
+      <h1>이 페이지는 찾을 수 없어요.</h1>
+      <p>주소가 바뀌었거나 삭제된 페이지예요. 홈에서 프로젝트를 둘러보세요.<br><span lang="en">The page you’re looking for has moved or doesn’t exist.</span></p>
+      <div class="not-found-actions">
+        <a class="home-link" href="/">한국어 홈으로 이동 →</a>
+        <a class="home-link" href="/en/" lang="en">Go to English Home →</a>
+      </div>
+    </main>
+  </div>
 </body>
 </html>

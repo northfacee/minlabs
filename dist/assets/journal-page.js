@@ -5,7 +5,7 @@
   const pageType = document.body.getAttribute('data-page-type');
 
   // Secret 5-click on footer copyright to enter Admin
-  const footerCopy = document.querySelector('.journal-footer > span, footer > p');
+  const footerCopy = document.querySelector('footer > p');
   if (footerCopy) {
     let clickCount = 0;
     let timer = null;
@@ -29,26 +29,19 @@
 
   function initListPage(type) {
     let activeTag = '전체';
-    let currentSort = 'latest';
     let searchQuery = '';
 
     const tagsBarEl = document.getElementById('journal-tags-bar');
-    const heroContainerEl = document.getElementById('journal-hero-container');
     const gridEl = document.getElementById('journal-grid');
-    const countNumEl = document.getElementById('post-count-num');
     const searchInputEl = document.getElementById('journal-search-input');
-    const sortButtons = document.querySelectorAll('[data-sort]');
 
     function collectFilterTags() {
       const allOfType = Store.getPosts({ type });
-      const tagSet = new Set();
+      const catSet = new Set();
       allOfType.forEach(p => {
-        if (p.category) tagSet.add(p.category);
-        if (Array.isArray(p.tags)) {
-          p.tags.forEach(t => tagSet.add(t));
-        }
+        if (p.category) catSet.add(p.category);
       });
-      return ['전체', ...Array.from(tagSet).slice(0, 7)];
+      return ['전체', ...Array.from(catSet)];
     }
 
     function renderFilterPills() {
@@ -71,76 +64,30 @@
     }
 
     function renderPosts() {
+      if (!gridEl) return;
       const posts = Store.getPosts({
         type,
         tag: activeTag,
-        query: searchQuery,
-        sort: currentSort
+        query: searchQuery
       });
 
-      if (countNumEl) {
-        countNumEl.textContent = String(posts.length);
-      }
-
       if (posts.length === 0) {
-        if (heroContainerEl) heroContainerEl.innerHTML = '';
-        if (gridEl) {
-          gridEl.innerHTML = `
-            <div class="journal-empty" style="grid-column: 1 / -1;">
-              <p style="font-size: 16px; font-weight: 800; color: #19181e; margin: 0 0 8px;">조건에 맞는 글이 없어요.</p>
-              <p style="margin: 0; font-size: 14px;">다른 검색어나 태그를 선택해보세요.</p>
-            </div>
-          `;
-        }
+        gridEl.innerHTML = `
+          <div class="journal-empty">
+            <p style="font-size: 15px; font-weight: 650; color: var(--ink); margin-bottom: 6px;">일치하는 글이 없어요.</p>
+            <p style="font-size: 13.5px;">다른 검색어나 카테고리를 선택해보세요.</p>
+          </div>
+        `;
         return;
       }
 
-      let heroPost = posts.find(p => p.featured) || posts[0];
-      const gridPosts = posts.filter(p => p.id !== heroPost.id);
-
-      if (heroContainerEl) {
-        heroContainerEl.innerHTML = `
-          <a class="hero-card" href="/post.html?id=${encodeURIComponent(heroPost.id)}">
-            ${Store.renderThumbnailHTML(heroPost, true)}
-            <div class="hero-card-body">
-              <div class="hero-badges">
-                <span class="editors-pick-pill">EDITOR'S PICK</span>
-                <span class="hero-cat-text">${Store.escapeHtml(heroPost.category)}</span>
-              </div>
-              <h2 class="hero-title">${Store.escapeHtml(heroPost.title)}</h2>
-              <p class="hero-summary">${Store.escapeHtml(heroPost.summary)}</p>
-              <div class="hero-meta">${Store.escapeHtml(heroPost.date)} &nbsp;·&nbsp; ${heroPost.readMin || 5} MIN READ</div>
-            </div>
+      gridEl.innerHTML = posts
+        .map(post => `
+          <a class="journal-card" href="/post.html?id=${encodeURIComponent(post.id)}">
+            ${Store.renderCardBodyInnerHTML(post)}
           </a>
-        `;
-      }
-
-      if (gridEl) {
-        gridEl.innerHTML = gridPosts
-          .map(post => {
-            const tagsHtml = (post.tags || [])
-              .slice(0, 3)
-              .map(t => `<span class="journal-tag-chip">#${Store.escapeHtml(t)}</span>`)
-              .join('');
-            return `
-              <a class="journal-card" href="/post.html?id=${encodeURIComponent(post.id)}">
-                <div class="journal-card-thumb-frame">
-                  ${Store.renderThumbnailHTML(post, false)}
-                </div>
-                <div class="journal-card-body">
-                  <h3 class="journal-card-title">${Store.escapeHtml(post.title)}</h3>
-                  <p class="journal-card-summary">${Store.escapeHtml(post.summary)}</p>
-                  <div class="journal-card-tags">${tagsHtml}</div>
-                  <div class="journal-card-meta">
-                    <span>${Store.escapeHtml(post.date)} &nbsp;·&nbsp; ${post.readMin || 5} MIN</span>
-                    <span class="card-arrow-circle" aria-hidden="true">↗</span>
-                  </div>
-                </div>
-              </a>
-            `;
-          })
-          .join('');
-      }
+        `)
+        .join('');
     }
 
     if (searchInputEl) {
@@ -149,21 +96,6 @@
         renderPosts();
       });
     }
-
-    document.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        if (searchInputEl) searchInputEl.focus();
-      }
-    });
-
-    sortButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentSort = btn.getAttribute('data-sort') || 'latest';
-        sortButtons.forEach(b => b.classList.toggle('active', b === btn));
-        renderPosts();
-      });
-    });
 
     window.addEventListener('storage', () => {
       renderFilterPills();
@@ -184,9 +116,9 @@
     if (!post) {
       container.innerHTML = `
         <div class="journal-empty">
-          <p style="font-size: 18px; font-weight: 800; color: #19181e; margin: 0 0 10px;">이 글을 찾을 수 없어요.</p>
-          <p style="margin: 0 0 20px;">삭제되었거나 잘못된 주소입니다.</p>
-          <a href="/blog.html" class="post-back-link">블로그 목록으로 이동 →</a>
+          <p style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">이 글을 찾을 수 없어요.</p>
+          <p style="margin-bottom: 18px; font-size: 14px;">삭제되었거나 잘못된 주소입니다.</p>
+          <a href="/blog.html" class="home-link">블로그 목록으로 이동 →</a>
         </div>
       `;
       return;
@@ -194,10 +126,10 @@
 
     document.title = `${post.title} | Minlabs`;
     const backHref = post.type === 'review' ? '/reviews.html' : '/blog.html';
-    const backLabel = post.type === 'review' ? '← 후기 목록으로' : '← 블로그 목록으로';
+    const backLabel = post.type === 'review' ? '← 후기 목록' : '← 블로그 목록';
 
-    const navBlog = document.querySelector('.journal-nav-link[href="/blog.html"]');
-    const navReview = document.querySelector('.journal-nav-link[href="/reviews.html"]');
+    const navBlog = document.querySelector('.nav-link[href="/blog.html"]');
+    const navReview = document.querySelector('.nav-link[href="/reviews.html"]');
     if (post.type === 'review' && navReview) navReview.classList.add('active');
     if (post.type === 'blog' && navBlog) navBlog.classList.add('active');
 
@@ -206,7 +138,11 @@
       .join('');
 
     const adminEditBtn = Store.isAdminAuthenticated()
-      ? `<a class="post-back-link" href="/admin.html?edit=${encodeURIComponent(post.id)}" style="background:#d5ff45;">글 수정 ↗</a>`
+      ? `<a class="post-edit-link" href="/admin.html?edit=${encodeURIComponent(post.id)}">글 수정</a>`
+      : '';
+
+    const coverHtml = post.thumbnailImage
+      ? `<div class="post-detail-cover"><img src="${Store.escapeHtml(post.thumbnailImage)}" alt=""></div>`
       : '';
 
     container.innerHTML = `
@@ -214,23 +150,20 @@
         <a class="post-back-link" href="${backHref}">${backLabel}</a>
         ${adminEditBtn}
       </div>
-      <div class="post-detail-card">
-        <div class="hero-badges">
-          ${post.featured ? '<span class="editors-pick-pill">EDITOR\'S PICK</span>' : ''}
-          <span class="hero-cat-text">${Store.escapeHtml(post.category)}</span>
+      <header class="post-detail-header">
+        <div class="journal-card-top" style="margin-bottom: 0;">
+          ${Store.getMiniIconHTML(post)}
+          <span class="journal-cat-label">${Store.escapeHtml(post.category)}</span>
+          <span class="journal-meta-dot" aria-hidden="true">·</span>
+          <span class="journal-date-text">${Store.escapeHtml(post.date)}</span>
         </div>
         <h1 class="post-detail-title">${Store.escapeHtml(post.title)}</h1>
-        <div class="post-detail-meta">
-          <span>${Store.escapeHtml(post.date)} &nbsp;·&nbsp; ${post.readMin || 5} MIN READ</span>
-          <div class="journal-card-tags" style="margin-top:0;">${tagsHtml}</div>
-        </div>
-        <div class="post-detail-thumb">
-          ${Store.renderThumbnailHTML(post, true)}
-        </div>
-        <article class="post-content">
-          ${Store.renderMarkdown(post.content)}
-        </article>
-      </div>
+        ${tagsHtml ? `<div class="post-detail-tags">${tagsHtml}</div>` : ''}
+      </header>
+      ${coverHtml}
+      <article class="post-content">
+        ${Store.renderMarkdown(post.content)}
+      </article>
     `;
   }
 })();

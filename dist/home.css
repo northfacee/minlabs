@@ -1,63 +1,311 @@
-/* Homepage-specific styling; other pages keep their existing design. */
-.home {
-  --home-muted: #615c6a;
-  --home-rule: #19181e25;
+/* Homepage layout & project cards */
+.home-intro {
+  padding: 30px 0 34px;
 }
-.home header { height: 72px; border-bottom: 0; }
-.home .brand { gap: 8px; font-size: 25px; letter-spacing: -1.3px; }
-.home .brand-symbol { width: 54px; height: 34px; }
-.home nav { gap: 24px; font-size: 14px; font-weight: 500; }
-.home-intro { padding: 28px 0; }
-.home-intro h1 { font-size: clamp(28px, 3vw, 40px); font-weight: 700; line-height: 1.35; letter-spacing: -1.5px; white-space: nowrap; }
-.home-intro > p { margin-top: 10px; font-size: 14px; color: var(--home-muted); line-height: 1.7; }
-.home .lang-switch { background: transparent; border: 0; box-shadow: none; padding: 0; gap: 12px; }
-.home .lang-option { padding: 6px 0; border: 0; border-radius: 0; }
-.home .lang-option.active { background: transparent; border: 0; color: var(--purple); }
-.home .projects-header { padding: 20px 0; }
-.home .projects-header h2 { font-size: 16px; font-weight: 650; }
-.home .projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-.home .project-card { background: transparent; border: 0; border-radius: 0; box-shadow: none; transition: none; }
-.home .project-card:hover { transform: none; box-shadow: none; }
-.home .project-visual { height: 164px; border: 0; border-radius: 10px; display: grid; place-items: center; }
-.home .shashak-visual { background: color-mix(in srgb, var(--peach) 28%, #faf9f6); }
-.home .toe-visual { background: color-mix(in srgb, var(--mint) 28%, #faf9f6); }
-.home .immy-visual { background: color-mix(in srgb, var(--purple) 10%, #faf9f6); }
-.home .app-icon,
-.home .project-card:hover .app-icon { position: static; width: 120px; height: 120px; border: 0; border-radius: 28px; box-shadow: none; transform: none; transition: none; }
-.home .project-copy { padding: 20px 0 0; }
-.home .project-copy > h3 { font-size: 24px; font-weight: 750; line-height: 1.4; letter-spacing: -.7px; }
-.home .project-description { margin-top: 8px; font-size: 14px; color: var(--home-muted); line-height: 1.85; }
-.home .project-bottom { border: 0; margin-top: 16px; padding-top: 0; min-height: 36px; }
-.home-platform { color: var(--home-muted); font-size: 12px; }
-.home .project-cta { font-size: 13px; font-weight: 600; }
-.home .project-card:hover .project-cta { color: var(--purple); }
-.home-guide { display: grid; grid-template-columns: 160px 1fr; gap: 28px; margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--home-rule); }
-.home-guide > h2 { font-size: 18px; letter-spacing: -.5px; }
-.home-guide-items { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-.home-guide h3 { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
-.home-guide p { color: var(--home-muted); font-size: 12px; line-height: 1.85; }
-.home-guide a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
-@media (max-width: 1080px) {
-  .home .projects-grid { gap: 20px; }
-  .home-guide { grid-template-columns: 120px 1fr; gap: 20px; }
-  .home-guide-items { gap: 20px; }
-  .home-guide br { display: none; }
+
+.home-intro h1 {
+  font-size: clamp(26px, 3.2vw, 38px);
+  font-weight: 750;
+  line-height: 1.32;
+  letter-spacing: -1.3px;
+  word-break: keep-all;
 }
-@media (max-width: 700px) {
-  .home header { height: 64px; }
-  .home .brand { gap: 7px; font-size: 21px; }
-  .home .brand-symbol { width: 42px; height: 27px; }
-  .home nav { gap: 12px; font-size: 11px; }
-  .home .lang-switch { gap: 8px; }
-  .home-intro { padding: 20px 0 24px; }
-  .home-intro h1 { font-size: clamp(20px, 5.7vw, 38px); letter-spacing: -1px; }
-  .home-intro > p { margin-top: 10px; font-size: 13px; }
-  .home .projects-grid { grid-template-columns: 1fr; gap: 32px; }
-  .home .project-visual { height: 152px; }
-  .home .project-copy { padding-top: 16px; }
-  .home .project-copy > h3 { font-size: 23px; }
-  .home-guide { grid-template-columns: 1fr; gap: 22px; margin-top: 36px; padding-top: 24px; }
-  .home-guide-items { grid-template-columns: 1fr; gap: 24px; }
-  .home-guide h3 { font-size: 15px; }
-  .home-guide p { font-size: 13px; }
+
+:lang(en) .home-intro h1 {
+  letter-spacing: -1px;
+}
+
+.home-intro > p {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+#projects {
+  scroll-margin-top: 24px;
+}
+
+.projects-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-top: 1px solid var(--rule);
+  padding: 22px 0 20px;
+}
+
+.projects-header h2 {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 36px 26px;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.project-visual {
+  height: 168px;
+  border-radius: 14px;
+  border: 1px solid rgba(25, 24, 30, 0.05);
+  display: grid;
+  place-items: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.compilot-visual {
+  background: color-mix(in srgb, var(--blue) 9%, var(--bg));
+}
+
+.leftinlife-visual {
+  background: color-mix(in srgb, var(--pink) 8%, var(--bg));
+}
+
+.shashak-visual {
+  background: color-mix(in srgb, var(--peach) 24%, var(--bg));
+}
+
+.toe-visual {
+  background: color-mix(in srgb, var(--mint) 24%, var(--bg));
+}
+
+.immy-visual {
+  background: color-mix(in srgb, var(--purple) 7.5%, var(--bg));
+}
+
+.project-card:hover .compilot-visual {
+  background: color-mix(in srgb, var(--blue) 13%, var(--bg));
+  border-color: rgba(25, 24, 30, 0.11);
+}
+
+.project-card:hover .leftinlife-visual {
+  background: color-mix(in srgb, var(--pink) 12%, var(--bg));
+  border-color: rgba(25, 24, 30, 0.11);
+}
+
+.project-card:hover .shashak-visual {
+  background: color-mix(in srgb, var(--peach) 31%, var(--bg));
+  border-color: rgba(25, 24, 30, 0.11);
+}
+
+.project-card:hover .toe-visual {
+  background: color-mix(in srgb, var(--mint) 32%, var(--bg));
+  border-color: rgba(25, 24, 30, 0.11);
+}
+
+.project-card:hover .immy-visual {
+  background: color-mix(in srgb, var(--purple) 11%, var(--bg));
+  border-color: rgba(25, 24, 30, 0.11);
+}
+
+.app-icon {
+  width: 102px;
+  height: 102px;
+  border-radius: 23px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px -8px rgba(25, 24, 30, 0.16), 0 0 0 1px rgba(25, 24, 30, 0.06);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease;
+}
+
+.app-icon picture,
+.app-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Balance inner frame proportion for Compilot's nested icon */
+.compilot-visual .app-icon img {
+  transform: scale(1.13);
+}
+
+.project-card:hover .app-icon {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px -10px rgba(25, 24, 30, 0.22), 0 0 0 1px rgba(25, 24, 30, 0.09);
+}
+
+.project-copy {
+  padding: 16px 2px 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.project-copy > h3 {
+  font-size: 20px;
+  font-weight: 720;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+}
+
+.project-description {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  flex: 1;
+}
+
+.project-bottom {
+  margin-top: 14px;
+  padding-top: 11px;
+  border-top: 1px solid rgba(25, 24, 30, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.home-platform {
+  color: var(--subtle);
+  font-size: 12.5px;
+}
+
+.project-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: color 0.16s ease;
+  white-space: nowrap;
+}
+
+.project-cta-arrow {
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.project-card:hover .project-cta {
+  color: var(--purple);
+}
+
+.project-card:hover .project-cta-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Guide section */
+.home-guide {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 28px;
+  margin-top: 52px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+}
+
+.home-guide > h2 {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+}
+
+.home-guide-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.home-guide h3 {
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.home-guide p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.home-guide a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.home-guide a:hover {
+  color: var(--purple);
+}
+
+@media (max-width: 1020px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 22px;
+  }
+
+  .home-guide {
+    grid-template-columns: 128px 1fr;
+    gap: 20px;
+  }
+
+  .home-guide-items {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 680px) {
+  .home-intro {
+    padding: 22px 0 26px;
+  }
+
+  .home-intro h1 {
+    font-size: clamp(23px, 6.2vw, 30px);
+    letter-spacing: -0.9px;
+  }
+
+  .home-intro > p {
+    margin-top: 8px;
+    font-size: 14px;
+  }
+
+  .projects-header {
+    padding: 18px 0 16px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .project-visual {
+    height: 152px;
+  }
+
+  .app-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 22px;
+  }
+
+  .home-guide {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 40px;
+    padding-top: 24px;
+  }
+
+  .home-guide-items {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card:hover .app-icon,
+  .project-card:hover .project-cta-arrow {
+    transform: none;
+  }
 }

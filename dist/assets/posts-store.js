@@ -1,8 +1,21 @@
 (function (global) {
-  const STORAGE_KEY = 'minlabs_cms_posts_v3';
+  const STORAGE_KEY = 'minlabs_cms_posts_v4';
+  const LEGACY_KEYS = ['minlabs_cms_posts_v3'];
   const AUTH_SESSION_KEY = 'minlabs_admin_session_v1';
 
   const ICON_SVGS = {
+    compilot: {
+      label: 'Compilot',
+      img: '/assets/compilot.webp'
+    },
+    leftinlife: {
+      label: 'LEFT IN LIFE',
+      img: '/assets/leftinlife.webp'
+    },
+    shashak: {
+      label: '샤샥',
+      img: '/assets/shashak.webp'
+    },
     toepick: {
       label: 'ToePick',
       img: '/assets/toepick.webp'
@@ -11,110 +24,134 @@
       label: 'IMMYME',
       img: '/assets/immyme.webp'
     },
-    shashak: {
-      label: '샤샥',
-      img: '/assets/shashak.webp'
-    },
-    ai: {
-      label: 'AI Lab',
-      svg: '<svg viewBox="0 0 48 48" width="40" height="40" fill="none"><path d="M24 5L28.5 18.5L42 23L28.5 27.5L24 41L19.5 27.5L6 23L19.5 18.5L24 5Z" fill="#6435ee" stroke="#19181e" stroke-width="2.5"/><circle cx="37" cy="11" r="4" fill="#ff49a5" stroke="#19181e" stroke-width="2"/></svg>'
-    },
     code: {
-      label: 'DevLog',
-      svg: '<svg viewBox="0 0 48 48" width="40" height="40" fill="none"><path d="M16 14L6 24L16 34M32 14L42 24L32 34M27 10L21 38" stroke="#19181e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      label: '개발 기록',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="#19181e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
     },
-    star: {
-      label: 'Review',
-      svg: '<svg viewBox="0 0 48 48" width="40" height="40" fill="none"><path d="M24 6L29.4 17.2L41.8 19L32.8 27.7L34.9 40L24 34.2L13.1 40L15.2 27.7L6.2 19L18.6 17.2L24 6Z" fill="#d5ff45" stroke="#19181e" stroke-width="2.8" stroke-linejoin="round"/></svg>'
+    note: {
+      label: '노트',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="#19181e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>'
+    },
+    review: {
+      label: '후기',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="#19181e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
     },
     map: {
-      label: 'Walk',
-      svg: '<svg viewBox="0 0 48 48" width="40" height="40" fill="none"><path d="M24 42C24 42 38 30.4 38 19C38 11.3 31.7 5 24 5C16.3 5 10 11.3 10 19C10 30.4 24 42 24 42Z" fill="#ff49a5" stroke="#19181e" stroke-width="2.8"/><circle cx="24" cy="19" r="5.5" fill="#fff" stroke="#19181e" stroke-width="2.2"/></svg>'
+      label: '산책',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="#19181e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'
     }
   };
+  // Backward-compatible aliases
+  ICON_SVGS.ai = ICON_SVGS.note;
+  ICON_SVGS.star = ICON_SVGS.review;
 
   const DEFAULT_POSTS = [
     // ==================== BLOG POSTS ====================
+    {
+      id: 'blog-compilot-past-exams',
+      type: 'blog',
+      status: 'published',
+      featured: true,
+      category: 'Compilot',
+      iconType: 'compilot',
+      title: 'Compilot 제작기: 시험지 PDF 대신 한 문제씩 풀고 유사 기출을 묶어본 이유',
+      summary: '2007년부터 2026년까지의 9급 전산직 기출 2,080문항을 정리해, 모바일에서도 한 문제씩 채점하고 국가직·지방직 유사 문항을 바로 비교할 수 있게 만든 과정을 기록했습니다.',
+      tags: ['Compilot', '전산직기출', '학습도구'],
+      date: '2026.11.10',
+      readMin: 6,
+      content: `## 두꺼운 기출 PDF를 화면에서 풀 때 생기는 피로
+
+전산직 기출문제를 공부하다 보면 연도별 시험지 PDF와 정답표를 번갈아 열어야 합니다. 특히 스마트폰이나 태블릿에서는 2단 편집된 시험지를 확대·축소하다가 흐름이 자주 끊겼습니다.
+
+[Compilot](https://compilot.minlabs.app/)은 이 과정을 단순하게 줄여보려고 시작했습니다.
+
+## 한 문제 단위로 쪼개고, 보기마다 근거 남기기
+
+2007년부터 2026년까지 국가직·지방직 9급 전산직 7개 과목(총 2,080문항)을 문항 단위로 구조화했습니다.
+
+* **즉시 채점과 보기별 해설**: 정답 번호만 보여주는 대신 ①~④ 각 보기가 왜 맞고 틀리는지 바로 아래에서 확인합니다. 복수정답이나 전원정답 처리된 문항도 실제 확정 정답 기준으로 반영했습니다.
+* **국가직·지방직 교차 유사 문항**: 한 문제를 풀고 나면 같은 개념을 다른 연도나 다른 주관 시험에서는 어떻게 물었는지 유사 문항 3개를 바로 이어서 볼 수 있습니다.
+* **원본 시험지 대조**: 그림이나 표 배치가 궁금할 때는 언제든 해당 연도의 원본 시험지 PDF를 열어 확인할 수 있도록 연결해 두었습니다.`
+    },
+    {
+      id: 'blog-leftinlife-time-units',
+      type: 'blog',
+      status: 'published',
+      featured: false,
+      category: 'LEFT IN LIFE',
+      iconType: 'leftinlife',
+      title: 'LEFT IN LIFE 제작기: 남은 시간을 막연한 연도 대신 일상의 횟수로 보여주기',
+      summary: '기대수명에서 수면·일·스마트폰 사용 시간을 덜어낸 뒤, 실제로 내가 쓸 수 있는 자유 시간이 몇 번의 봄과 주말로 남았는지 차분하게 계산해보는 웹 서비스입니다.',
+      tags: ['LEFTINLIFE', '시간시각화', '웹서비스'],
+      date: '2026.11.06',
+      readMin: 5,
+      content: `## "앞으로 50년 남았다"는 말은 생각보다 실감이 나지 않는다
+
+남은 인생을 연(year)이나 일(day) 단위로만 보면 숫자가 너무 커서 오히려 무감각해집니다. 하지만 그 시간에서 잠자는 시간, 일하는 시간, 무심코 화면을 넘기는 시간을 빼보면 이야기가 달라집니다.
+
+[LEFT IN LIFE](https://leftinlife.com/)는 불안감을 주기 위해서가 아니라, **실제로 내 마음대로 쓸 수 있는 자유 시간의 윤곽**을 또렷하게 보려고 만든 작은 계산기입니다.
+
+## 숫자보다 체감되는 일상 단위로 바꾸기
+
+생년월일과 하루 평균 수면·노동·화면 시간을 넣으면 두 가지를 나란히 보여줍니다.
+
+1. 물리적으로 남은 전체 시간과 필수 활동을 뺀 **실제 자유 시간**
+2. 앞으로 맞이할 봄, 함께할 수 있는 주말, 여행, 식사처럼 **손에 잡히는 일상의 횟수**
+
+한국어뿐 아니라 영어·스페인어·일본어 브라우저에서도 별도 설정 없이 바로 열리도록 가벼운 정적 웹으로 구성했습니다.`
+    },
     {
       id: 'blog-shashak-squirrel-routine',
       type: 'blog',
       status: 'published',
       featured: false,
       category: '샤샥',
-      subLabel: '루틴 설계 · 오프라인 퍼스트',
-      bannerLine1: '딱딱한 체크리스트 대신,',
-      bannerHighlight: '다람쥐와 도토리 보상으로',
-      bannerLine2: '지속하는 하루 루틴',
       iconType: 'shashak',
-      themeColor: 'cream',
-      title: '샤샥(shashak) 제작기: 죄책감 없는 루틴과 도토리 보상으로 매일 열고 싶은 투두 앱 만들기',
-      summary: '핵심 요약 오늘·매일·주기·달력의 네 가지 흐름으로 할 일과 반복 루틴을 나누고, 로그인 없이도 오프라인에서 즉시 기록하며 도토리 보상을 모으는 샤샥의 설계 배경을 소개합니다.',
-      tags: ['샤샥', '투두앱', '루틴관리'],
+      title: '샤샥 제작기: 밀린 할 일 경고 대신 도토리 하나씩 모으는 로컬 우선 투두 앱',
+      summary: '오늘·매일·주기·달력 네 가지 탭으로 할 일과 루틴의 성격을 나누고, 회원가입 없이 앱을 열자마자 바로 기록할 수 있게 설계한 이유를 정리했습니다.',
+      tags: ['샤샥', '투두앱', '오프라인퍼스트'],
       date: '2026.10.24',
-      readMin: 7,
-      views: 1290,
-      content: `## 밀린 할 일 목록이 스트레스가 되지 않으려면?
+      readMin: 6,
+      content: `## 밀린 할 일 목록이 숙제처럼 느껴지지 않으려면
 
-많은 투두 앱이 처음 며칠은 의욕적으로 채워지지만, 하루이틀 바빠서 체크를 놓치면 **밀린 할 일 경고**가 쌓여 결국 앱을 열지 않게 됩니다.
+투두 앱을 쓰다 보면 이틀만 바빠도 빨간색 '지남' 표시가 쌓여 앱을 열기 싫어지곤 합니다. [샤샥(shashak)](https://shashak.app/)을 만들 때는 다그치는 알림 대신, 오늘 해낸 만큼만 조용히 도토리가 쌓이는 구조를 택했습니다.
 
-Minlabs에서 [샤샥(shashak)](https://shashak.app/)을 만들며 집중한 질문은 단순했습니다.
+## 성격이 다른 할 일을 네 탭으로 분리
 
-> "오늘 할 일과 반복 루틴을 도토리처럼 차곡차곡 모으는 따뜻한 경험으로 바꿀 수 없을까?"
+* **오늘**: 오늘 처리할 단발성 할 일과 현재 모은 도토리 확인
+* **매일**: 물 마시기나 스트레칭처럼 매일 반복하는 기본 습관(체크형 및 횟수형 지원)
+* **주기**: 격일 운동이나 완료일 기준 N일 뒤 반복처럼 리듬이 있는 일정
+* **달력**: 지나간 날들의 기록을 돌아보는 월간 뷰
 
-### 1. 오늘 · 매일 · 주기 · 달력의 명확한 역할 분리
+## 로그인 강제 없는 로컬 우선 저장
 
-* **오늘**: 오늘 집중할 할 일과 다람쥐 파트너, 보유 도토리 현황을 한눈에 확인
-* **매일**: 기상, 물 마시기, 스트레칭처럼 매일 이어가는 기본 습관
-* **주기**: 요일별 운동이나 주 3회 독서처럼 나만의 리듬으로 반복되는 루틴
-* **달력**: 날짜별 실행 기록과 흐름을 차분하게 돌아보는 아카이브
-
-### 2. 로그인 없이 바로 시작하는 로컬 우선 아키텍처
-
-앱을 처음 켜자마자 회원가입 화면으로 가로막지 않습니다. 기기 내부 SQLite 저장소에 즉시 기록되고, 나중에 계정을 연결하면 게스트 시절에 모은 할 일과 도토리 보상이 안전하게 병합됩니다.`
+처음 앱을 켰을 때 로그인 화면이 가로막지 않도록 기기 내 SQLite에 먼저 저장합니다. 원할 때만 계정을 연결해 기기 간 동기화를 켜면 기존 게스트 기록과 도토리가 그대로 합쳐집니다.`
     },
     {
       id: 'blog-toepick-retention-loop',
       type: 'blog',
       status: 'published',
-      featured: true,
+      featured: false,
       category: 'ToePick',
-      subLabel: '제품 설계 · 학습 루프',
-      bannerLine1: '문제만 풀던 토익 앱,',
-      bannerHighlight: '해설·단어 복습 연결로',
-      bannerLine2: '완주율 3.2배 높이다',
       iconType: 'toepick',
-      themeColor: 'mint',
-      title: 'ToePick 학습 루프 재설계: 문제 풀이에서 단어 복습까지 끊기지 않는 구조',
-      summary: '핵심 요약 토익 LC·RC 문제를 푼 직후 오답 해설과 핵심 어휘 복습을 한 화면 흐름으로 이어 붙였습니다. 자투리 5분 안에 한 세트를 끝내는 마이크로 학습 구조를 소개합니다.',
-      tags: ['ToePick', '토익LC·RC', '프로덕트디자인'],
+      title: 'ToePick 설계 노트: 문제 풀이 뒤에 해설과 단어 복습을 한 흐름으로 붙이기',
+      summary: '문제집 탭, 오답 탭, 단어장 탭을 따로 오가느라 중간에 앱을 닫게 되던 불편함을 줄이기 위해 한 세트를 짧게 끝내는 단일 학습 동선을 만들었습니다.',
+      tags: ['ToePick', '토익학습', '제품설계'],
       date: '2026.10.23',
-      readMin: 8,
-      views: 1420,
-      content: `## 왜 기존 토익 앱은 3일 만에 닫히게 될까?
+      readMin: 5,
+      content: `## 탭이 나뉘면 복습 전에 앱을 닫게 된다
 
-출퇴근 지하철에서 토익 문제를 풀려고 앱을 열었다가, **긴 지문과 복잡한 메뉴** 때문에 2분 만에 닫은 경험이 한 번쯤 있으실 겁니다.
+이동 중에 토익 문제를 풀려고 앱을 열었다가도, 채점 후 오답 해설을 보러 다른 메뉴로 이동하고 단어장을 또 따로 열어야 하면 금세 피로해집니다.
 
-Minlabs에서 [ToePick](https://toepick.minlabs.app/)을 만들며 가장 먼저 정의한 문제는 명확했습니다.
-
-> "하루 10분, 듣기(LC)와 독해(RC) 감각을 잃지 않게 돕는 가장 가벼운 학습 루프는 무엇일까?"
-
-### 1. 문제 풀이 → 해설 → 단어 복습의 단일 흐름
-
-기존 학습 도구들은 **문제집 탭**, **오답노트 탭**, **단어장 탭**이 모두 분리되어 있었습니다. 탭이 나뉘면 사용자는 문제를 채점한 뒤 바로 앱을 이탈합니다.
+[ToePick](https://toepick.minlabs.app/)에서는 학습 단위를 잘게 쪼개고 화면 이동을 최소화하는 데 집중했습니다.
 
 \`\`\`
-[기존 방식] 문제 풀이 ──(이탈)──> 오답 확인 ──(이탈)──> 단어장 이동
-[ToePick]  한 문제 Pick ──> 즉시 핵심 해설 ──> 문항 속 필수 어휘 북마크
+한 문제 풀이 ──> 바로 아래 핵심 해설 확인 ──> 문항 속 어휘 북마크 및 복습
 \`\`\`
 
-### 2. Part 2·3·4 듣기와 Part 5 문법의 균형
+## 자투리 시간에 맞춘 Part 2·3·4와 Part 5 구성
 
-* **Listening (Part 2 · 3 · 4)**: 짧은 질의응답부터 대화문까지 귀가 트이는 핵심 패턴 집중 훈련
-* **Reading (Part 5)**: 문장 구조와 빈출 어휘를 30초 안에 판단하는 실전 감각 유지
-
-### 3. 다음 실험 과제
-
-앞으로도 ToePick은 화려한 기능 추가보다 **매일 다시 열게 되는 마찰 없는 학습 경험**을 다듬는 데 집중할 예정입니다.`
+긴 독해 지문을 스크롤하기 어려운 지하철·버스 환경을 고려해, 귀로 집중하는 **LC Part 2·3·4**와 짧은 문장 구조를 빠르게 판단하는 **RC Part 5** 중심으로 한 호흡의 세트를 구성했습니다.`
     },
     {
       id: 'blog-immyme-mood-recommendation',
@@ -122,59 +159,19 @@ Minlabs에서 [ToePick](https://toepick.minlabs.app/)을 만들며 가장 먼저
       status: 'published',
       featured: false,
       category: 'IMMYME',
-      subLabel: '위치 기반 · 추천 알고리즘',
-      bannerLine1: '검색어 없이 찾는 동네,',
-      bannerHighlight: '기분 3초 선택으로',
-      bannerLine2: '갈 곳을 골라준다면?',
       iconType: 'immyme',
-      themeColor: 'purple',
-      title: 'IMMYME 개발기: 평점 순 정렬 대신 ‘오늘의 기분과 걷기 취향’을 묻는 이유',
-      summary: '핵심 요약 유명한 맛집 랭킹이 아니라 지금 내 기분과 걸음걸이 속도에 어울리는 주변 장소를 추천하기 위해 모바일 웹 인터페이스를 선택한 과정을 정리했습니다.',
+      title: 'IMMYME 개발기: 평점 순 정렬 대신 오늘 기분과 걷는 속도를 먼저 묻는 이유',
+      summary: '유명한 맛집 랭킹이 아니라 지금 기분과 산책 리듬에 어울리는 주변 공간을 찾기 위해 설치 없는 모바일 웹을 선택한 이야기입니다.',
       tags: ['IMMYME', '장소추천', '모바일웹'],
       date: '2026.10.21',
-      readMin: 6,
-      views: 980,
-      content: `## "오늘 어디 가지?"라는 질문에는 검색어가 없다
+      readMin: 5,
+      content: `## "어디 갈까?" 싶을 때 마땅한 검색어가 떠오르지 않는 순간
 
-지도 앱을 켜도 검색창에 무엇을 입력해야 할지 막막할 때가 있습니다. 맛집을 찾는 게 아니라 **그저 지금 기분에 맞는 동네 산책 코스와 공간**이 필요할 때입니다.
+지도 앱을 켜도 검색창에 결국 '근처 카페'만 치게 될 때가 많습니다. 꼭 유명한 곳을 가고 싶다기보다 지금 기분에 맞는 조용한 골목이나 산책 코스가 필요할 때를 위해 [IMMYME](https://immyme.com/)를 만들었습니다.
 
-### 설치 없는 모바일 웹을 선택한 이유
+## 앱 설치 없이 브라우저에서 바로 열기
 
-갑자기 산책하고 싶을 때 앱스토어에서 100MB짜리 앱을 내려받는 사람은 없습니다. [IMMYME](https://immyme.com/)는 브라우저 주소창에서 바로 열리고, 위치 권한을 허용하거나 원하는 동네를 고르면 즉시 추천이 시작됩니다.
-
-> "GO WHERE YOU FEEL. 오늘, 어디로 가볼까?"
-
-1. **오늘의 기분 선택**: 차분한 휴식, 가벼운 환기, 새로운 영감 등 감정 상태 선택
-2. **걷기 취향 반영**: 가깝고 조용한 골목부터 활기찬 산책로까지 이동 반경 설정
-3. **맞춤 장소 카드 제시**: 지금 바로 발걸음을 옮길 수 있는 공간 큐레이션`
-    },
-    {
-      id: 'blog-seo-geo-optimization',
-      type: 'blog',
-      status: 'published',
-      featured: false,
-      category: 'AI · GEO',
-      subLabel: '검색 최적화 · llms.txt',
-      bannerLine1: '구글 검색을 넘어,',
-      bannerHighlight: 'AI 에이전트가 인용하는',
-      bannerLine2: '웹사이트 구조 만들기',
-      iconType: 'ai',
-      themeColor: 'lime',
-      title: '2026년 개인 프로젝트 실험실의 SEO와 GEO(생성형 엔진 최적화) 실전 적용기',
-      summary: '핵심 요약 전통적인 메타 태그·오픈그래프 최적화에 더해 ChatGPT, Perplexity, Gemini가 사이트 정보를 정확히 읽어가도록 llms.txt와 JSON-LD 그래프를 구축했습니다.',
-      tags: ['GEO', 'SEO', 'llms.txt'],
-      date: '2026.10.20',
-      readMin: 11,
-      views: 1150,
-      content: `## 검색창에 키워드를 치는 시대에서 AI에게 묻는 시대로
-
-이제 사용자들은 "토익 LC RC 가볍게 공부하는 앱 추천해줘" 혹은 "기분에 따라 산책 장소 추천해주는 웹서비스 알려줘"라고 생성형 AI에게 직접 질문합니다.
-
-### Minlabs가 적용한 3가지 핵심 전략
-
-* **\`/llms.txt\` 및 \`/llms-full.txt\` 제공**: LLM 크롤러가 HTML 노이즈 없이 서비스의 핵심 정의와 FAQ를 마크다운으로 즉시 파악하도록 구성했습니다.
-* **JSON-LD \`@graph\` 연결**: \`Organization\`, \`WebSite\`, \`MobileApplication\`, \`WebApplication\`, \`FAQPage\`를 단일 지식 그래프로 묶었습니다.
-* **초경량 리소스 최적화**: 1.1MB에 달하던 원본 PNG 아이콘을 12KB WebP로 경량화하여 LCP를 단축했습니다.`
+잠시 시간이 비어 걸을 곳을 찾는데 앱스토어에서 새 앱을 설치하는 사람은 드뭅니다. 모바일 브라우저에서 링크를 열자마자 오늘 기분과 걷기 취향을 고르고, 현재 위치나 원하는 동네 주변 장소를 바로 둘러볼 수 있게 구성했습니다.`
     },
     {
       id: 'blog-zero-framework-speed',
@@ -182,51 +179,19 @@ Minlabs에서 [ToePick](https://toepick.minlabs.app/)을 만들며 가장 먼저
       status: 'published',
       featured: false,
       category: '아키텍처',
-      subLabel: '웹 퍼포먼스 · 경량화',
-      bannerLine1: '번들 크기 0KB에 도전,',
-      bannerHighlight: '로딩 0.2초 만에 뜨는',
-      bannerLine2: '랜딩 페이지의 비밀',
       iconType: 'code',
-      themeColor: 'cream',
-      title: '무거운 프레임워크 없이 네이티브 웹 표준만으로 쾌적한 프로덕트 허브 구축하기',
-      summary: '핵심 요약 불필요한 외부 폰트와 대형 번들을 덜어내고 시맨틱 HTML, 네이티브 아코디언, 최적화된 WebP 자산만으로 첫 화면 렌더링 속도를 극대화했습니다.',
-      tags: ['웹성능', '시맨틱HTML', 'CoreWebVitals'],
+      title: '프레임워크 없이 HTML과 CSS만으로 가볍게 운영하는 프로젝트 허브',
+      summary: '빌드 파이프라인과 무거운 번들을 덜어내고 시맨틱 마크업, WebP 아이콘, 최소한의 스크립트만으로 한·영 소개 페이지를 구성했습니다.',
+      tags: ['웹표준', '정적사이트', '성능최적화'],
       date: '2026.10.18',
-      readMin: 9,
-      views: 840,
-      content: `## 빠름 자체가 최고의 사용자 경험이다
+      readMin: 4,
+      content: `## 소개 페이지는 누르는 즉시 열려야 한다
 
-개인 프로젝트 실험실의 홈페이지는 방문자가 클릭한 순간 지연 없이 바로 열려야 합니다.
+여러 사이드 프로젝트를 한곳에 모아두는 허브 사이트까지 복잡한 프레임워크에 묶여 있을 필요는 없었습니다. \`minlabs.app\`은 별도 번들러 없이 정적 HTML과 CSS를 그대로 서빙합니다.
 
-### 네이티브 웹 플랫폼 기능 적극 활용
-
-1. **\`<details name="faq">\`**: 별도의 아코디언 스크립트 없이도 하나를 열면 다른 항목이 닫히는 배타적 아코디언 구현
-2. **\`<picture>\` + \`fetchpriority="high"\`**: 핵심 시각 요소를 최우선 네트워크 우선순위로 로드
-3. **모션 줄이기(\`prefers-reduced-motion\`) 대응**: 접근성과 시각적 생동감을 동시에 충족`
-    },
-    {
-      id: 'blog-small-ideas-experiment',
-      type: 'blog',
-      status: 'published',
-      featured: false,
-      category: '실험실 노트',
-      subLabel: 'Minlabs 철학 · 메이커 로그',
-      bannerLine1: '거창한 기획서 대신',
-      bannerHighlight: '48시간 안에 동작하는',
-      bannerLine2: '프로토타입부터 만든다',
-      iconType: 'ai',
-      themeColor: 'pink',
-      title: '작은 아이디어를 일상에 가까이: Minlabs가 아이디어를 실제 앱으로 검증하는 법',
-      summary: '핵심 요약 머릿속에 떠오른 작은 불편함을 일주일 안에 실제 동작하는 웹·모바일 서비스로 출시하고 사용자 반응을 통해 개선하는 실험실 워크플로우를 공유합니다.',
-      tags: ['Minlabs', '메이커로그', '사이드프로젝트'],
-      date: '2026.10.15',
-      readMin: 7,
-      views: 760,
-      content: `## 아이디어는 실행될 때만 가치가 생긴다
-
-Minlabs는 **"궁금하거나 흥미있는 아이디어가 떠오르면 바로 실행해보는 개인 프로젝트 실험실"**입니다.
-
-완벽한 기획서를 쓰기보다 실제로 눌러볼 수 있는 화면을 먼저 만들고, 일상 속에서 직접 써보며 진짜 필요한 기능만 남깁니다.`
+* **경량 이미지 자산**: 앱 아이콘을 \`<picture>\`와 WebP 포맷으로 제공해 첫 화면 로딩 지연을 줄였습니다.
+* **즉각적인 한·영 전환**: 유휴 시간에 반대 언어 마크업을 미리 받아두어 페이지 새로고침 깜빡임 없이 전환됩니다.
+* **구조화 데이터와 \`llms.txt\`**: 검색엔진과 AI 에이전트 모두 각 프로젝트의 성격을 정확히 읽을 수 있도록 JSON-LD와 텍스트 명세를 함께 유지합니다.`
     },
     {
       id: 'blog-korean-ime-ux',
@@ -234,21 +199,15 @@ Minlabs는 **"궁금하거나 흥미있는 아이디어가 떠오르면 바로 �
       status: 'published',
       featured: false,
       category: '프론트엔드',
-      subLabel: '브라우저 호환성 · UX 디테일',
-      bannerLine1: '한글 입력 중 엔터를 치면',
-      bannerHighlight: '마지막 글자가 잘리는',
-      bannerLine2: 'Safari IME 버그 해결기',
       iconType: 'code',
-      themeColor: 'mint',
-      title: '한국어 태그·검색 입력창에서 Enter 이벤트가 두 번 발생하거나 글자가 잘리는 현상 해결',
-      summary: '핵심 요약 한국어·일본어 IME 조합 중 Enter 키 처리 시 발생하는 isComposing 및 keyCode 229 이슈를 방어하여 매끄러운 에디터 태그 입력을 구현했습니다.',
-      tags: ['프론트엔드', '한글IME', '에디터구현'],
+      title: '한국어 입력창에서 Enter 키가 두 번 눌리거나 마지막 글자가 잘리는 IME 문제 다루기',
+      summary: '한글 조합 중 Enter 이벤트 처리 시 흔히 겪는 isComposing 및 keyCode 229 이슈와 방어 코드를 간단히 정리했습니다.',
+      tags: ['프론트엔드', '한글IME', '입력UX'],
       date: '2026.10.12',
-      readMin: 5,
-      views: 690,
-      content: `## 한글 입력기(IME)와 Enter 키의 미묘한 타이밍
+      readMin: 4,
+      content: `## 한글 조합이 끝나기 전에 발생하는 keydown
 
-태그 입력창에 \`토익\`을 입력하고 \`Enter\`를 눌렀을 때 \`토\`와 \`익\`이 분리되거나 중복 입력되는 현상은 대표적인 IME 이벤트 충돌입니다.
+태그 입력창에 \`토익\`을 치고 \`Enter\`를 눌렀을 때 마지막 글자인 \`익\`이 다음 줄에 남거나 두 번 등록되는 현상은 브라우저의 IME 조합 이벤트 순서 때문에 발생합니다.
 
 \`\`\`js
 input.addEventListener('keydown', (event) => {
@@ -260,188 +219,106 @@ input.addEventListener('keydown', (event) => {
 });
 \`\`\`
 
-작은 디테일이지만 한국어 사용자가 매일 쓰는 입력 경험에서는 가장 중요한 품질 기준이 됩니다.`
+조합 중(\`isComposing\`)일 때는 제출 동작을 건너뛰도록 한 줄만 챙겨도 한국어 입력 경험이 훨씬 자연스러워집니다.`
     },
 
-    // ==================== REVIEW POSTS ====================
+    // ==================== REVIEW / USAGE POSTS ====================
+    {
+      id: 'review-compilot-mobile-study',
+      type: 'review',
+      status: 'published',
+      featured: true,
+      category: 'Compilot',
+      iconType: 'compilot',
+      title: '시험지 PDF를 확대해가며 풀던 번거로움이 사라졌어요 — Compilot 기출 복습기',
+      summary: '이동 중 스마트폰으로 전산직 기출을 한 문제씩 풀고, 틀린 개념과 연결된 다른 연도 기출까지 한자리에서 비교해본 활용 기록입니다.',
+      tags: ['Compilot', '전산직기출', '모바일학습'],
+      date: '2026.11.10',
+      readMin: 4,
+      content: `## 작은 화면에서도 지문과 보기가 한눈에 들어옵니다
+
+예전에는 버스를 타거나 잠깐 짬이 날 때 태블릿으로 기출 PDF를 열어 풀었는데, 문제 영역과 맨 뒷장 정답표를 왔다 갔다 하는 일이 생각보다 번거로웠습니다.
+
+Compilot에서는 과목과 연도를 고르면 한 화면에 한 문제씩 깔끔하게 떠서 스마트폰으로도 부담 없이 풀 수 있었습니다. 특히 틀린 보기를 골랐을 때 왜 오답인지 바로 적혀 있고, 그 아래에 국가직·지방직에서 비슷하게 출제됐던 문항 3개가 함께 묶여 나와서 약한 단원을 짚어보기에 편했습니다.`
+    },
+    {
+      id: 'review-leftinlife-perspective',
+      type: 'review',
+      status: 'published',
+      featured: false,
+      category: 'LEFT IN LIFE',
+      iconType: 'leftinlife',
+      title: '남은 주말과 계절 횟수를 숫자로 보고 나니 하루 쓰임새를 다시 생각하게 됐어요',
+      summary: '수면과 업무, 습관적인 화면 시간을 뺀 진짜 자유 시간을 일상 단위로 확인해보고 저녁 루틴을 조금씩 바꾼 후기입니다.',
+      tags: ['LEFTINLIFE', '자유시간', '일상회고'],
+      date: '2026.11.07',
+      readMin: 4,
+      content: `## 막연했던 시간이 구체적인 횟수로 바뀔 때
+
+하루에 스마트폰을 보는 시간을 조금 줄여야겠다고 생각만 하다가 LEFT IN LIFE에 평소 수면 시간과 근무 시간, 스크린타임을 그대로 넣어봤습니다.
+
+전체 남은 날수보다도, 필수 시간을 제하고 남은 자유 시간과 앞으로 보낼 수 있는 봄·여행의 횟수가 나란히 보이니 훨씬 차분하게 와닿았습니다. 거창한 결심 대신 퇴근 후 무의식적으로 쇼츠를 넘기던 30분만 덜어내 보기로 했습니다.`
+    },
     {
       id: 'review-shashak-daily-acorn',
       type: 'review',
       status: 'published',
       featured: false,
-      category: '샤샥 후기',
-      subLabel: '루틴 정착기 · 갓생 습관',
-      bannerLine1: '작심삼일이던 아침 루틴,',
-      bannerHighlight: '도토리 모으는 재미로',
-      bannerLine2: '3주째 이어가고 있어요',
+      category: '샤샥',
       iconType: 'shashak',
-      themeColor: 'cream',
-      title: '“체크할 때마다 도토리가 쌓이니 작은 할 일도 미루지 않게 돼요” — 샤샥 3주 사용 후기',
-      summary: '핵심 요약 복잡한 플래너 대신 샤샥의 오늘·매일·주기 탭으로 생활 습관을 정리하고, 다람쥐 캐릭터와 도토리 보상 덕분에 아침·저녁 루틴을 꾸준히 유지한 후기입니다.',
-      tags: ['샤샥후기', '루틴앱', '할일관리'],
+      title: '로그인 없이 바로 적고 도토리를 모으니 사소한 생활 루틴도 덜 미루게 돼요',
+      summary: '복잡한 플래너 설정 대신 오늘 할 일과 주기 반복 루틴만 가볍게 나누어 쓰고 홈 화면 위젯으로 체크하며 정착한 이야기입니다.',
+      tags: ['샤샥', '루틴관리', '위젯활용'],
       date: '2026.10.24',
-      readMin: 5,
-      views: 1340,
-      content: `## 복잡한 노션 템플릿 대신 가볍게 체크하는 샤샥에 정착했어요
+      readMin: 4,
+      content: `## 설정하느라 지치지 않는 단순함이 좋았습니다
 
-매달 초마다 거창한 계획표를 만들었다가 일주일 만에 포기하곤 했습니다. **샤샥(shashak)**은 앱을 켜자마자 로그인 없이 바로 할 일을 적을 수 있고, 오늘 해야 할 일과 매일·주기 루틴이 깔끔하게 나뉘어 있어서 머리가 복잡하지 않았습니다.
+노션이나 복잡한 일정 앱은 처음 틀을 만들 때는 뿌듯하지만, 바쁜 주간이 오면 기록 자체가 일이 되곤 했습니다. 샤샥은 앱을 열자마자 아무 가입 절차 없이 오늘 할 일을 바로 적을 수 있어 첫 진입이 가벼웠습니다.
 
-### 가장 좋았던 3가지 포인트
-
-1. **도토리 보상 피드백**: 물 마시기나 비타민 챙겨 먹기 같은 사소한 습관도 완료할 때마다 도토리가 차곡차곡 쌓여서 기분 좋은 성취감을 줍니다.
-2. **매일 / 주기 분리**: 매일 하는 일과 화·목·토 운동처럼 주기가 있는 일을 따로 관리하니 오늘 할 일 목록이 훨씬 정돈됩니다.
-3. **따뜻한 다람쥐 감성**: 다그치는 알림 대신 가을 다람쥐와 함께 내 속도로 루틴을 채워가는 느낌이라 매일 저녁 자연스럽게 앱을 열게 됩니다.`
+매일 하는 습관(비타민 챙기기, 물 마시기)과 3일마다 돌아오는 집안일을 '매일' 탭과 '주기' 탭에 따로 넣어두니 오늘 목록이 지저분해지지 않았고, 홈 화면 위젯에서 바로 체크할 때마다 도토리가 하나씩 쌓이는 소소한 손맛 덕분에 꾸준히 쓰고 있습니다.`
     },
     {
-      id: 'review-toepick-commute-850',
+      id: 'review-toepick-commute-loop',
       type: 'review',
       status: 'published',
-      featured: true,
-      category: 'ToePick 후기',
-      subLabel: '실사용자 인터뷰 · 직장인 토익',
-      bannerLine1: '출퇴근 지하철 20분,',
-      bannerHighlight: '4주 만에 680→865점',
-      bannerLine2: '달성한 직장인 루틴',
+      featured: false,
+      category: 'ToePick',
       iconType: 'toepick',
-      themeColor: 'mint',
-      title: '“무거운 문제집 대신 출퇴근길에 ToePick만 풀었어요” — 4주 만에 토익 865점 달성 후기',
-      summary: '핵심 요약 퇴근 후 책상에 앉기 힘들었던 직장인이 아침·저녁 지하철에서 ToePick으로 Part 2·3·4 듣기와 Part 5 문법, 단어 복습 루틴을 완주한 실제 후기입니다.',
-      tags: ['ToePick후기', '직장인토익', '토익850달성'],
+      title: '출퇴근 지하철 15분, 문제 풀고 헷갈린 단어까지 한 흐름으로 넘기는 루틴',
+      summary: '책상에 오래 앉기 어려운 평일에 아침에는 LC 듣기 감각을 유지하고 퇴근길에는 낮에 저장해둔 단어를 가볍게 복습한 활용기입니다.',
+      tags: ['ToePick', '출퇴근공부', '토익복습'],
       date: '2026.10.22',
-      readMin: 6,
-      views: 1680,
-      content: `## 퇴근하고 집에 오면 문제집 펼칠 체력이 없었습니다
+      readMin: 4,
+      content: `## 두꺼운 수험서를 펼치지 못하는 날의 대안
 
-이직 준비로 2년 만에 토익 점수가 다시 필요해졌지만, 매일 야근 후 독서실에 가는 건 불가능에 가까웠습니다. 그러다 우연히 **ToePick**을 알게 되어 출퇴근 지하철 루틴을 만들었습니다.
+평일 저녁에는 피곤해서 각 잡고 모의고사 한 회를 풀기가 쉽지 않았습니다. 대신 지하철에서 이어폰을 끼고 ToePick으로 Part 2·3 짧은 듣기 문항과 Part 5 문법 문제를 몇 개씩 푸는 습관을 들였습니다.
 
-### 내가 지킨 하루 20분 ToePick 루틴
-
-1. **출근길 10분 (LC 집중)**: 이어폰을 끼고 Part 2와 Part 3·4 문제를 풀며 귀를 깨웠습니다.
-2. **점심시간 5분 (RC Part 5)**: 헷갈리는 품사·어휘 문제를 풀고 바로 밑에 나오는 해설로 오답 이유를 체크했습니다.
-3. **퇴근길 5분 (단어 복습)**: 낮에 틀렸던 문항의 단어만 다시 복습했습니다.
-
-> "문제를 풀자마자 해설과 단어 복습으로 바로 넘어가는 흐름 덕분에 중간에 딴짓하지 않고 끝까지 풀 수 있었어요."
-
-4주 뒤 치른 정기시험에서 목표였던 850점을 넘겨 **865점**을 받았습니다!`
+문제를 푼 직후 같은 흐름에서 해설을 읽고 모르는 어휘를 바로 담아둘 수 있어서, 내리기 직전까지 끊기지 않고 한 세트를 마무리할 수 있는 점이 가장 실용적이었습니다.`
     },
     {
       id: 'review-immyme-weekend-walk',
       type: 'review',
       status: 'published',
       featured: false,
-      category: 'IMMYME 후기',
-      subLabel: '서비스 체험기 · 주말 산책',
-      bannerLine1: '맨날 가던 프랜차이즈 대신',
-      bannerHighlight: '골목길 숨은 아지트를',
-      bannerLine2: '1분 만에 찾았어요',
+      category: 'IMMYME',
       iconType: 'immyme',
-      themeColor: 'purple',
-      title: 'IMMYME 사용 후기: 약속 시간 1시간 남았을 때 기분 따라 동네 산책 코스 찾기',
-      summary: '핵심 요약 앱을 따로 설치하지 않고 모바일 웹에서 바로 기분과 걷기 취향을 골라, 평소 지나치던 골목의 조용한 책방과 카페를 발견한 사용자의 이야기입니다.',
-      tags: ['IMMYME후기', '동네산책', '장소추천'],
+      title: '약속 시간 한 시간 남았을 때 검색어 고민 없이 동네 산책 코스 고르기',
+      summary: '늘 가던 대형 카페 대신 그날 기분과 걷고 싶은 거리에 맞춰 큰길 뒤편의 조용한 책방과 산책로를 발견한 사용기입니다.',
+      tags: ['IMMYME', '동네산책', '모바일웹'],
       date: '2026.10.20',
-      readMin: 5,
-      views: 1120,
-      content: `## 지도 앱에서 '근처 카페'만 검색하던 습관이 바뀌었어요
-
-주말 오후에 갑자기 시간이 비었을 때, 늘 가던 대형 프랜차이즈 카페에 가기는 아쉬웠습니다. 친구가 공유해준 **IMMYME** 링크를 열어봤는데 앱 설치 없이 브라우저에서 바로 시작되는 점이 정말 편했습니다.
-
-### 기분과 걷기 취향만 골랐을 뿐인데
-
-* **선택한 기분**: 조용히 생각 정리하고 싶은 날 ☺
-* **걷기 취향**: 15분 내외로 천천히 걷기 좋은 길
-
-추천받은 곳은 평소 자주 지나다니던 큰길 바로 뒤편의 작은 독립서점 겸 카페였습니다. 광고성 블로그 리뷰 없이도 내 기분에 딱 맞는 공간을 발견할 수 있어 주말마다 애용하고 있습니다.`
-    },
-    {
-      id: 'review-toepick-part5-speed',
-      type: 'review',
-      status: 'published',
-      featured: false,
-      category: 'ToePick 후기',
-      subLabel: '대학생 학습 후기 · RC 단축',
-      bannerLine1: '항상 시간 부족했던 RC,',
-      bannerHighlight: 'Part 5 풀이 시간이',
-      bannerLine2: '절반으로 줄었어요',
-      iconType: 'star',
-      themeColor: 'lime',
-      title: '토익 Part 5에서 늘 시간을 뺏기던 대학생이 ToePick 해설로 풀이 속도를 높인 방법',
-      summary: '핵심 요약 문장 전체를 처음부터 끝까지 다 해석하느라 Part 7 시간이 모자랐던 학습자가 ToePick의 핵심 포인트 해설을 통해 빈칸 전후 단서 파악법을 익힌 후기입니다.',
-      tags: ['ToePick', '토익Part5', 'RC시간단축'],
-      date: '2026.10.18',
-      readMin: 5,
-      views: 910,
-      content: `## Part 5 한 문제에 1분씩 쓰던 습관을 고쳤습니다
-
-예전에는 Part 5 문제를 풀 때 모든 단어를 다 해석하려고 했습니다. ToePick으로 매일 15문제씩 풀면서 **해설이 짚어주는 문법 포인트와 빈출 콜로케이션**을 바로 확인하니, 빈칸 앞뒤만 보고도 10초 만에 답을 고르는 눈이 생겼습니다.`
-    },
-    {
-      id: 'review-immyme-travel-local',
-      type: 'review',
-      status: 'published',
-      featured: false,
-      category: 'IMMYME 후기',
-      subLabel: '국내 여행 · 동네 탐색',
-      bannerLine1: '계획 없이 떠난 당일치기,',
-      bannerHighlight: '현지인처럼 걷기 좋은',
-      bannerLine2: '장소를 추천받다',
-      iconType: 'map',
-      themeColor: 'pink',
-      title: '무계획 당일치기 여행에서 IMMYME로 관광지 대신 걷기 좋은 동네 스팟 찾기',
-      summary: '핵심 요약 유명한 관광 명소 대신 그날의 날씨와 걸음걸이 기분에 맞춰 한적한 산책 코스와 휴식 공간을 찾아낸 여행자의 후기입니다.',
-      tags: ['IMMYME', '당일치기', '산책코스'],
-      date: '2026.10.16',
       readMin: 4,
-      views: 780,
-      content: `## 계획표 없이 내린 역에서 바로 켠 IMMYME
+      content: `## 무엇을 검색할지 모를 때 가볍게 열기 좋은 웹페이지
 
-기차를 타고 내려서 아무 계획 없이 IMMYME를 켰습니다. 현재 위치 주변에서 '가볍게 걷기 좋은 곳'을 선택했더니 사람들로 붐비는 상업 거리 대신 고즈넉한 산책길과 전망 좋은 찻집을 추천해주어 최고의 오후를 보냈습니다.`
-    },
-    {
-      id: 'review-toepick-vocab-memory',
-      type: 'review',
-      status: 'published',
-      featured: false,
-      category: 'ToePick 후기',
-      subLabel: '단어 암기 · 복습 루틴',
-      bannerLine1: '외워도 까먹던 영단어,',
-      bannerHighlight: '풀었던 문장 그대로',
-      bannerLine2: '복습하니 안 잊혀요',
-      iconType: 'toepick',
-      themeColor: 'cream',
-      title: '단어장만 따로 외울 때보다 기억이 3배 오래 가는 ToePick 문맥 기반 단어 복습 후기',
-      summary: '핵심 요약 표제어와 뜻만 외우면 시험장에서 헷갈렸던 단어들을, 내가 직접 풀었던 LC·RC 문제의 문맥과 함께 복습하며 암기 효율을 높인 후기입니다.',
-      tags: ['토익단어', 'ToePick후기', '어휘복습'],
-      date: '2026.10.14',
-      readMin: 6,
-      views: 830,
-      content: `## 단어만 외우면 왜 시험장에서 기억이 안 날까?
+주말 오후에 약속 시간까지 애매하게 한 시간쯤 비었을 때 브라우저에서 바로 IMMYME를 열어봤습니다. 따로 앱을 받지 않아도 되고, '차분하게 걷고 싶은 기분'처럼 지금 상태만 고르면 주변 후보를 추려주어 결정하기가 한결 수월했습니다.
 
-단어장 책으로 외울 때는 분명 알던 단어인데 시험지 문장 속에 들어가면 뜻이 떠오르지 않았습니다. ToePick은 **방금 내가 풀었던 문제에 나온 단어를 바로 복습**하게 해주어서 문장 전체의 맥락과 함께 자연스럽게 기억에 남습니다.`
-    },
-    {
-      id: 'review-immyme-couple-date',
-      type: 'review',
-      status: 'published',
-      featured: false,
-      category: 'IMMYME 후기',
-      subLabel: '일상 발견 · 취향 매칭',
-      bannerLine1: '“오늘 뭐 할까?” 고민 끝,',
-      bannerHighlight: '서로의 오늘 기분으로',
-      bannerLine2: '새로운 동네 발견하기',
-      iconType: 'immyme',
-      themeColor: 'purple',
-      title: '매주 만나는 동네에서 새로운 산책 코스를 찾고 싶을 때 IMMYME를 쓰는 법',
-      summary: '핵심 요약 늘 비슷한 코스로만 걷던 일상에서 벗어나, 직접 지역을 선택하고 기분 키워드를 바꿔가며 색다른 장소를 발견한 사용자 후기입니다.',
-      tags: ['IMMYME', '주변가볼만한곳', '취향발견'],
-      date: '2026.10.10',
-      readMin: 5,
-      views: 740,
-      content: `## 익숙한 동네도 기분 키워드를 바꾸면 다르게 보입니다
-
-현재 위치뿐만 아니라 가고 싶은 지역을 직접 선택할 수 있어서, 만나기 전에 미리 그날 기분에 맞는 장소를 둘러보는 재미가 쏠쏠합니다.`
+광고성 리뷰를 길게 스크롤하지 않고도 평소 지나치던 골목 안쪽의 작은 공간들을 발견할 수 있어 날씨가 좋은 날 종종 열어보고 있습니다.`
     }
   ];
+
+  // Clean up legacy visitor cache if present
+  try {
+    LEGACY_KEYS.forEach(k => localStorage.removeItem(k));
+  } catch (e) {}
 
   function isAdminAuthenticated() {
     try {
@@ -458,21 +335,23 @@ input.addEventListener('keydown', (event) => {
     }
   }
 
+  function cleanSummary(str) {
+    return String(str || '').replace(/^핵심\s*요약[:\s]*/i, '').trim();
+  }
+
   function loadAllPosts() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_POSTS));
-        return DEFAULT_POSTS.slice();
-      }
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
       }
     } catch (e) {
       console.warn('Failed to read posts from localStorage:', e);
     }
-    return DEFAULT_POSTS.slice();
+    return DEFAULT_POSTS.map(p => Object.assign({}, p));
   }
 
   function saveAllPosts(posts) {
@@ -484,8 +363,10 @@ input.addEventListener('keydown', (event) => {
   }
 
   function resetToDefaults() {
-    saveAllPosts(DEFAULT_POSTS);
-    return DEFAULT_POSTS.slice();
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
+    return DEFAULT_POSTS.map(p => Object.assign({}, p));
   }
 
   function escapeHtml(str) {
@@ -512,7 +393,7 @@ input.addEventListener('keydown', (event) => {
   function calcReadMinutes(content) {
     const plain = stripMarkdown(content);
     const chars = plain.length;
-    return Math.max(3, Math.min(35, Math.round(chars / 140) || 5));
+    return Math.max(2, Math.min(30, Math.round(chars / 180) || 4));
   }
 
   function formatTodayDot() {
@@ -523,92 +404,51 @@ input.addEventListener('keydown', (event) => {
     return `${yyyy}.${mm}.${dd}`;
   }
 
-  function autoBannerFromTitle(title, category) {
-    const clean = String(title || '제목을 입력하세요').trim();
-    const parts = clean.split(/[:：\-—]/);
-    if (parts.length >= 2) {
-      const left = parts[0].trim();
-      const right = parts.slice(1).join(' ').trim();
-      const words = right.split(/\s+/);
-      const mid = Math.ceil(words.length / 2);
-      return {
-        bannerLine1: left.slice(0, 18),
-        bannerHighlight: words.slice(0, mid).join(' ').slice(0, 16) || clean.slice(0, 14),
-        bannerLine2: words.slice(mid).join(' ').slice(0, 18) || category || 'Minlabs'
-      };
-    }
-    const words = clean.split(/\s+/);
-    if (words.length >= 3) {
-      const third = Math.ceil(words.length / 3);
-      return {
-        bannerLine1: words.slice(0, third).join(' ').slice(0, 18),
-        bannerHighlight: words.slice(third, third * 2).join(' ').slice(0, 18),
-        bannerLine2: words.slice(third * 2).join(' ').slice(0, 18)
-      };
-    }
-    return {
-      bannerLine1: category || 'Minlabs Note',
-      bannerHighlight: clean.slice(0, 15),
-      bannerLine2: clean.slice(15, 30) || '새로운 이야기'
-    };
-  }
-
-  function normalizeTheme(theme) {
-    const map = {
-      blue: 'mint',
-      teal: 'mint',
-      indigo: 'purple',
-      slate: 'cream'
-    };
-    const t = map[theme] || theme || 'mint';
-    return ['mint', 'purple', 'lime', 'pink', 'cream'].includes(t) ? t : 'mint';
-  }
-
-  function getIconBoxHTML(post) {
+  function resolveIconKey(post) {
+    if (post.iconType && ICON_SVGS[post.iconType]) return post.iconType;
     const catLower = (post.category || '').toLowerCase();
-    const key = post.iconType || (catLower.includes('immy') ? 'immyme' : catLower.includes('toe') ? 'toepick' : (catLower.includes('shashak') || catLower.includes('샤샥')) ? 'shashak' : post.type === 'review' ? 'star' : 'ai');
-    const item = ICON_SVGS[key] || ICON_SVGS.ai;
-    const customLabel = escapeHtml(post.iconLabel || item.label || post.category || 'Minlabs');
-    if (item.img) {
-      return `<div class="thumb-icon-wrap"><div class="thumb-icon-box"><img src="${escapeHtml(item.img)}" alt=""></div><span class="thumb-icon-caption">${customLabel}</span></div>`;
-    }
-    return `<div class="thumb-icon-wrap"><div class="thumb-icon-box">${item.svg}</div><span class="thumb-icon-caption">${customLabel}</span></div>`;
+    if (catLower.includes('compilot') || catLower.includes('컴파일럿')) return 'compilot';
+    if (catLower.includes('left')) return 'leftinlife';
+    if (catLower.includes('shashak') || catLower.includes('샤샥')) return 'shashak';
+    if (catLower.includes('toe') || catLower.includes('토픽')) return 'toepick';
+    if (catLower.includes('immy')) return 'immyme';
+    return post.type === 'review' ? 'review' : 'note';
   }
 
-  function renderThumbnailHTML(post, isHero) {
-    const auto = autoBannerFromTitle(post.title, post.category);
-    const line1 = escapeHtml(post.bannerLine1 || auto.bannerLine1);
-    const hl = escapeHtml(post.bannerHighlight || auto.bannerHighlight);
-    const line2 = escapeHtml(post.bannerLine2 || auto.bannerLine2);
-    const subLabel = escapeHtml(post.subLabel || (post.type === 'review' ? '사용자 스토리 · 실사용 후기' : 'Minlabs 아티클'));
-    const catPill = escapeHtml(post.category || (post.type === 'review' ? '후기' : '블로그'));
-    const theme = normalizeTheme(post.themeColor);
+  function getMiniIconHTML(post) {
+    const key = resolveIconKey(post);
+    const item = ICON_SVGS[key] || ICON_SVGS.note;
+    if (item.img) {
+      return `<span class="journal-mini-icon" aria-hidden="true"><img src="${escapeHtml(item.img)}" alt="" width="22" height="22" loading="lazy"></span>`;
+    }
+    return `<span class="journal-mini-icon" aria-hidden="true">${item.svg}</span>`;
+  }
 
-    const bgStyle = post.thumbnailImage
-      ? `style="background-image: linear-gradient(90deg, rgba(25,24,30,0.82) 0%, rgba(25,24,30,0.45) 100%), url('${escapeHtml(post.thumbnailImage)}'); background-size: cover; background-position: center; color: #fff;"`
+  function renderCardBodyInnerHTML(post) {
+    const coverHtml = post.thumbnailImage
+      ? `<div class="journal-card-cover"><img src="${escapeHtml(post.thumbnailImage)}" alt="" loading="lazy"></div>`
       : '';
+    const tagsHtml = (post.tags || [])
+      .slice(0, 3)
+      .map(t => `<span class="journal-tag-chip">#${escapeHtml(t)}</span>`)
+      .join('');
+    const cat = escapeHtml(post.category || (post.type === 'review' ? '후기' : '기록'));
+    const dateStr = escapeHtml(post.date || '');
+    const summaryStr = escapeHtml(cleanSummary(post.summary));
 
     return `
-      <div class="av-thumb av-theme-${theme} ${isHero ? 'av-thumb-hero' : ''}" ${bgStyle}>
-        <div class="av-thumb-orbit" aria-hidden="true"></div>
-        <span class="av-thumb-spark" aria-hidden="true">✳</span>
-        <div class="av-thumb-top">
-          ${isHero
-            ? `<span class="av-sub-kicker">${subLabel}</span>`
-            : `<span class="av-cat-pill">${catPill}</span>`
-          }
-          <span class="av-brand-mark">minlabs<span class="av-brand-dot">.</span></span>
+      ${coverHtml}
+      <div class="journal-card-body">
+        <div class="journal-card-top">
+          ${getMiniIconHTML(post)}
+          <span class="journal-cat-label">${cat}</span>
+          ${dateStr ? `<span class="journal-meta-dot" aria-hidden="true">·</span><span class="journal-date-text">${dateStr}</span>` : ''}
         </div>
-        <div class="av-thumb-main">
-          <div class="av-thumb-copy">
-            ${!isHero ? `<span class="av-sub-kicker">${subLabel}</span>` : ''}
-            <div class="av-thumb-headline">
-              <span>${line1}</span>
-              <span class="av-hl"><span>${hl}</span></span>
-              ${line2 ? `<span>${line2}</span>` : ''}
-            </div>
-          </div>
-          ${getIconBoxHTML(post)}
+        <h2 class="journal-card-title">${escapeHtml(post.title)}</h2>
+        <p class="journal-card-summary">${summaryStr}</p>
+        <div class="journal-card-footer">
+          <div class="journal-card-tags">${tagsHtml}</div>
+          <span class="journal-read-cue">읽기 <span aria-hidden="true">↗</span></span>
         </div>
       </div>
     `;
@@ -721,11 +561,12 @@ input.addEventListener('keydown', (event) => {
         (Array.isArray(p.tags) && p.tags.some(tag => tag.toLowerCase().includes(q)))
       );
     }
-    if (opts.sort === 'popular') {
-      list.sort((a, b) => (b.views || 0) - (a.views || 0));
-    } else {
-      list.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
-    }
+    list.sort((a, b) => {
+      if (Boolean(b.featured) !== Boolean(a.featured)) {
+        return b.featured ? 1 : -1;
+      }
+      return String(b.date || '').localeCompare(String(a.date || ''));
+    });
     return list;
   }
 
@@ -739,13 +580,11 @@ input.addEventListener('keydown', (event) => {
     const nowDate = input.date || formatTodayDot();
     const plain = stripMarkdown(input.content || '');
     const defaultSummary = plain
-      ? `핵심 요약 ${plain.slice(0, 115)}${plain.length > 115 ? '...' : ''}`
-      : '핵심 요약 Minlabs에 등록된 새로운 글입니다.';
-    const summaryText = input.summary && input.summary.trim()
-      ? (input.summary.trim().startsWith('핵심 요약') ? input.summary.trim() : `핵심 요약 ${input.summary.trim()}`)
+      ? `${plain.slice(0, 120)}${plain.length > 120 ? '...' : ''}`
+      : '새로 작성된 기록입니다.';
+    const summaryText = input.summary && cleanSummary(input.summary)
+      ? cleanSummary(input.summary)
       : defaultSummary;
-
-    const autoBanner = autoBannerFromTitle(input.title, input.category);
 
     const postObj = {
       id: input.id || `${input.type || 'blog'}-${Date.now()}`,
@@ -753,20 +592,13 @@ input.addEventListener('keydown', (event) => {
       status: input.status === 'draft' ? 'draft' : 'published',
       featured: Boolean(input.featured),
       category: (input.category || (input.type === 'review' ? '후기' : 'Minlabs')).trim(),
-      subLabel: (input.subLabel || (input.type === 'review' ? '실사용 후기 · 스토리' : 'Minlabs Journal')).trim(),
-      bannerLine1: (input.bannerLine1 || autoBanner.bannerLine1).trim(),
-      bannerHighlight: (input.bannerHighlight || autoBanner.bannerHighlight).trim(),
-      bannerLine2: (input.bannerLine2 !== undefined ? input.bannerLine2 : autoBanner.bannerLine2).trim(),
-      iconType: input.iconType || (input.type === 'review' ? 'star' : 'ai'),
-      iconLabel: (input.iconLabel || '').trim(),
-      themeColor: normalizeTheme(input.themeColor),
+      iconType: input.iconType || resolveIconKey(input),
       thumbnailImage: input.thumbnailImage || '',
       title: (input.title || '제목 없는 글').trim(),
       summary: summaryText,
       tags: Array.isArray(input.tags) && input.tags.length ? input.tags : [(input.category || 'Minlabs').replace(/\s+/g, '')],
       date: nowDate,
       readMin: input.readMin || calcReadMinutes(input.content || ''),
-      views: typeof input.views === 'number' ? input.views : 120,
       content: input.content || ''
     };
 
@@ -824,11 +656,12 @@ input.addEventListener('keydown', (event) => {
     savePost,
     deletePost,
     setFeaturedPost,
-    renderThumbnailHTML,
+    getMiniIconHTML,
+    renderCardBodyInnerHTML,
     renderMarkdown,
     escapeHtml,
+    cleanSummary,
     calcReadMinutes,
-    autoBannerFromTitle,
     isAdminAuthenticated,
     AUTH_SESSION_KEY
   };

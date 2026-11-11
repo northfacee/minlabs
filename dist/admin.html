@@ -7,7 +7,8 @@
   <meta name="robots" content="noindex, nofollow, noarchive">
   <title>관리자 인증 | Minlabs</title>
   <link rel="icon" href="/assets/favicon.svg?v=10" type="image/svg+xml">
-  <link rel="stylesheet" href="/journal.css?v=9">
+  <link rel="stylesheet" href="/styles.css?v=12">
+  <link rel="stylesheet" href="/journal.css?v=12">
   <style>
     body.admin-body {
       margin: 0;
@@ -16,7 +17,7 @@
       min-height: 100dvh;
     }
 
-    /* ==================== PASSWORD AUTHENTICATION GATE ==================== */
+    /* Password Authentication Gate */
     .auth-gate-wrap {
       min-height: 100dvh;
       display: flex;
@@ -30,40 +31,22 @@
     }
 
     .auth-card {
-      width: min(440px, 100%);
-      background: #ffffff;
-      border: 2px solid var(--ink);
-      border-radius: 24px;
-      box-shadow: 0 6px 0 var(--ink);
-      padding: 36px 34px 32px;
-    }
-
-    .auth-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: var(--lime);
-      border: 1.5px solid var(--ink);
-      box-shadow: 2px 2px 0 var(--ink);
-      color: var(--ink);
-      font-size: 10.5px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      padding: 4px 11px;
-      border-radius: 99px;
-      margin-bottom: 16px;
+      width: min(400px, 100%);
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      border-radius: 16px;
+      padding: 32px 28px;
     }
 
     .auth-card h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 850;
-      letter-spacing: -1.1px;
+      font-size: 22px;
+      font-weight: 750;
+      letter-spacing: -0.7px;
     }
 
     .auth-card p {
-      margin: 8px 0 24px;
-      font-size: 14px;
+      margin: 8px 0 22px;
+      font-size: 13.5px;
       color: var(--muted);
       line-height: 1.65;
     }
@@ -71,8 +54,8 @@
     .auth-field-label {
       display: block;
       font-size: 12.5px;
-      font-weight: 750;
-      margin-bottom: 8px;
+      font-weight: 650;
+      margin-bottom: 6px;
       color: var(--ink);
     }
 
@@ -83,88 +66,83 @@
     }
 
     .auth-pw-input {
+      font-family: inherit;
       width: 100%;
-      height: 48px;
+      height: 44px;
       background: var(--bg);
-      border: 1.5px solid var(--ink);
-      border-radius: 12px;
-      padding: 0 74px 0 16px;
-      font-size: 15px;
-      font-weight: 600;
+      border: 1px solid var(--rule-strong);
+      border-radius: 10px;
+      padding: 0 68px 0 14px;
+      font-size: 14.5px;
       color: var(--ink);
-      box-shadow: 0 2px 0 var(--ink);
     }
 
     .auth-pw-input:focus {
       outline: none;
       border-color: var(--purple);
-      box-shadow: 0 4px 0 var(--purple);
-      background: #ffffff;
+      background: var(--surface);
     }
 
     .auth-pw-toggle {
+      font-family: inherit;
       position: absolute;
-      right: 10px;
-      background: #ffffff;
-      border: 1px solid var(--ink);
-      color: var(--ink);
+      right: 8px;
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      color: var(--muted);
       font-size: 11.5px;
-      font-weight: 750;
-      padding: 5px 10px;
-      border-radius: 8px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 6px;
       cursor: pointer;
     }
 
     .auth-pw-toggle:hover {
-      background: var(--lime);
+      color: var(--ink);
     }
 
     .auth-error-msg {
-      min-height: 20px;
-      margin: 12px 0 0;
+      min-height: 18px;
+      margin: 10px 0 0;
       font-size: 12.5px;
-      font-weight: 750;
+      font-weight: 600;
       color: #d92d20;
     }
 
     .auth-submit-btn {
-      margin-top: 14px;
+      font-family: inherit;
+      margin-top: 12px;
       width: 100%;
-      height: 48px;
-      background: var(--purple);
-      color: #ffffff;
-      border: 1.5px solid var(--ink);
-      border-radius: 12px;
-      box-shadow: 0 3px 0 var(--ink);
-      font-size: 15px;
-      font-weight: 800;
+      height: 44px;
+      background: var(--ink);
+      color: var(--bg);
+      border: 0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 650;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      transition: opacity 0.15s ease;
     }
 
     .auth-submit-btn:hover:not(:disabled) {
-      background: var(--lime);
-      color: var(--ink);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 0 var(--ink);
+      opacity: 0.88;
     }
 
     .auth-submit-btn:disabled {
-      opacity: 0.55;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
     .auth-back-home {
       display: inline-block;
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 13px;
-      font-weight: 700;
       color: var(--muted);
       text-decoration: underline;
       text-underline-offset: 4px;
     }
 
-    /* ==================== PROTECTED WORKSPACE ==================== */
+    /* Protected Workspace */
     .admin-workspace {
       display: none;
     }
@@ -173,174 +151,162 @@
       display: block;
     }
 
-    /* VIEW 1: ADMIN POST LIST */
     .admin-list-view {
-      width: min(1120px, calc(100% - 96px));
+      width: min(1080px, calc(100% - 64px));
       margin: 0 auto;
       padding-bottom: 80px;
     }
 
     .admin-topbar {
-      height: 88px;
+      min-height: 72px;
+      padding: 12px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #19181e25;
-      gap: 16px;
+      border-bottom: 1px solid var(--rule);
+      gap: 14px;
       flex-wrap: wrap;
     }
 
     .admin-brand-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .admin-badge {
-      background: var(--ink);
-      color: var(--lime);
-      border: 1px solid var(--ink);
-      font-size: 10.5px;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 99px;
-      letter-spacing: 0.5px;
+      background: rgba(25, 24, 30, 0.07);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+      padding: 3px 8px;
+      border-radius: 6px;
     }
 
     .admin-top-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
-    .admin-nav-btn {
-      padding: 9px 15px;
-      border-radius: 99px;
-      border: 1.5px solid var(--ink);
-      background: #ffffff;
+    .admin-nav-btn,
+    .row-btn {
+      font-family: inherit;
+      padding: 7px 13px;
+      border-radius: 8px;
+      border: 1px solid var(--rule-strong);
+      background: var(--surface);
       color: var(--ink);
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 12.5px;
+      font-weight: 550;
       cursor: pointer;
-      box-shadow: 0 2px 0 var(--ink);
-      transition: transform 0.15s ease, background 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
     }
 
-    .admin-nav-btn:hover {
-      background: var(--lime);
-      transform: translateY(-2px);
+    .admin-nav-btn:hover,
+    .row-btn:hover {
+      background: rgba(25, 24, 30, 0.04);
+    }
+
+    .row-btn-danger {
+      color: #b42318;
+    }
+
+    .row-btn-danger:hover {
+      background: #fef3f2;
+      border-color: #fecdca;
     }
 
     .admin-primary-btn {
-      padding: 10px 20px;
-      border-radius: 99px;
-      border: 1.5px solid var(--ink);
-      background: var(--purple);
-      color: #ffffff;
-      font-size: 13.5px;
-      font-weight: 800;
+      font-family: inherit;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 0;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 650;
       cursor: pointer;
-      box-shadow: 0 3px 0 var(--ink);
-      transition: transform 0.15s ease, background 0.15s ease;
     }
 
     .admin-primary-btn:hover {
-      background: var(--lime);
-      color: var(--ink);
-      transform: translateY(-2px);
+      opacity: 0.88;
     }
 
     .admin-list-header {
-      margin-top: 34px;
+      margin-top: 28px;
       display: flex;
       align-items: flex-end;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .admin-list-header h1 {
-      margin: 0;
-      font-size: 32px;
-      font-weight: 850;
-      letter-spacing: -1.2px;
-    }
-
-    .admin-list-header p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14.5px;
-      font-weight: 550;
-    }
-
-    .admin-filter-row {
-      margin-top: 24px;
-      padding: 16px 0;
-      border-top: 1px solid #19181e25;
-      border-bottom: 1px solid #19181e25;
-      display: flex;
-      align-items: center;
       justify-content: space-between;
       gap: 16px;
       flex-wrap: wrap;
     }
 
+    .admin-list-header h1 {
+      font-size: 26px;
+      font-weight: 750;
+      letter-spacing: -0.9px;
+    }
+
+    .admin-list-header p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .admin-filter-row {
+      margin-top: 22px;
+      padding: 14px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
     .admin-tabs {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
     .admin-tab {
-      background: #ffffff;
-      border: 1.5px solid var(--ink);
-      color: var(--ink);
+      font-family: inherit;
+      background: transparent;
+      border: 0;
+      color: var(--muted);
       font-size: 13px;
-      font-weight: 750;
-      padding: 7px 16px;
+      font-weight: 550;
+      padding: 6px 13px;
       border-radius: 99px;
       cursor: pointer;
-      box-shadow: 0 2px 0 var(--ink);
     }
 
     .admin-tab.active {
       background: var(--ink);
-      color: var(--lime);
-      box-shadow: 0 2px 0 var(--purple);
+      color: var(--bg);
+      font-weight: 650;
     }
 
     .admin-post-table {
-      margin-top: 22px;
+      margin-top: 18px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
     }
 
     .admin-post-row {
       display: grid;
-      grid-template-columns: 220px 1fr auto;
-      gap: 22px;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
       align-items: center;
-      padding: 16px 20px;
-      background: #ffffff;
-      border: 1.5px solid var(--ink);
-      border-radius: 18px;
-      box-shadow: 0 3px 0 var(--ink);
-      transition: transform 0.16s ease, box-shadow 0.16s ease;
-    }
-
-    .admin-post-row:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 var(--ink);
-    }
-
-    .admin-row-thumb {
+      padding: 18px 20px;
+      background: var(--surface);
+      border: 1px solid var(--rule);
       border-radius: 12px;
-      overflow: hidden;
-      border: 1.5px solid var(--ink);
-      zoom: 0.56;
-      pointer-events: none;
     }
 
     .admin-row-info {
@@ -352,53 +318,40 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      font-size: 12px;
     }
 
-    .badge-type-blog {
-      background: var(--mint);
-      border: 1px solid var(--ink);
-      color: var(--ink);
+    .badge-type-blog,
+    .badge-type-review,
+    .badge-draft,
+    .badge-featured {
       font-size: 11px;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 99px;
+      font-weight: 650;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(25, 24, 30, 0.06);
+      color: var(--ink);
     }
 
     .badge-type-review {
-      background: var(--purple);
-      border: 1px solid var(--ink);
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 99px;
+      background: rgba(78, 20, 245, 0.09);
+      color: var(--purple);
     }
 
     .badge-draft {
-      background: var(--lime);
-      border: 1px solid var(--ink);
-      color: var(--ink);
-      font-size: 11px;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 99px;
+      background: #fef0c7;
+      color: #93370d;
     }
 
     .badge-featured {
-      background: var(--pink);
-      border: 1px solid var(--ink);
-      color: var(--ink);
-      font-size: 11px;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 99px;
+      background: #eef4ff;
+      color: #1d4ed8;
     }
 
     .admin-row-title {
-      margin: 0;
-      font-size: 17px;
-      font-weight: 800;
+      font-size: 16px;
+      font-weight: 700;
       color: var(--ink);
       white-space: nowrap;
       overflow: hidden;
@@ -406,57 +359,35 @@
     }
 
     .admin-row-summary {
-      margin: 6px 0 0;
+      margin-top: 4px;
       font-size: 13px;
-      color: #6e6875;
+      color: var(--muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .admin-row-meta {
-      margin-top: 8px;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--muted);
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--subtle);
     }
 
     .admin-row-actions {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
-    .row-btn {
-      background: var(--bg);
-      border: 1.5px solid var(--ink);
-      color: var(--ink);
-      font-size: 12px;
-      font-weight: 750;
-      padding: 7px 12px;
-      border-radius: 99px;
-      cursor: pointer;
-      box-shadow: 0 2px 0 var(--ink);
-    }
-
-    .row-btn:hover {
-      background: var(--lime);
-    }
-
-    .row-btn-danger:hover {
-      background: var(--pink);
-      color: var(--ink);
-    }
-
-    /* ==================== VIEW 2: VELOG-STYLE WRITER IN MINLABS THEME ==================== */
+    /* Split Markdown Editor */
     .velog-editor-view {
       display: none;
       min-height: 100dvh;
-      background: #ffffff;
+      background: var(--surface);
       color: var(--ink);
       position: relative;
-      padding-bottom: 76px;
+      padding-bottom: 68px;
     }
 
     body.mode-editor .admin-list-view {
@@ -469,12 +400,12 @@
     }
 
     .velog-left-pane {
-      padding: 36px 48px 96px;
+      padding: 32px 44px 96px;
       display: flex;
       flex-direction: column;
-      min-height: calc(100dvh - 68px);
-      border-right: 1.5px solid var(--ink);
-      background: #ffffff;
+      min-height: calc(100dvh - 64px);
+      border-right: 1px solid var(--rule);
+      background: var(--surface);
     }
 
     .velog-meta-bar {
@@ -485,36 +416,34 @@
       flex-wrap: wrap;
       padding: 10px 14px;
       background: var(--bg);
-      border: 1.5px solid var(--ink);
-      border-radius: 14px;
-      box-shadow: 0 3px 0 var(--ink);
-      margin-bottom: 26px;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      margin-bottom: 22px;
     }
 
     .velog-type-switch {
       display: inline-flex;
-      background: #ffffff;
-      padding: 3px;
-      border-radius: 99px;
-      border: 1.5px solid var(--ink);
+      background: var(--surface);
+      padding: 2px;
+      border-radius: 8px;
+      border: 1px solid var(--rule-strong);
     }
 
     .velog-type-btn {
+      font-family: inherit;
       background: transparent;
-      border: none;
+      border: 0;
       color: var(--muted);
       font-size: 12.5px;
-      font-weight: 800;
-      padding: 6px 14px;
-      border-radius: 99px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.15s ease;
     }
 
     .velog-type-btn.active {
-      background: var(--mint);
-      color: var(--ink);
-      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--bg);
     }
 
     .velog-meta-controls {
@@ -525,14 +454,14 @@
     }
 
     .velog-mini-input {
-      background: #ffffff;
-      border: 1.5px solid var(--ink);
+      font-family: inherit;
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
       color: var(--ink);
       font-size: 12.5px;
-      font-weight: 650;
       padding: 6px 10px;
-      border-radius: 8px;
-      width: 136px;
+      border-radius: 7px;
+      width: 140px;
     }
 
     .velog-check-label {
@@ -540,32 +469,30 @@
       align-items: center;
       gap: 6px;
       font-size: 12.5px;
-      font-weight: 750;
-      color: var(--ink);
+      color: var(--muted);
       cursor: pointer;
       user-select: none;
     }
 
     .velog-card-tune-toggle {
-      background: var(--lime);
-      border: 1.5px solid var(--ink);
-      box-shadow: 2px 2px 0 var(--ink);
+      font-family: inherit;
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
       color: var(--ink);
       font-size: 12px;
-      font-weight: 800;
-      padding: 6px 12px;
-      border-radius: 99px;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 7px;
       cursor: pointer;
     }
 
     .velog-card-drawer {
       display: none;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
       padding: 16px;
       background: var(--bg);
-      border: 1.5px solid var(--ink);
-      border-radius: 14px;
-      box-shadow: 0 3px 0 var(--ink);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
@@ -581,46 +508,45 @@
     }
 
     .drawer-field label {
-      font-size: 11.5px;
-      color: var(--ink);
-      font-weight: 750;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
     }
 
     .drawer-field input,
     .drawer-field select {
-      background: #ffffff;
-      border: 1.5px solid var(--ink);
+      font-family: inherit;
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
       color: var(--ink);
       font-size: 13px;
-      font-weight: 600;
       padding: 8px 10px;
-      border-radius: 8px;
+      border-radius: 7px;
     }
 
-    /* Title Input matching Image 4 structure */
     .velog-title-input {
       width: 100%;
       background: transparent;
-      border: none;
+      border: 0;
       outline: none;
       color: var(--ink);
-      font-size: clamp(28px, 3.2vw, 42px);
-      font-weight: 850;
-      letter-spacing: -1.4px;
-      line-height: 1.28;
+      font-size: clamp(24px, 2.8vw, 34px);
+      font-weight: 760;
+      letter-spacing: -1px;
+      line-height: 1.3;
       padding: 0;
       font-family: inherit;
     }
 
     .velog-title-input::placeholder {
-      color: #a09aa8;
+      color: #a6a0af;
     }
 
     .velog-divider {
-      width: 64px;
-      height: 6px;
+      width: 48px;
+      height: 3px;
       background: var(--ink);
-      margin: 20px 0 16px;
+      margin: 18px 0 14px;
       border-radius: 2px;
     }
 
@@ -629,86 +555,79 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .velog-tag-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: var(--mint);
-      border: 1.5px solid var(--ink);
-      box-shadow: 2px 2px 0 var(--ink);
+      gap: 5px;
+      background: var(--bg);
+      border: 1px solid var(--rule-strong);
       color: var(--ink);
-      font-size: 13px;
-      font-weight: 750;
-      padding: 4px 12px;
+      font-size: 12.5px;
+      padding: 4px 10px;
       border-radius: 99px;
       cursor: pointer;
     }
 
     .velog-tag-input {
       background: transparent;
-      border: none;
+      border: 0;
       outline: none;
       color: var(--ink);
-      font-size: 15.5px;
-      font-weight: 600;
-      min-width: 160px;
+      font-size: 14px;
+      min-width: 150px;
       padding: 4px 0;
       font-family: inherit;
     }
 
     .velog-tag-input::placeholder {
-      color: #8c8596;
+      color: var(--subtle);
     }
 
-    /* Formatting Toolbar matching Image 4 */
     .velog-toolbar {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
       gap: 4px;
-      margin-bottom: 24px;
-      padding: 6px 8px;
+      margin-bottom: 20px;
+      padding: 5px 7px;
       background: var(--bg);
-      border: 1.5px solid var(--ink);
-      border-radius: 12px;
+      border: 1px solid var(--rule);
+      border-radius: 9px;
       user-select: none;
     }
 
     .velog-tool-btn {
-      width: 38px;
-      height: 36px;
+      width: 34px;
+      height: 32px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       background: transparent;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      color: var(--ink);
-      font-size: 15px;
-      font-weight: 800;
+      border: 0;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.14s ease;
-      font-family: Georgia, "Times New Roman", serif;
     }
 
     .velog-tool-btn sub {
       font-size: 10px;
-      margin-left: 1px;
     }
 
     .velog-tool-btn:hover {
-      background: var(--lime);
-      border-color: var(--ink);
+      background: var(--surface);
+      color: var(--ink);
     }
 
     .velog-tool-sep {
-      width: 1.5px;
-      height: 20px;
-      background: #19181e30;
-      margin: 0 6px;
+      width: 1px;
+      height: 18px;
+      background: var(--rule);
+      margin: 0 4px;
     }
 
     .velog-body-textarea {
@@ -716,150 +635,128 @@
       width: 100%;
       min-height: 420px;
       background: transparent;
-      border: none;
+      border: 0;
       outline: none;
       resize: none;
       color: var(--ink);
-      font-size: 16.5px;
+      font-size: 15.5px;
       line-height: 1.85;
       font-family: inherit;
     }
 
     .velog-body-textarea::placeholder {
-      color: #8c8596;
-      font-style: italic;
+      color: var(--subtle);
     }
 
-    /* Right Live Preview Pane */
     .velog-right-pane {
-      padding: 36px 44px 96px;
+      padding: 32px 44px 96px;
       background: var(--bg);
       overflow-y: auto;
-      max-height: calc(100dvh - 68px);
+      max-height: calc(100dvh - 64px);
     }
 
     .preview-section-label {
-      font-size: 10.5px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      color: var(--purple);
-      margin: 0 0 12px;
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: 0.4px;
+      color: var(--subtle);
+      margin-bottom: 10px;
       text-transform: uppercase;
     }
 
     .preview-card-box {
-      max-width: 370px;
-      margin-bottom: 34px;
+      max-width: 460px;
+      margin-bottom: 32px;
       padding-bottom: 28px;
-      border-bottom: 1.5px solid #19181e25;
+      border-bottom: 1px solid var(--rule);
     }
 
-    /* Fixed Bottom Bar matching Image 4 */
+    .preview-article-box {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      padding: 28px 30px;
+    }
+
     .velog-bottom-bar {
       position: fixed;
       left: 0;
       right: 0;
       bottom: 0;
-      height: 68px;
-      background: #ffffff;
-      border-top: 1.5px solid var(--ink);
-      padding: 0 28px;
+      height: 64px;
+      background: var(--surface);
+      border-top: 1px solid var(--rule);
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       z-index: 50;
     }
 
-    .velog-exit-btn {
-      background: var(--bg);
-      border: 1.5px solid var(--ink);
+    .velog-exit-btn,
+    .velog-draft-btn {
+      font-family: inherit;
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
       color: var(--ink);
-      font-size: 14.5px;
-      font-weight: 750;
+      font-size: 13.5px;
+      font-weight: 550;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
-      padding: 8px 16px;
-      border-radius: 99px;
-      box-shadow: 0 2px 0 var(--ink);
-    }
-
-    .velog-exit-btn:hover {
-      background: var(--lime);
+      padding: 8px 14px;
+      border-radius: 8px;
     }
 
     .velog-bottom-right {
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-
-    .velog-draft-btn {
-      background: #ffffff;
-      border: 1.5px solid var(--ink);
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 750;
-      padding: 9px 18px;
-      border-radius: 99px;
-      cursor: pointer;
-      box-shadow: 0 2px 0 var(--ink);
-    }
-
-    .velog-draft-btn:hover {
-      background: var(--bg);
+      gap: 10px;
     }
 
     .velog-publish-btn {
-      background: var(--mint);
-      border: 1.5px solid var(--ink);
-      color: var(--ink);
-      font-size: 14.5px;
-      font-weight: 850;
-      padding: 9px 22px;
-      border-radius: 99px;
-      box-shadow: 0 3px 0 var(--ink);
+      font-family: inherit;
+      background: var(--ink);
+      border: 0;
+      color: var(--bg);
+      font-size: 13.5px;
+      font-weight: 650;
+      padding: 9px 18px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: transform 0.15s ease, background 0.15s ease;
     }
 
     .velog-publish-btn:hover {
-      background: var(--lime);
-      transform: translateY(-2px);
+      opacity: 0.88;
     }
 
-    /* Password Change Modal Dialog */
     dialog.pw-dialog {
-      border: 2px solid var(--ink);
-      border-radius: 20px;
-      box-shadow: 0 8px 0 var(--ink);
-      padding: 28px 30px;
-      width: min(400px, calc(100% - 32px));
-      background: #ffffff;
+      border: 1px solid var(--rule-strong);
+      border-radius: 14px;
+      padding: 26px 28px;
+      width: min(380px, calc(100% - 32px));
+      background: var(--surface);
       color: var(--ink);
     }
 
     dialog.pw-dialog::backdrop {
-      background: rgba(25, 24, 30, 0.45);
+      background: rgba(25, 24, 30, 0.4);
     }
 
-    /* Toast Notification */
     .admin-toast {
       position: fixed;
-      bottom: 84px;
-      right: 28px;
+      bottom: 80px;
+      right: 24px;
       background: var(--ink);
-      color: var(--lime);
-      border: 1.5px solid var(--ink);
-      box-shadow: 4px 4px 0 var(--purple);
-      font-weight: 800;
-      font-size: 13.5px;
-      padding: 12px 20px;
-      border-radius: 99px;
+      color: var(--bg);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 10px 16px;
+      border-radius: 8px;
       opacity: 0;
       pointer-events: none;
-      transform: translateY(10px);
+      transform: translateY(8px);
       transition: all 0.2s ease;
       z-index: 100;
     }
@@ -871,7 +768,7 @@
 
     @media (max-width: 1020px) {
       .admin-list-view {
-        width: calc(100% - 40px);
+        width: calc(100% - 36px);
       }
       body.mode-editor .velog-editor-view {
         grid-template-columns: 1fr;
@@ -882,14 +779,11 @@
       }
       .velog-right-pane {
         max-height: none;
-        border-top: 1.5px solid var(--ink);
+        border-top: 1px solid var(--rule);
         padding: 24px 20px 96px;
       }
       .admin-post-row {
         grid-template-columns: 1fr;
-      }
-      .admin-row-thumb {
-        display: none;
       }
       .velog-card-drawer {
         grid-template-columns: 1fr;
@@ -898,12 +792,10 @@
   </style>
 </head>
 <body class="admin-body">
-  <!-- ==================== PASSWORD AUTHENTICATION GATE ==================== -->
   <main class="auth-gate-wrap" id="admin-auth-gate">
     <div class="auth-card">
-      <div class="auth-badge">🔒 PROTECTED ADMIN</div>
-      <h1>Minlabs 관리자 인증</h1>
-      <p>블로그 및 후기 관리 페이지입니다. 계속하려면 관리자 비밀번호를 입력해주세요.</p>
+      <h1>관리자 인증</h1>
+      <p>블로그 및 후기 관리 페이지입니다. 비밀번호를 입력해주세요.</p>
       <form id="admin-login-form">
         <label class="auth-field-label" for="current-password">관리자 비밀번호</label>
         <div class="auth-pw-row">
@@ -921,28 +813,26 @@
         <p id="auth-error-msg" class="auth-error-msg" role="alert" aria-live="assertive"></p>
         <button type="submit" id="btn-login-submit" class="auth-submit-btn">잠금 해제</button>
       </form>
-      <a class="auth-back-home" href="/">← Minlabs 홈으로 돌아가기</a>
+      <a class="auth-back-home" href="/">← 홈으로 돌아가기</a>
     </div>
   </main>
 
-  <!-- ==================== PROTECTED CMS WORKSPACE ==================== -->
   <div id="admin-protected-workspace" class="admin-workspace" inert>
-    <!-- VIEW 1: POST MANAGEMENT LIST -->
     <div class="admin-list-view">
       <header class="admin-topbar">
         <div class="admin-brand-group">
-          <a class="journal-brand" href="/">
-            <img class="journal-brand-symbol" src="/assets/minlabs-symbol.svg?v=10" alt="" width="58" height="36">
-            <span>minlabs<span class="journal-brand-period">.</span></span>
+          <a class="brand" href="/">
+            <img class="brand-symbol" src="/assets/minlabs-symbol.svg?v=10" alt="" width="50" height="32">
+            <span>minlabs<span class="brand-period">.</span></span>
           </a>
-          <span class="admin-badge">ADMIN</span>
+          <span class="admin-badge">관리</span>
         </div>
         <div class="admin-top-actions">
           <a class="admin-nav-btn" href="/">홈</a>
           <a class="admin-nav-btn" href="/blog.html">블로그 ↗</a>
           <a class="admin-nav-btn" href="/reviews.html">후기 ↗</a>
           <button type="button" id="btn-open-pw-dialog" class="admin-nav-btn">비밀번호 변경</button>
-          <button type="button" id="btn-lock-admin" class="admin-nav-btn">잠금 🔒</button>
+          <button type="button" id="btn-lock-admin" class="admin-nav-btn">잠금</button>
           <button type="button" id="btn-new-post" class="admin-primary-btn">+ 새 글 작성</button>
         </div>
       </header>
@@ -950,11 +840,11 @@
       <section class="admin-list-header">
         <div>
           <h1>글 목록 관리</h1>
-          <p>여기서 작성·수정한 글은 선택에 따라 <strong>블로그</strong> 또는 <strong>후기</strong> 페이지에 즉시 반영됩니다.</p>
+          <p>작성한 글은 현재 브라우저에 저장되며 JSON 백업으로 내보낼 수 있습니다.</p>
         </div>
         <div style="display:flex; gap:8px;">
           <button type="button" id="btn-export-json" class="row-btn">JSON 백업</button>
-          <button type="button" id="btn-reset-defaults" class="row-btn">기본 샘플 복원</button>
+          <button type="button" id="btn-reset-defaults" class="row-btn">기본 글 복원</button>
         </div>
       </section>
 
@@ -965,9 +855,9 @@
           <button type="button" class="admin-tab" data-filter="review">후기 (<span id="cnt-review">0</span>)</button>
           <button type="button" class="admin-tab" data-filter="draft">임시저장 (<span id="cnt-draft">0</span>)</button>
         </div>
-        <div class="journal-search-wrap" style="width: 260px;">
+        <div class="journal-search-wrap">
           <span class="journal-search-icon" aria-hidden="true">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
           </span>
           <label for="admin-search-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">관리 글 검색</label>
           <input id="admin-search-input" class="journal-search-input" type="search" placeholder="제목·태그 검색">
@@ -977,70 +867,45 @@
       <div id="admin-post-list" class="admin-post-table"></div>
     </div>
 
-    <!-- VIEW 2: VELOG-STYLE EDITOR -->
     <div class="velog-editor-view" id="velog-editor-view">
       <div class="velog-left-pane">
         <div class="velog-meta-bar">
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-            <span style="font-size:12px; color:var(--ink); font-weight:800;">노출 위치</span>
+            <span style="font-size:12px; color:var(--muted); font-weight:650;">구분</span>
             <div class="velog-type-switch" role="group" aria-label="게시판 구분">
               <button type="button" class="velog-type-btn active" data-editor-type="blog">블로그</button>
               <button type="button" class="velog-type-btn" data-editor-type="review">후기</button>
             </div>
             <label for="ed-category" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">카테고리</label>
-            <input id="ed-category" class="velog-mini-input" type="text" placeholder="카테고리 (예: ToePick)">
+            <input id="ed-category" class="velog-mini-input" type="text" placeholder="카테고리 (예: Compilot)">
           </div>
           <div class="velog-meta-controls">
             <label class="velog-check-label">
               <input type="checkbox" id="ed-featured">
-              <span>EDITOR'S PICK (대표글)</span>
+              <span>상단 고정</span>
             </label>
-            <button type="button" id="btn-toggle-card-drawer" class="velog-card-tune-toggle">썸네일 배너 설정 ▾</button>
+            <button type="button" id="btn-toggle-card-drawer" class="velog-card-tune-toggle">카드 설정 ▾</button>
           </div>
         </div>
 
         <div id="velog-card-drawer" class="velog-card-drawer">
           <div class="drawer-field">
-            <label for="ed-sublabel">썸네일 상단 부제</label>
-            <input id="ed-sublabel" type="text" placeholder="예: 제품 설계 · 학습 루프">
-          </div>
-          <div class="drawer-field">
-            <label for="ed-icon-type">우측 아이콘 배지</label>
+            <label for="ed-icon-type">아이콘</label>
             <select id="ed-icon-type">
-              <option value="shashak">샤샥 로고</option>
-              <option value="toepick">ToePick 로고</option>
-              <option value="immyme">IMMYME 로고</option>
-              <option value="ai">AI · 실험실</option>
+              <option value="compilot">Compilot</option>
+              <option value="leftinlife">LEFT IN LIFE</option>
+              <option value="shashak">샤샥</option>
+              <option value="toepick">ToePick</option>
+              <option value="immyme">IMMYME</option>
               <option value="code">개발 · 코드</option>
-              <option value="star">별점 · 후기</option>
-              <option value="map">산책 · 지도</option>
+              <option value="note">일반 노트</option>
+              <option value="review">후기</option>
+              <option value="map">산책 · 장소</option>
             </select>
           </div>
           <div class="drawer-field">
-            <label for="ed-banner-line1">썸네일 문구 1줄</label>
-            <input id="ed-banner-line1" type="text" placeholder="비워두면 제목에서 자동 생성">
-          </div>
-          <div class="drawer-field">
-            <label for="ed-banner-hl">썸네일 강조 스티커 2줄 (라임 강조)</label>
-            <input id="ed-banner-hl" type="text" placeholder="비워두면 제목에서 자동 생성">
-          </div>
-          <div class="drawer-field">
-            <label for="ed-banner-line2">썸네일 문구 3줄</label>
-            <input id="ed-banner-line2" type="text" placeholder="비워두면 제목에서 자동 생성">
-          </div>
-          <div class="drawer-field">
-            <label for="ed-theme-color">썸네일 배경 컬러 (Minlabs 팔레트)</label>
-            <select id="ed-theme-color">
-              <option value="mint">민트 (Mint)</option>
-              <option value="purple">일렉트릭 퍼플 (Purple)</option>
-              <option value="lime">비비드 라임 (Lime)</option>
-              <option value="pink">핫 핑크 (Pink)</option>
-              <option value="cream">크림 (Cream)</option>
-            </select>
-          </div>
-          <div class="drawer-field" style="grid-column: 1 / -1;">
-            <label for="ed-summary">카드 요약 설명 (비워두면 본문 앞부분으로 자동 생성)</label>
-            <input id="ed-summary" type="text" placeholder="핵심 요약 문구를 입력하세요">
+            <label for="ed-summary">카드 요약 설명 (선택)</label>
+            <input id="ed-summary" type="text" placeholder="비워두면 본문 앞부분으로 자동 생성">
           </div>
         </div>
 
@@ -1052,7 +917,7 @@
         <div class="velog-tags-wrap" id="ed-tags-wrap">
           <div id="ed-tags-list" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
           <label for="ed-tag-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">태그 입력</label>
-          <input id="ed-tag-input" class="velog-tag-input" type="text" placeholder="태그를 입력하세요" autocomplete="off">
+          <input id="ed-tag-input" class="velog-tag-input" type="text" placeholder="태그 입력 후 Enter" autocomplete="off">
         </div>
 
         <div class="velog-toolbar" role="toolbar" aria-label="글 서식 도구 모음">
@@ -1061,62 +926,56 @@
           <button type="button" class="velog-tool-btn" data-md="h3" title="제목 3">H<sub>3</sub></button>
           <button type="button" class="velog-tool-btn" data-md="h4" title="제목 4">H<sub>4</sub></button>
           <span class="velog-tool-sep" aria-hidden="true"></span>
-          <button type="button" class="velog-tool-btn" data-md="bold" title="굵게" style="font-family:sans-serif;font-weight:800;">B</button>
+          <button type="button" class="velog-tool-btn" data-md="bold" title="굵게">B</button>
           <button type="button" class="velog-tool-btn" data-md="italic" title="기울임" style="font-style:italic;">I</button>
-          <button type="button" class="velog-tool-btn" data-md="strike" title="취소선" style="font-family:sans-serif;text-decoration:line-through;">S</button>
+          <button type="button" class="velog-tool-btn" data-md="strike" title="취소선" style="text-decoration:line-through;">S</button>
           <span class="velog-tool-sep" aria-hidden="true"></span>
           <button type="button" class="velog-tool-btn" data-md="quote" title="인용구" aria-label="인용구">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
           </button>
           <button type="button" class="velog-tool-btn" data-md="link" title="링크 삽입" aria-label="링크 삽입">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           </button>
           <button type="button" class="velog-tool-btn" data-md="image" title="이미지 삽입" aria-label="이미지 삽입">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
           </button>
           <button type="button" class="velog-tool-btn" data-md="code" title="코드블록" aria-label="코드블록">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           </button>
           <input type="file" id="ed-image-file" accept="image/*" style="display:none;">
         </div>
 
         <label for="ed-body" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">본문</label>
-        <textarea id="ed-body" class="velog-body-textarea" placeholder="당신의 이야기를 적어보세요..."></textarea>
+        <textarea id="ed-body" class="velog-body-textarea" placeholder="내용을 작성하세요..."></textarea>
       </div>
 
-      <!-- Live Preview Pane -->
       <div class="velog-right-pane">
-        <p class="preview-section-label">CARD PREVIEW (블로그·후기 카드 미리보기)</p>
+        <p class="preview-section-label">목록 카드 미리보기</p>
         <div class="preview-card-box" id="ed-card-preview"></div>
 
-        <p class="preview-section-label">ARTICLE PREVIEW (본문 미리보기)</p>
-        <div class="post-detail-card" style="padding: 26px 28px;">
-          <h2 id="ed-preview-title" style="font-size:26px; font-weight:850; margin:0 0 18px; color:var(--ink); letter-spacing:-0.8px;"></h2>
-          <div id="ed-body-preview" class="post-content"></div>
+        <p class="preview-section-label">본문 미리보기</p>
+        <div class="preview-article-box">
+          <h2 id="ed-preview-title" style="font-size:24px; font-weight:750; margin:0 0 18px; color:var(--ink); letter-spacing:-0.7px;"></h2>
+          <div id="ed-body-preview" class="post-content" style="margin-top:0;"></div>
         </div>
       </div>
 
-      <!-- Fixed Bottom Bar -->
       <div class="velog-bottom-bar">
-        <button type="button" id="btn-editor-exit" class="velog-exit-btn">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-          <span>나가기</span>
-        </button>
+        <button type="button" id="btn-editor-exit" class="velog-exit-btn">← 나가기</button>
         <div class="velog-bottom-right">
           <button type="button" id="btn-save-draft" class="velog-draft-btn">임시저장</button>
-          <button type="button" id="btn-publish-post" class="velog-publish-btn">출간하기</button>
+          <button type="button" id="btn-publish-post" class="velog-publish-btn">저장 및 게시</button>
         </div>
       </div>
     </div>
 
-    <!-- Change Password Modal -->
     <dialog id="pw-change-dialog" class="pw-dialog" closedby="any">
-      <h2 style="margin:0 0 8px; font-size:21px; font-weight:850;">비밀번호 변경</h2>
-      <p style="margin:0 0 18px; font-size:13px; color:var(--muted);">새 관리자 비밀번호는 SHA-256 해시로 암호화되어 저장됩니다.</p>
+      <h2 style="margin:0 0 8px; font-size:19px; font-weight:750;">비밀번호 변경</h2>
+      <p style="margin:0 0 16px; font-size:13px; color:var(--muted);">새 관리자 비밀번호는 SHA-256 해시로 저장됩니다.</p>
       <form id="pw-change-form">
         <label class="auth-field-label" for="new-password">새 비밀번호 (6자 이상)</label>
-        <input type="password" id="new-password" name="new-password" class="auth-pw-input" style="padding-right:16px;" autocomplete="new-password" minlength="6" required>
-        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px;">
+        <input type="password" id="new-password" name="new-password" class="auth-pw-input" style="padding-right:14px;" autocomplete="new-password" minlength="6" required>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:18px;">
           <button type="button" id="btn-close-pw-dialog" class="row-btn">취소</button>
           <button type="submit" class="admin-primary-btn">저장하기</button>
         </div>
@@ -1126,7 +985,7 @@
 
   <div id="admin-toast" class="admin-toast" role="status" aria-live="polite"></div>
 
-  <script src="/assets/posts-store.js?v=10"></script>
-  <script src="/assets/admin-page.js?v=10"></script>
+  <script src="/assets/posts-store.js?v=12"></script>
+  <script src="/assets/admin-page.js?v=12"></script>
 </body>
 </html>
