@@ -42,8 +42,8 @@
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 36px 26px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px 28px;
 }
 
 .project-card {
@@ -61,10 +61,6 @@
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.compilot-visual {
-  background: color-mix(in srgb, var(--blue) 9%, var(--bg));
-}
-
 .leftinlife-visual {
   background: color-mix(in srgb, var(--pink) 8%, var(--bg));
 }
@@ -79,11 +75,6 @@
 
 .immy-visual {
   background: color-mix(in srgb, var(--purple) 7.5%, var(--bg));
-}
-
-.project-card:hover .compilot-visual {
-  background: color-mix(in srgb, var(--blue) 13%, var(--bg));
-  border-color: rgba(25, 24, 30, 0.11);
 }
 
 .project-card:hover .leftinlife-visual {
@@ -121,11 +112,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* Balance inner frame proportion for Compilot's nested icon */
-.compilot-visual .app-icon img {
-  transform: scale(1.13);
 }
 
 .project-card:hover .app-icon {

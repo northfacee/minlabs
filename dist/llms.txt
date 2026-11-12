@@ -1,6 +1,6 @@
 # Minlabs
 
-> 궁금한 건 직접 만들어봅니다. 작은 앱과 웹 서비스를 만드는 개인 실험실로, Compilot, LEFT IN LIFE, 샤샥(shashak), ToePick, IMMYME를 운영합니다.
+> 궁금한 건 직접 만들어봅니다. 작은 앱과 웹 서비스를 만드는 개인 실험실로, LEFT IN LIFE, 샤샥(shashak), ToePick, IMMYME를 운영합니다.
 
 - 공식 웹사이트 (한국어): https://minlabs.app/
 - 공식 웹사이트 (English): https://minlabs.app/en/
@@ -9,7 +9,6 @@
 
 ## 운영 서비스 (Projects)
 
-- [Compilot (컴파일럿)](https://compilot.minlabs.app/): 2007~2026년 국가직·지방직 9급 전산직 기출(총 2,080문항)을 과목·연도별로 한 문제씩 풀고, 보기별 상세 해설과 유사 문항 추천으로 복습하는 웹·모바일 웹 학습 서비스.
 - [LEFT IN LIFE](https://leftinlife.com/): 기대수명 기준 남은 일수에서 수면·노동·스마트폰을 뺀 진짜 자유 시간을 계산하고, 남은 봄·여행·주말·식사 등 일상 횟수로 환산하는 웹 서비스 (한국어·영어·스페인어·일본어 자동 지원).
 - [샤샥 (shashak)](https://shashak.app/): 오늘 할 일과 반복 루틴을 가볍게 기록하고 도토리 보상을 모으는 다람쥐 할 일·루틴 앱 (iOS · Android). 오늘·매일·주기·달력 4탭 구조와 오프라인 우선 저장, 홈·잠금 화면 위젯을 지원합니다.
 - [ToePick (토픽)](https://toepick.minlabs.app/): 자투리 시간에 토익 LC(Part 2·3·4)와 RC(Part 5) 문제를 풀고 해설 확인과 단어 복습까지 이어가는 학습 앱 (iOS · Android).
@@ -18,11 +17,11 @@
 ## 이용 안내 (FAQ)
 
 - **Q. 앱을 설치해야 하나요?**
-  샤샥과 ToePick은 iOS·Android 앱으로 이용할 수 있습니다. Compilot, LEFT IN LIFE, IMMYME는 설치 없이 브라우저에서 바로 열 수 있습니다.
+  샤샥과 ToePick은 iOS·Android 앱으로 이용할 수 있습니다. LEFT IN LIFE와 IMMYME는 설치 없이 브라우저에서 바로 열 수 있습니다.
 - **Q. 문의나 피드백은 어디로 보내면 되나요?**
   support@minlabs.app으로 서비스 이름과 내용을 보내주시면 됩니다.
 
 ## 상세 문서 (Optional)
 
-- [Minlabs English Landing Page](https://minlabs.app/en/): Official English overview of Minlabs and its projects (Compilot, LEFT IN LIFE, shashak, ToePick, IMMYME)
+- [Minlabs English Landing Page](https://minlabs.app/en/): Official English overview of Minlabs and its projects (LEFT IN LIFE, shashak, ToePick, IMMYME)
 - [Minlabs 전체 서비스 명세서 (llms-full.txt)](https://minlabs.app/llms-full.txt): AI 검색엔진 및 에이전트를 위한 상세 서비스 안내

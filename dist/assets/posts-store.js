@@ -1,13 +1,9 @@
 (function (global) {
-  const STORAGE_KEY = 'minlabs_cms_posts_v4';
-  const LEGACY_KEYS = ['minlabs_cms_posts_v3'];
+  const STORAGE_KEY = 'minlabs_cms_posts_v5';
+  const LEGACY_KEYS = ['minlabs_cms_posts_v3', 'minlabs_cms_posts_v4'];
   const AUTH_SESSION_KEY = 'minlabs_admin_session_v1';
 
   const ICON_SVGS = {
-    compilot: {
-      label: 'Compilot',
-      img: '/assets/compilot.webp'
-    },
     leftinlife: {
       label: 'LEFT IN LIFE',
       img: '/assets/leftinlife.webp'
@@ -48,36 +44,10 @@
   const DEFAULT_POSTS = [
     // ==================== BLOG POSTS ====================
     {
-      id: 'blog-compilot-past-exams',
-      type: 'blog',
-      status: 'published',
-      featured: true,
-      category: 'Compilot',
-      iconType: 'compilot',
-      title: 'Compilot 제작기: 시험지 PDF 대신 한 문제씩 풀고 유사 기출을 묶어본 이유',
-      summary: '2007년부터 2026년까지의 9급 전산직 기출 2,080문항을 정리해, 모바일에서도 한 문제씩 채점하고 국가직·지방직 유사 문항을 바로 비교할 수 있게 만든 과정을 기록했습니다.',
-      tags: ['Compilot', '전산직기출', '학습도구'],
-      date: '2026.11.10',
-      readMin: 6,
-      content: `## 두꺼운 기출 PDF를 화면에서 풀 때 생기는 피로
-
-전산직 기출문제를 공부하다 보면 연도별 시험지 PDF와 정답표를 번갈아 열어야 합니다. 특히 스마트폰이나 태블릿에서는 2단 편집된 시험지를 확대·축소하다가 흐름이 자주 끊겼습니다.
-
-[Compilot](https://compilot.minlabs.app/)은 이 과정을 단순하게 줄여보려고 시작했습니다.
-
-## 한 문제 단위로 쪼개고, 보기마다 근거 남기기
-
-2007년부터 2026년까지 국가직·지방직 9급 전산직 7개 과목(총 2,080문항)을 문항 단위로 구조화했습니다.
-
-* **즉시 채점과 보기별 해설**: 정답 번호만 보여주는 대신 ①~④ 각 보기가 왜 맞고 틀리는지 바로 아래에서 확인합니다. 복수정답이나 전원정답 처리된 문항도 실제 확정 정답 기준으로 반영했습니다.
-* **국가직·지방직 교차 유사 문항**: 한 문제를 풀고 나면 같은 개념을 다른 연도나 다른 주관 시험에서는 어떻게 물었는지 유사 문항 3개를 바로 이어서 볼 수 있습니다.
-* **원본 시험지 대조**: 그림이나 표 배치가 궁금할 때는 언제든 해당 연도의 원본 시험지 PDF를 열어 확인할 수 있도록 연결해 두었습니다.`
-    },
-    {
       id: 'blog-leftinlife-time-units',
       type: 'blog',
       status: 'published',
-      featured: false,
+      featured: true,
       category: 'LEFT IN LIFE',
       iconType: 'leftinlife',
       title: 'LEFT IN LIFE 제작기: 남은 시간을 막연한 연도 대신 일상의 횟수로 보여주기',
@@ -224,28 +194,10 @@ input.addEventListener('keydown', (event) => {
 
     // ==================== REVIEW / USAGE POSTS ====================
     {
-      id: 'review-compilot-mobile-study',
-      type: 'review',
-      status: 'published',
-      featured: true,
-      category: 'Compilot',
-      iconType: 'compilot',
-      title: '시험지 PDF를 확대해가며 풀던 번거로움이 사라졌어요 — Compilot 기출 복습기',
-      summary: '이동 중 스마트폰으로 전산직 기출을 한 문제씩 풀고, 틀린 개념과 연결된 다른 연도 기출까지 한자리에서 비교해본 활용 기록입니다.',
-      tags: ['Compilot', '전산직기출', '모바일학습'],
-      date: '2026.11.10',
-      readMin: 4,
-      content: `## 작은 화면에서도 지문과 보기가 한눈에 들어옵니다
-
-예전에는 버스를 타거나 잠깐 짬이 날 때 태블릿으로 기출 PDF를 열어 풀었는데, 문제 영역과 맨 뒷장 정답표를 왔다 갔다 하는 일이 생각보다 번거로웠습니다.
-
-Compilot에서는 과목과 연도를 고르면 한 화면에 한 문제씩 깔끔하게 떠서 스마트폰으로도 부담 없이 풀 수 있었습니다. 특히 틀린 보기를 골랐을 때 왜 오답인지 바로 적혀 있고, 그 아래에 국가직·지방직에서 비슷하게 출제됐던 문항 3개가 함께 묶여 나와서 약한 단원을 짚어보기에 편했습니다.`
-    },
-    {
       id: 'review-leftinlife-perspective',
       type: 'review',
       status: 'published',
-      featured: false,
+      featured: true,
       category: 'LEFT IN LIFE',
       iconType: 'leftinlife',
       title: '남은 주말과 계절 횟수를 숫자로 보고 나니 하루 쓰임새를 다시 생각하게 됐어요',
@@ -407,7 +359,6 @@ Compilot에서는 과목과 연도를 고르면 한 화면에 한 문제씩 깔�
   function resolveIconKey(post) {
     if (post.iconType && ICON_SVGS[post.iconType]) return post.iconType;
     const catLower = (post.category || '').toLowerCase();
-    if (catLower.includes('compilot') || catLower.includes('컴파일럿')) return 'compilot';
     if (catLower.includes('left')) return 'leftinlife';
     if (catLower.includes('shashak') || catLower.includes('샤샥')) return 'shashak';
     if (catLower.includes('toe') || catLower.includes('토픽')) return 'toepick';

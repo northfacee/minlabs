@@ -382,16 +382,16 @@
       setEditorType(existing.type);
       edCategory.value = existing.category || '';
       edFeatured.checked = Boolean(existing.featured);
-      edIconType.value = existing.iconType || 'compilot';
+      edIconType.value = existing.iconType || 'leftinlife';
       edSummary.value = Store.cleanSummary(existing.summary || '');
       edTitle.value = existing.title || '';
       currentTags = Array.isArray(existing.tags) ? existing.tags.slice() : [];
       edBody.value = existing.content || '';
     } else {
       setEditorType(defaultType || (currentFilter === 'review' ? 'review' : 'blog'));
-      edCategory.value = 'Compilot';
+      edCategory.value = 'LEFT IN LIFE';
       edFeatured.checked = false;
-      edIconType.value = 'compilot';
+      edIconType.value = 'leftinlife';
       edSummary.value = '';
       edTitle.value = '';
       currentTags = [];

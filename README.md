@@ -83,8 +83,8 @@
 - 운영 배포는 기존 Vercel `minlabs` 프로젝트와 GitHub `northfacee/minlabs`의 `main` 연결을 사용한다.
 - 로컬 확인: `python3 -m http.server 4180 --directory dist --bind 127.0.0.1`.
 
-## 전 페이지 미니멀 UI·UX 통일 및 5개 프로젝트 반영 (2026-11-11)
+## 전 페이지 미니멀 UI·UX 통일 및 4개 프로젝트 구성 (2026-11-12)
 
-- **5개 프로젝트 구성(`Compilot`, `LEFT IN LIFE`, `shashak`, `ToePick`, `IMMYME`)**: 한·영 홈(`dist/index.html`, `dist/en/index.html`), 오픈그래프 카드(`dist/assets/og-image.png`), JSON-LD(`@graph`), `dist/llms.txt`, `dist/llms-full.txt`, `dist/sitemap.xml`, `dist/site.webmanifest`에 5개 프로젝트 정보와 아이콘(`compilot`, `leftinlife` PNG/WebP)을 반영했다.
+- **4개 프로젝트 구성(`LEFT IN LIFE`, `shashak`, `ToePick`, `IMMYME`)**: 한·영 홈(`dist/index.html`, `dist/en/index.html`), 오픈그래프 카드(`dist/assets/og-image.png`), JSON-LD(`@graph`), `dist/llms.txt`, `dist/llms-full.txt`, `dist/sitemap.xml`, `dist/site.webmanifest`에 4개 프로젝트 정보와 2×2 대칭 그리드 구성을 반영했다.
 - **전 페이지 디자인 시스템 일원화(`dist/styles.css`, `dist/journal.css`, `dist/home.css`)**: 홈과 블로그(`dist/blog.html`)·후기(`dist/reviews.html`)·상세(`dist/post.html`)·404(`dist/404.html`)·어드민(`dist/admin.html`)의 컨테이너 폭(`1080px`), 헤더 높이(`72px` / 모바일 `62px`), 푸터를 하나로 통일해 페이지 이동 시 레이아웃 점프를 제거했다.
 - **AI 클리셰·장식 요소 정리 및 사용성 개선**: 구형 네오브루탈리즘 스티커·별(`✳`)·네온 밑줄·3줄 중복 썸네일 배너·가짜 정렬 토글·허구 수치를 걷어내고, 자연스러운 카드 소개 문구와 차분한 에디토리얼 2열 목록·본문(`700px`)으로 개편했다. 영문 홈에는 한국어 전용 페이지·앱 안내(`KR`)를 추가하고 태블릿(`≤1020px`) 2열 그리드와 모바일 터치 영역을 보강했다.

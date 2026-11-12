@@ -1,6 +1,6 @@
 # Minlabs — 전체 서비스 및 프로젝트 안내 (Full Context for LLMs)
 
-> 궁금한 건 직접 만들어봅니다. 작은 앱과 웹 서비스를 직접 만들어 운영하는 개인 실험실로, Compilot, LEFT IN LIFE, 샤샥(shashak), ToePick, IMMYME 5개 프로젝트를 운영합니다.
+> 궁금한 건 직접 만들어봅니다. 작은 앱과 웹 서비스를 직접 만들어 운영하는 개인 실험실로, LEFT IN LIFE, 샤샥(shashak), ToePick, IMMYME 4개 프로젝트를 운영합니다.
 
 ---
 
@@ -17,23 +17,13 @@
 
 ## 2. 프로젝트 상세 (Projects)
 
-### 2.1 Compilot (컴파일럿)
-- **한 줄 소개**: 9급 전산직 기출 2,080문항을 한 문제씩 풀고, 보기별 해설과 유사 기출을 함께 보는 학습 서비스
-- **공식 URL**: https://compilot.minlabs.app/
-- **지원 플랫폼**: 웹 · 모바일 웹 (한국어)
-- **카테고리**: 교육 / 기출 학습 (EducationalApplication / Civil Service CS Exam Practice)
-- **핵심 기능**:
-  1. **국가직·지방직 9급 전산직 2,080문항 수록**: 2007~2026년 7개 과목(`컴퓨터일반`, `정보보호론`, `네트워크보안`, `정보시스템보안`, `데이터베이스론`, `알고리즘`, `프로그래밍언어론`) 기출 및 공식 시험지 PDF 연동
-  2. **보기별 상세 해설 및 즉시 채점**: 복수정답·전원정답을 반영한 채점과 보기 ①~④ 정·오답 근거 제공
-  3. **교차 유사 문항 추천**: 동일 과목 내 국가직·지방직 기출 전체에서 유사 개념 문항 3개를 추천하여 이어서 복습 가능
-
-### 2.2 LEFT IN LIFE
+### 2.1 LEFT IN LIFE
 - **한 줄 소개**: 남은 일수에서 수면·일·화면 시간을 빼고, 진짜 자유 시간을 일상의 횟수로 보여주는 서비스
 - **공식 URL**: https://leftinlife.com/
 - **지원 플랫폼**: 웹 · 모바일 웹 (한국어, 영어, 스페인어, 일본어 자동 감지)
 - **카테고리**: 라이프스타일 / 시간 시각화 (LifestyleApplication / Life Countdown & Everyday Unit Converter)
 
-### 2.3 샤샥 (shashak)
+### 2.2 샤샥 (shashak)
 - **한 줄 소개**: 오늘 할 일과 반복 루틴을 가볍게 기록하고, 완료할 때마다 도토리를 모으는 투두 앱
 - **공식 URL**: https://shashak.app/
 - **지원 플랫폼**: iOS, Android 모바일 앱 (한국어, 영어 / 홈·잠금 화면 네이티브 위젯 지원)
@@ -44,7 +34,7 @@
   3. **오프라인 우선(Offline-First) & 동기화**: 로그인 없이 기기 내 SQLite에 즉시 저장되며, 계정 연결 시 게스트 기록 자동 병합
   4. **iOS·Android 위젯**: 홈 화면 위젯 완료 체크 및 잠금 화면 진행률 확인
 
-### 2.4 ToePick (토픽)
+### 2.3 ToePick (토픽)
 - **한 줄 소개**: 자투리 시간에 토익 LC·RC를 풀고, 틀린 문항의 해설과 단어까지 이어서 복습하는 학습 앱
 - **공식 URL**: https://toepick.minlabs.app/
 - **지원 플랫폼**: iOS, Android 모바일 앱 (한국어)
@@ -54,7 +44,7 @@
   2. **토익 RC 학습 (Reading)**: Part 5 문법·어휘 독해 문제 풀이
   3. **즉시 해설 및 단어 복습**: 문제 풀이 직후 핵심 해설 확인 및 문항 어휘 복습 연결
 
-### 2.5 IMMYME (임마이미)
+### 2.4 IMMYME (임마이미)
 - **한 줄 소개**: 오늘 기분과 걷고 싶은 속도를 고르면 지금 갈 만한 주변 장소를 추천하는 서비스
 - **공식 URL**: https://immyme.com/
 - **지원 플랫폼**: 모바일 웹 (별도 앱 설치 불필요, 한국어)
@@ -68,7 +58,7 @@
 ## 3. 자주 묻는 질문 (FAQ)
 
 ### Q1. 앱을 설치해야 하나요?
-샤샥과 ToePick은 iOS·Android 앱으로 이용할 수 있습니다. Compilot, LEFT IN LIFE, IMMYME는 별도 앱 설치 없이 브라우저에서 바로 열 수 있습니다.
+샤샥과 ToePick은 iOS·Android 앱으로 이용할 수 있습니다. LEFT IN LIFE와 IMMYME는 별도 앱 설치 없이 브라우저에서 바로 열 수 있습니다.
 
 ### Q2. 문의나 피드백은 어디로 보내면 되나요?
-support@minlabs.app으로 서비스 이름(Compilot, LEFT IN LIFE, 샤샥, ToePick, IMMYME)과 문의 내용을 보내주시면 됩니다.
+support@minlabs.app으로 서비스 이름(LEFT IN LIFE, 샤샥, ToePick, IMMYME)과 문의 내용을 보내주시면 됩니다.
